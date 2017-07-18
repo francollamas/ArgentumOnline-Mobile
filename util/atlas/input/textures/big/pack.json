@@ -1,0 +1,8 @@
+{
+    paddingX: 0,
+    paddingY: 0,
+    edgePadding: false,
+    maxWidth: 2048,
+    maxHeight: 2048,
+    square: false,
+}

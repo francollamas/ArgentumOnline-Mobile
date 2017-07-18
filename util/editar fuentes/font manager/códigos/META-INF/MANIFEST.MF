@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: libs/opencsv.jar
+Main-Class: main.Main
+

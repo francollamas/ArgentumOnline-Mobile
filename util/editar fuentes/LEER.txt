@@ -1,0 +1,20 @@
+///// AGREGAR UNA NUEVA FUENTE /////
+
+Instrucciones:
+1. Abrir el programa CBFG (Codehead’s Bitmap Font Generator).
+Funciona solo en Windows
+
+2. Armar la fuente a gusto
+
+3. Exportar un PNG y un CSV
+
+4. Colocar esos archivos en: ./font manager/app/fonts
+
+5. Abrir la app de font manager
+Esta app de consola permite ver, guardar y borrar las fuentes en un archivo 'fonts.ind' que el AO reconoce
+
+6. Poner el archivo 'fonts.ind' en: android/assets/fonts
+
+7. Generar un atlas para fuentes llamado 'fuentes' y pegar el archivo 'fuentes.atlas' y 'fuentesX.png' en
+android/assets/fonts
+(instrucciones para crear atlas en: util/atlas/LEER.txt)

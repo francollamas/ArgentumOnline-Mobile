@@ -1,0 +1,9 @@
+///// LIBRERÍAS MODIFICADAS //////
+
+-----gdx-1.9.5.jar-----
+Se modificó para poder colorear vértices sin necesidad de usar shaders.
+
+
+-----gdx-1.9.5-sources.jar-----
+Es necesaria para ver código de la librería desde el IDE.
+Tiene los cambios mencionados

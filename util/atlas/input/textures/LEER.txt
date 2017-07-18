@@ -1,0 +1,5 @@
+Es recomendable que una imagen de atlas no supere los 1024x1024
+Pero hay gráficos en AO que tienen un ancho y/o alto mayor a 1024 por lo que no pueden colocarse en atlas de 1024x1024
+
+Por lo que se debe usar atlas mas grandes (de 2048x2048 máximo) para estos gráficos.
+Ya están divididos en sus carpetas correspondientes

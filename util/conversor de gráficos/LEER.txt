@@ -1,0 +1,16 @@
+///// CONVERSOR DE GRÁFICOS /////
+
+Para usar:
+abrir CMD y ejecutar:
+java Conversor
+
+se necesita tener Java instalado (JRE)
+
+
+Permite elegir la extensión de los gráficos de origen (luego convierte todo a PNG)
+Permite cambiar las carpetas de origen y destino
+Se puede elegir si se convierten a potencias de 2
+Si se convierten a potencias de 2, se puede cambiar el color de exceso (por defecto es transparente).
+Se pueden agregar "colores para cambiar" a una lista, después cambia todo junto, así como también se puede borrar esa lista, para que no cambie ningún color.
+
+Por defecto, la extensión de origen es BMP, las carpetas son input y output (tienen que estar creadas ya), no las pasa a potencias de 2, y cambia el color negro por transparente.

@@ -1,0 +1,14 @@
+///// UTILIDAD PARA CREAR TEXTUREATLAS /////
+
+Ésta utilidad agrupa muchas texturas en una sola (o varias) y genera un archivo .atlas con
+indicaciones para saber como extraer un gráfico de una textura.
+Cada carpeta tiene un archivo 'pack.json' con configuraciones que indican cómo se debe crear el atlas
+(por ejemplo, tamaño máximo, bordes, etc).
+
+
+Comando para crear un Atlas:
+
+java -cp gdx.jar;gdx-tools.jar com.badlogic.gdx.tools.texturepacker.TexturePacker dir1 dir2 nombreAtlas
+
+dir1: directorio que contiene las imágenes para convertir
+dir2: directorio donde se guarda el nombreAtlas.atlas y el nombreAtlas.png
