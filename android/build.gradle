@@ -1,6 +1,6 @@
 android {
-    buildToolsVersion '24'
-    compileSdkVersion 24
+    buildToolsVersion '26'
+    compileSdkVersion 25
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -18,9 +18,9 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "com.gamesharp.jfenix13"
-        minSdkVersion 21
-        targetSdkVersion 24
+        applicationId "org.gszone.jfenix13"
+        minSdkVersion 9
+        targetSdkVersion 25
     }
 }
 
@@ -71,7 +71,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.gamesharp.jfenix13/com.gamesharp.jfenix13.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'org.gszone.jfenix13/org.gszone.jfenix13.AndroidLauncher'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.
