@@ -17,7 +17,7 @@ import static org.gszone.jfenix13.general.FileNames.*;
 
 public class Assets {
     private AssetManager gdxAssets;
-    private Grhs grhs;
+    //private Grhs grhs;
     private Fonts fonts;
 
     public Assets() {
@@ -37,16 +37,17 @@ public class Assets {
         // Skin de la GUI
         gdxAssets.load(getSkinFlat(), Skin.class);
 
+        // Atlas de las fuentes
+        gdxAssets.load(getAtlasFontTexDir(), TextureAtlas.class);
+
         // Atlas de la GUI del juego
         gdxAssets.load(getAtlasGuiDir(), TextureAtlas.class);
 
         // Atlas de texturas normales
-        gdxAssets.load(getAtlasNormTexDir(), TextureAtlas.class);
+        //gdxAssets.load(getAtlasNormTexDir(), TextureAtlas.class);
 
         // Atlas de texturas grandes
-        gdxAssets.load(getAtlasBigTexDir(), TextureAtlas.class);
-
-        gdxAssets.load(getAtlasFontTexDir(), TextureAtlas.class);
+        //gdxAssets.load(getAtlasBigTexDir(), TextureAtlas.class);
     }
 
 
@@ -63,13 +64,14 @@ public class Assets {
      * Termina de cargar el resto de assets propios del juego
      */
     public void loadRemaining() {
-        grhs = new Grhs();
+        //grhs = new Grhs();
         fonts = new Fonts();
         //Main.game.maps = new MapsHandler();
     }
 
     public Grhs getGrhs() {
-        return grhs;
+        //return grhs;
+        return null;
     }
 
     public Fonts getFonts() {

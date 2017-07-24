@@ -13,13 +13,13 @@ import static org.gszone.jfenix13.general.General.*;
  */
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+		//System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = SCR_WIDTH;
 		config.height = SCR_HEIGHT;
 		config.fullscreen = false;
-		config.resizable = false;
+		//config.resizable = false;
 		config.addIcon(getIconDir(), FileType.Internal);
 
 		// Descomentar para liberar FPS!

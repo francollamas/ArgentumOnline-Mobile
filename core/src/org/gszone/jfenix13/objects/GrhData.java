@@ -2,6 +2,7 @@ package org.gszone.jfenix13.objects;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.utils.Rect;
 
 /**
@@ -70,7 +71,7 @@ public class GrhData {
 
     // Se hace al cargar los datos del Grh, ya que es un proceso lento.
     public void updateTR() {
-    //    tr = Drawer.getTextureRegion(PRINCIPAL, fileNum, rect);
+        tr = Drawer.getTextureRegion(Drawer.TipoTex.PRINCIPAL, fileNum, rect);
     }
 
 }

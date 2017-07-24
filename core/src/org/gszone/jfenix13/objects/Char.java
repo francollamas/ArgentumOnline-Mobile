@@ -1,6 +1,7 @@
 package org.gszone.jfenix13.objects;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.utils.Rect;
 
 /**
@@ -20,6 +21,6 @@ public class Char extends Rect {
     }
 
     public void updateTR(int index) {
-        //tr = Drawer.getTextureRegion(FUENTE, index, this);
+        tr = Drawer.getTextureRegion(Drawer.TipoTex.FUENTE, index, this);
     }
 }

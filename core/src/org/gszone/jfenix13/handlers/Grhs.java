@@ -7,7 +7,7 @@ import org.gszone.jfenix13.objects.GrhData;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import static org.gszone.jfenix13.utils.Endian.*;
+import static org.gszone.jfenix13.utils.Bytes.*;
 import static org.gszone.jfenix13.general.FileNames.*;
 
 /**

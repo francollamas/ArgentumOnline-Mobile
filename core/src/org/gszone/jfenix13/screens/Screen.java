@@ -2,18 +2,20 @@ package org.gszone.jfenix13.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import org.gszone.jfenix13.connection.ClientPackages;
 import org.gszone.jfenix13.general.Main;
 
 import static org.gszone.jfenix13.general.General.*;
 import static org.gszone.jfenix13.general.FileNames.*;
 
 /**
- * Clase abstracta con el funcionamiento principal de una Screen.
+ * Clase abstracta con el principal funcionamiento de una Screen.
  * Todas las pantallas deben heredar de ésta
  *
  * scrType: tipo de pantalla
@@ -21,7 +23,7 @@ import static org.gszone.jfenix13.general.FileNames.*;
  * background: imagen de fondo
  */
 public abstract class Screen implements com.badlogic.gdx.Screen {
-    public enum Scr {CARGA, PRINCIPAL, TEST}
+    public enum Scr {CARGA, MENU, PRINCIPAL, TEST}
 
     protected Scr scrType;
 
@@ -45,7 +47,8 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
     public Scr getScrType() { return scrType; }
     public static Skin getSkin() { return Main.getInstance().getAssets().getGDXAssets().get(getSkinFlat(), Skin.class); }
-
+    public Batch getBatch() { return stage.getBatch(); }
+    public ClientPackages getClPack() { return Main.getInstance().getConnection().getClPack(); }
 
     /**
      * Se ejecuta al mostrarse la pantalla

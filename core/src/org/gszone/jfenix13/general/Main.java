@@ -3,6 +3,7 @@ package org.gszone.jfenix13.general;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import org.gszone.jfenix13.handlers.Assets;
+import org.gszone.jfenix13.connection.Connection;
 import org.gszone.jfenix13.screens.Carga;
 import org.gszone.jfenix13.screens.Screen;
 
@@ -19,6 +20,9 @@ public class Main extends Game {
 	private Assets assets;
 	private Screen[] screens;
 
+	private Connection connection;
+
+
 	/**
 	 * Inicialización del juego
 	 */
@@ -26,9 +30,14 @@ public class Main extends Game {
 	public void create () {
 		game = this;
 		Gdx.graphics.setTitle("JFenix13");
+
 		assets = new Assets();
 		screens = new Screen[Screen.Scr.values().length];
+		connection = new Connection();
+
+		connection.connect("192.168.1.5", 7666);
 		setScreen(new Carga());
+
 	}
 
 	/**
@@ -37,6 +46,7 @@ public class Main extends Game {
 	@Override
 	public void dispose () {
 		assets.dispose();
+		connection.dispose();
 	}
 
 	public static Main getInstance() { return game; }
@@ -50,4 +60,6 @@ public class Main extends Game {
 	 * Setea una screen ya cargada
 	 */
 	public void setScreen(Screen.Scr scrType) { setScreen(getLScreen(scrType)); }
+
+	public Connection getConnection() { return connection; }
 }
