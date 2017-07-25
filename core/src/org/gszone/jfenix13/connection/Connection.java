@@ -111,7 +111,11 @@ public class Connection {
                 b[i] = bytes.get(i);
             }
             socket.getOutputStream().write(b);
-            socket.getOutputStream().flush(); // Sacarlo si afecta al rendimiento
+
+            /* Obliga a enviar los datos que están en el OutputStream
+             * sacarlo si da lag. Lo dejo porque sino podría llegar a tardar en enviar un paquete sumamente necesario.
+             */
+            socket.getOutputStream().flush();
         }
         catch (Exception ex){
             ex.printStackTrace();

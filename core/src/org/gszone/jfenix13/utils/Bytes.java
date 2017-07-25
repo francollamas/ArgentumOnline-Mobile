@@ -169,9 +169,7 @@ public class Bytes {
         buf.order(LITTLE_ENDIAN);
         buf.putInt(num);
         buf.order(BIG_ENDIAN);
-        for (int i = 0; i < buf.array().length; i++) {
-            bytes.add(buf.array()[i]);
-        }
+        setBytes(bytes, buf);
     }
 
     public static void writeFloat(Array<Byte> bytes, float num) {
@@ -179,9 +177,7 @@ public class Bytes {
         buf.order(LITTLE_ENDIAN);
         buf.putFloat(num);
         buf.order(BIG_ENDIAN);
-        for (int i = 0; i < buf.array().length; i++) {
-            bytes.add(buf.array()[i]);
-        }
+        setBytes(bytes, buf);
     }
 
     public static void writeDouble(Array<Byte> bytes, double num) {
@@ -189,9 +185,7 @@ public class Bytes {
         buf.order(LITTLE_ENDIAN);
         buf.putDouble(num);
         buf.order(BIG_ENDIAN);
-        for (int i = 0; i < buf.array().length; i++) {
-            bytes.add(buf.array()[i]);
-        }
+        setBytes(bytes, buf);
     }
 
     public static void writeString(Array<Byte> bytes, String texto) {

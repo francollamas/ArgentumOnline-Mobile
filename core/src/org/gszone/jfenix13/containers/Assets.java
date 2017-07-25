@@ -1,8 +1,9 @@
-package org.gszone.jfenix13.handlers;
+package org.gszone.jfenix13.containers;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import org.gszone.jfenix13.objects.Map;
 
 import static org.gszone.jfenix13.general.FileNames.*;
 
@@ -13,12 +14,14 @@ import static org.gszone.jfenix13.general.FileNames.*;
  * los demas corresponden a archivos de datos propios del juego.
  * grhs: manejador de grhs
  * fonts: manejador de fuentes
+ * mapa: mapa actual
  */
 
 public class Assets {
     private AssetManager gdxAssets;
-    //private Grhs grhs;
+    private Grhs grhs;
     private Fonts fonts;
+    private Map mapa;
 
     public Assets() {
         gdxAssets = new AssetManager();
@@ -44,10 +47,10 @@ public class Assets {
         gdxAssets.load(getAtlasGuiDir(), TextureAtlas.class);
 
         // Atlas de texturas normales
-        //gdxAssets.load(getAtlasNormTexDir(), TextureAtlas.class);
+        gdxAssets.load(getAtlasNormTexDir(), TextureAtlas.class);
 
         // Atlas de texturas grandes
-        //gdxAssets.load(getAtlasBigTexDir(), TextureAtlas.class);
+        gdxAssets.load(getAtlasBigTexDir(), TextureAtlas.class);
     }
 
 
@@ -64,18 +67,25 @@ public class Assets {
      * Termina de cargar el resto de assets propios del juego
      */
     public void loadRemaining() {
-        //grhs = new Grhs();
+        grhs = new Grhs();
         fonts = new Fonts();
-        //Main.game.maps = new MapsHandler();
+        mapa = new Map(1);
     }
 
     public Grhs getGrhs() {
-        //return grhs;
-        return null;
+        return grhs;
     }
 
     public Fonts getFonts() {
         return fonts;
+    }
+
+    public Map getMapa() {
+        return mapa;
+    }
+
+    public void setMapa(Map mapa) {
+        this.mapa = mapa;
     }
 
     /**

@@ -9,13 +9,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.objects.Char;
 import org.gszone.jfenix13.objects.Font;
 import org.gszone.jfenix13.objects.GrhData;
 import org.gszone.jfenix13.utils.Rect;
+
+import java.util.Stack;
 
 import static com.badlogic.gdx.graphics.GL20.GL_ONE_MINUS_SRC_ALPHA;
 import static com.badlogic.gdx.graphics.GL20.GL_SRC_ALPHA;
@@ -33,15 +34,15 @@ public final class Drawer {
     public enum TipoTex {PRINCIPAL, FUENTE}
 
 
-    public static Array<Rectangle> containerRect;
+    public static Stack<Rectangle> containerRect;
     private static DrawParameter dp;
     private static Color defColor;
 
     static {
         dp = new DrawParameter();
         setDefColor(Color.WHITE);
-        containerRect = new Array();
-        containerRect.add(new Rectangle(0, 0, SCR_WIDTH, SCR_HEIGHT));
+        containerRect = new Stack();
+        containerRect.push(new Rectangle(0, 0, SCR_WIDTH, SCR_HEIGHT));
     }
 
     public static void pushScissors(Stage stage, float x, float y, float width, float height) {
@@ -53,10 +54,8 @@ public final class Drawer {
      */
     public static void pushScissors(Stage stage, Rectangle rect) {
         float rectX = rect.getX(), rectY = rect.getY();
-        for(int i = 0; i < containerRect.size; i++) {
-            rectX += containerRect.get(i).getX();
-            rectY += containerRect.get(i).getY();
-        }
+        rectX += containerRect.peek().getX();
+        rectY += containerRect.peek().getY();
         rect.set(rectX, rectY, rect.getWidth(), rect.getHeight());
 
         Rectangle scissors = new Rectangle();
@@ -65,7 +64,7 @@ public final class Drawer {
                 vp.getScreenWidth(), vp.getScreenHeight(), stage.getBatch().getTransformMatrix(), rect, scissors);
         stage.getBatch().flush(); // para que lo que se dibuja antes se renderize antes de verse afectado por esto
         ScissorStack.pushScissors(scissors);
-        containerRect.add(rect);
+        containerRect.push(rect);
     }
 
     /**
@@ -75,6 +74,7 @@ public final class Drawer {
         stage.getBatch().flush(); // para mandar a dibujar lo que está entre scissors
         ScissorStack.popScissors();
         containerRect.pop();
+        stage.getBatch().flush();
     }
 
     /**
@@ -151,10 +151,8 @@ public final class Drawer {
         y = (int)containerRect.peek().getHeight() - y - reg.getRegionHeight();
 
         // Lleva los puntos al sis. de coordenadas de la Pantalla
-        for(int i = 0; i < containerRect.size; i++) {
-            x += containerRect.get(i).getX();
-            y += containerRect.get(i).getY();
-        }
+        x += containerRect.peek().getX();
+        y += containerRect.peek().getY();
 
         Sprite sp = new Sprite(reg);
 

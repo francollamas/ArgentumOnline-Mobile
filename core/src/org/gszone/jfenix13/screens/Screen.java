@@ -58,12 +58,10 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         // Crea un escenario para la pantalla
         stage = new Stage(new FitViewport(SCR_WIDTH, SCR_HEIGHT));
 
-        // Agrega un nuevo actor (fondo) al escenario
-        if (background != null) {
+        // Setea la posición del fondo
+        if (background != null)
             background.setPosition((stage.getWidth() - background.getWidth()) / 2,
                                         (stage.getHeight() - background.getHeight()) / 2);
-            stage.addActor(background);
-        }
 
         // Le digo a libGDX qué entrada tiene que escuchar (la entrada del actual escenario en este caso)
         Gdx.input.setInputProcessor(stage);
