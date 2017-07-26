@@ -1,8 +1,8 @@
 package org.gszone.jfenix13.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import org.gszone.jfenix13.graphics.Drawer;
@@ -57,11 +57,11 @@ public class Principal extends Screen {
 
 
         Drawer.pushScissors(stage, world.getRect());
-        Drawer.setDefColor(255, 128, 50, 255);
+        //Drawer.setDefColor(255, 128, 50, 255);
         checkKeys();
         world.move();
         world.render(stage);
-        Drawer.setDefColor(255, 255, 255, 255);
+        //Drawer.setDefColor(Color.WHITE);
         Drawer.popScissors(stage);
 
 

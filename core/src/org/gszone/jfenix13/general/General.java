@@ -1,7 +1,7 @@
 package org.gszone.jfenix13.general;
 
 public class General {
-    public enum Direccion {NORTE, SUR, OESTE, ESTE}
+    public enum Direccion {NORTE, ESTE, SUR, OESTE}
 
     public static final int SCR_WIDTH = 1024, SCR_HEIGHT = 768;
     public static final int WINDOWS_TILE_WIDTH = 23, WINDOWS_TILE_HEIGHT = 17;

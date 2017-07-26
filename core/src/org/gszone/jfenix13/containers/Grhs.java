@@ -37,7 +37,7 @@ public class Grhs {
         short frame;
         GrhData grhData;
 
-        FileHandle fh = Gdx.files.internal(getTexIndicesDir());
+        FileHandle fh = Gdx.files.internal(getGrhsIndDir());
         DataInputStream dis = new DataInputStream(fh.read());
 
         // Omite los primeros bytes que no interesan

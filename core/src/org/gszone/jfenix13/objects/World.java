@@ -191,10 +191,10 @@ public class World extends Actor {
         dpAC.setAnimated(true);
         dpAC.setCenter(true);
 
-        for (x = (int)screenTile.getX1(); x <= (int)screenTile.getX2(); x++) {
-            tempPos.setX(screen.getX() * TILE_PIXEL_WIDTH + offset.getX());
-            for (y = (int)screenTile.getY1(); y <= (int)screenTile.getY2(); y++) {
-                tempPos.setY(screen.getY() * TILE_PIXEL_HEIGHT + offset.getY());
+        for (y = (int)screenTile.getY1(); y <= (int)screenTile.getY2(); y++) {
+            tempPos.setY(screen.getY() * TILE_PIXEL_HEIGHT + offset.getY());
+            for (x = (int)screenTile.getX1(); x <= (int)screenTile.getX2(); x++) {
+                tempPos.setX(screen.getX() * TILE_PIXEL_WIDTH + offset.getX());
                 tile = getMapa().getTile(x - 1, y - 1);
 
                 // Capa 1
@@ -204,21 +204,21 @@ public class World extends Actor {
                 if (tile.getCapa(1) != null)
                     Drawer.drawGrh(stage.getBatch(), tile.getCapa(1), tempPos.getX(), tempPos.getY(), dpAC);
 
-                screen.addY(1);
+                screen.addX(1);
             }
 
-            screen.addY(-y + screenTile.getY1());
-            screen.addX(1);
+            screen.addX(-x + screenTile.getX1());
+            screen.addY(1);
         }
 
 
         screen.setX(minOffset.getX() - TILE_BUFFER_SIZE_X);
         screen.setY(minOffset.getY() - TILE_BUFFER_SIZE_Y);
 
-        for (x = (int)screenBigTile.getX1(); x <= (int)screenBigTile.getX2(); x++) {
-            tempPos.setX(screen.getX() * TILE_PIXEL_WIDTH + offset.getX());
-            for (y = (int)screenBigTile.getY1(); y <= (int)screenBigTile.getY2(); y++) {
-                tempPos.setY(screen.getY() * TILE_PIXEL_HEIGHT + offset.getY());
+        for (y = (int)screenBigTile.getY1(); y <= (int)screenBigTile.getY2(); y++) {
+            tempPos.setY(screen.getY() * TILE_PIXEL_HEIGHT + offset.getY());
+            for (x = (int)screenBigTile.getX1(); x <= (int)screenBigTile.getX2(); x++) {
+                tempPos.setX(screen.getX() * TILE_PIXEL_WIDTH + offset.getX());
                 tile = getMapa().getTile(x - 1, y - 1);
 
                 // Objetos
@@ -233,10 +233,10 @@ public class World extends Actor {
                 if (tile.getCapa(2) != null)
                     Drawer.drawGrh(stage.getBatch(), tile.getCapa(2), tempPos.getX(), tempPos.getY(), dpAC);
 
-                screen.addY(1);
+                screen.addX(1);
             }
-            screen.addY(-y + screenBigTile.getY1());
-            screen.addX(1);
+            screen.addX(-x + screenBigTile.getX1());
+            screen.addY(1);
         }
 
 
@@ -244,20 +244,20 @@ public class World extends Actor {
             screen.setX(minOffset.getX() - TILE_BUFFER_SIZE_X);
             screen.setY(minOffset.getY() - TILE_BUFFER_SIZE_Y);
 
-            for (x = (int) screenBigTile.getX1(); x <= (int) screenBigTile.getX2(); x++) {
-                tempPos.setX(screen.getX() * TILE_PIXEL_WIDTH + offset.getX());
-                for (y = (int) screenBigTile.getY1(); y <= (int) screenBigTile.getY2(); y++) {
-                    tempPos.setY(screen.getY() * TILE_PIXEL_HEIGHT + offset.getY());
+            for (y = (int) screenBigTile.getY1(); y <= (int) screenBigTile.getY2(); y++) {
+                tempPos.setY(screen.getY() * TILE_PIXEL_HEIGHT + offset.getY());
+                for (x = (int) screenBigTile.getX1(); x <= (int) screenBigTile.getX2(); x++) {
+                    tempPos.setX(screen.getX() * TILE_PIXEL_WIDTH + offset.getX());
                     tile = getMapa().getTile(x - 1, y - 1);
 
                     // Capa 4
                     if (tile.getCapa(3) != null)
                         Drawer.drawGrh(stage.getBatch(), tile.getCapa(3), tempPos.getX(), tempPos.getY(), dpAC);
 
-                    screen.addY(1);
+                    screen.addX(1);
                 }
-                screen.addY(-y + screenBigTile.getY1());
-                screen.addX(1);
+                screen.addX(-x + screenBigTile.getX1());
+                screen.addY(1);
             }
         }
 

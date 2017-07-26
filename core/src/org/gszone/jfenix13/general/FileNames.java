@@ -17,8 +17,24 @@ public class FileNames {
         return DIR_MAPS + "/Mapa" + num + ".mcl";
     }
 
-    public static String getTexIndicesDir() {
-        return DIR_INITS + "/graficos.ind";
+    public static String getGrhsIndDir() {
+        return DIR_INITS + "/grhs.ind";
+    }
+
+    public static String getBodiesIndDir() {
+        return DIR_INITS + "/bodies.ind";
+    }
+
+    public static String getHeadsIndDir() {
+        return DIR_INITS + "/heads.ind";
+    }
+
+    public static String getHelmetsIndDir() {
+        return DIR_INITS + "/helmets.ind";
+    }
+
+    public static String getFxsIndDir() {
+        return DIR_INITS + "/fxs.ind";
     }
 
     public static String getAtlasNormTexDir() {
