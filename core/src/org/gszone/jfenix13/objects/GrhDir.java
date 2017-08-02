@@ -4,12 +4,12 @@ import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.graphics.Grh;
 
 /**
- * Representa a una cabeza o casco
+ * Representa a un objeto con Grh en las 4 direcciones.
  */
-public class Head {
-    private Grh[] grhs;
+public class GrhDir {
+    protected Grh[] grhs;
 
-    public Head() {
+    public GrhDir() {
         grhs = new Grh[General.Direccion.values().length];
     }
 

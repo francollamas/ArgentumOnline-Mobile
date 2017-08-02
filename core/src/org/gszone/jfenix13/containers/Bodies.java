@@ -48,15 +48,17 @@ public class Bodies {
 
             // Leo los valores de los Grh (índices)
             short[] grhIndex = new short[General.Direccion.values().length];
-            for (int j = 0; i < grhIndex.length; i++)
+            for (int j = 0; j < grhIndex.length; j++) {
                 grhIndex[j] = leReadShort(dis);
+            }
             short x = leReadShort(dis);
             short y = leReadShort(dis);
 
             // Los seteo en el cuerpo
             if (grhIndex[0] > 0) {
-                for (General.Direccion dir : General.Direccion.values())
+                for (General.Direccion dir : General.Direccion.values()) {
                     body.setGrh(dir, new Grh(grhIndex[dir.ordinal()], 0));
+                }
                 body.setHeadOffsetX(x);
                 body.setHeadOffsetY(y);
             }
@@ -64,6 +66,17 @@ public class Bodies {
             bodies[i] = body;
         }
         dis.close();
+
+    }
+
+    public Body[] getBodies() { return bodies; }
+
+    /**
+     * Obtiene un cuerpo (verificar a la hora de usarlo que no sea null)
+     */
+    public Body getBody(int index) {
+        if (index - 1 < 0 || index - 1 >= bodies.length) return null;
+        return bodies[index - 1];
     }
 
 }

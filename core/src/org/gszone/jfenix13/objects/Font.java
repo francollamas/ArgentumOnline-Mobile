@@ -12,12 +12,12 @@ public class Font {
     private String name;
     private int tex;
     private int offset;
-    private Char[] characters;
+    private CharFont[] characters;
 
     public Font() {
-        characters = new Char[256];
+        characters = new CharFont[256];
         for (int i = 0; i < characters.length; i++) {
-            characters[i] = new Char();
+            characters[i] = new CharFont();
         }
     }
 
@@ -33,7 +33,7 @@ public class Font {
         return offset;
     }
 
-    public Char[] getChars() {
+    public CharFont[] getChars() {
         return characters;
     }
 

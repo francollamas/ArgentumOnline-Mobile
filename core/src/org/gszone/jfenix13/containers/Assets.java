@@ -4,7 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.gszone.jfenix13.objects.Map;
-import static org.gszone.jfenix13.containers.Heads.*;
+import static org.gszone.jfenix13.containers.PartChar.*;
 
 import static org.gszone.jfenix13.general.FileNames.*;
 
@@ -18,6 +18,8 @@ import static org.gszone.jfenix13.general.FileNames.*;
  * bodies: manejador de cuerpos
  * heads: manejador de cabezas
  * helmets: manejador de cascos
+ * weapons: manejador de armas
+ * shields: manejador de escudos
  * fxs: manejador de fxs
  *
  * mapa: mapa actual
@@ -28,10 +30,11 @@ public class Assets {
     private Grhs grhs;
     private Fonts fonts;
     private Bodies bodies;
-    private Heads heads;
-    private Heads helmets;
+    private PartChar heads;
+    private PartChar helmets;
+    private PartChar weapons;
+    private PartChar shields;
     private Fxs fxs;
-
     private Map mapa;
 
     public Assets() {
@@ -81,8 +84,10 @@ public class Assets {
         grhs = new Grhs();
         fonts = new Fonts();
         bodies = new Bodies();
-        heads = new Heads(Tipo.HEAD);
-        helmets = new Heads(Tipo.HELMET);
+        heads = new PartChar(Tipo.HEAD);
+        helmets = new PartChar(Tipo.HELMET);
+        weapons = new PartChar(Tipo.WEAPON);
+        shields = new PartChar(Tipo.SHIELD);
         fxs = new Fxs();
         mapa = new Map(1);
     }
@@ -93,9 +98,13 @@ public class Assets {
 
     public Bodies getBodies() { return bodies; }
 
-    public Heads getHeads() { return heads; }
+    public PartChar getHeads() { return heads; }
 
-    public Heads getHelmets() { return helmets; }
+    public PartChar getHelmets() { return helmets; }
+
+    public PartChar getWeapons() { return weapons; }
+
+    public PartChar getShields() { return shields; }
 
     public Fxs getFxs() { return fxs; }
 

@@ -2,9 +2,6 @@ package org.gszone.jfenix13.containers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import org.gszone.jfenix13.general.General;
-import org.gszone.jfenix13.graphics.Grh;
-import org.gszone.jfenix13.objects.Body;
 import org.gszone.jfenix13.objects.Fx;
 
 import java.io.DataInputStream;
@@ -53,5 +50,15 @@ public class Fxs {
             fxs[i] = fx;
         }
         dis.close();
+    }
+
+    public Fx[] getFxs() { return fxs; }
+
+    /**
+     * Obtiene un fx (verificar a la hora de usarlo que no sea null)
+     */
+    public Fx getFx(int index) {
+        if (index - 1 < 0 || index - 1 >= fxs.length) return null;
+        return fxs[index - 1];
     }
 }

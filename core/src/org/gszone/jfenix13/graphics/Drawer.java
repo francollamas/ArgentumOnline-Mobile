@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.gszone.jfenix13.general.Main;
-import org.gszone.jfenix13.objects.Char;
+import org.gszone.jfenix13.objects.CharFont;
 import org.gszone.jfenix13.objects.Font;
 import org.gszone.jfenix13.objects.GrhData;
 import org.gszone.jfenix13.utils.Rect;
@@ -231,7 +231,7 @@ public final class Drawer {
             return;
         }
 
-        Char c;
+        CharFont c;
         int tempX = 0;
         Font font = fonts[numFont - 1];
 

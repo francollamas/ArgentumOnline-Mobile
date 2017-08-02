@@ -9,10 +9,10 @@ import org.gszone.jfenix13.utils.Rect;
  *
  * tr: porcion de textura que le corresponde al caracter
  */
-public class Char extends Rect {
+public class CharFont extends Rect {
     private TextureRegion tr;
 
-    public Char() {
+    public CharFont() {
         tr = null;
     }
 

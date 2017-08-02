@@ -1,41 +1,16 @@
 package org.gszone.jfenix13.objects;
 
-
-import org.gszone.jfenix13.general.General.Direccion;
-import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.utils.Position;
 
 /**
  * Representa a un cuerpo
  */
-public class Body {
-    private Grh[] grhs;
+public class Body extends GrhDir {
     private Position headOffset;
 
     public Body() {
-        grhs = new Grh[Direccion.values().length];
+        super();
         headOffset = new Position();
-    }
-
-    /**
-     * Obtiene todos los Grh
-     */
-    public Grh[] getGrhs() {
-        return grhs;
-    }
-
-    /**
-     * Obtiene el Grh de una dirección
-     */
-    public Grh getGrh(Direccion dir) {
-        return grhs[dir.ordinal()];
-    }
-
-    /**
-     * Setea un grh para una dirección.
-     */
-    public void setGrh(Direccion dir, Grh grh) {
-        this.grhs[dir.ordinal()] = grh;
     }
 
     /**

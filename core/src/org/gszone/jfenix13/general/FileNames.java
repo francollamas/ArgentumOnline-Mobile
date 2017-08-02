@@ -37,6 +37,14 @@ public class FileNames {
         return DIR_INITS + "/fxs.ind";
     }
 
+    public static String getWeaponsIndDir() {
+        return DIR_INITS + "/weapons.ind";
+    }
+
+    public static String getShieldsIndDir() {
+        return DIR_INITS + "/shields.ind";
+    }
+
     public static String getAtlasNormTexDir() {
         return DIR_TEXTURAS + "/normal.atlas";
     }
