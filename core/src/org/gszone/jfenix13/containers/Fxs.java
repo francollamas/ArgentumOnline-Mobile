@@ -26,7 +26,7 @@ public class Fxs {
     }
 
     /**
-     * Carga todos los Fxs
+     * DtCarga todos los Fxs
      * @throws IOException
      */
     private void load() throws IOException {

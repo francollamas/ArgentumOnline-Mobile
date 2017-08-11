@@ -3,6 +3,7 @@ package org.gszone.jfenix13.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
@@ -38,7 +39,7 @@ public class Map {
     }
 
     /**
-     * Carga un mapa
+     * DtCarga un mapa
      */
     private void load() throws IOException {
         FileHandle fh = Gdx.files.internal(DIR_MAPS + "/Mapa" + numero + ".mcl");
@@ -156,8 +157,8 @@ public class Map {
      * Esto es para que lo último que se vea del mapa sean los límites, y no bordes negros.
      */
     public Rect getBorderRect() {
-        int halfWindowsTileWidth = WINDOWS_TILE_WIDTH / 2;
-        int halfWindowsTileHeight = WINDOWS_TILE_HEIGHT / 2;
+        int halfWindowsTileWidth = Main.getInstance().getGeneral().getWindowsTileWidth() / 2;
+        int halfWindowsTileHeight = Main.getInstance().getGeneral().getWindowsTileHeight() / 2;
 
         Rect r = new Rect();
         r.setX1(size.getX1() + halfWindowsTileWidth);

@@ -19,6 +19,7 @@ import static com.badlogic.gdx.graphics.GL20.GL_SRC_ALPHA;
  * blend: indica si se le aplica el efecto de blend al sprite
  * blendSrcFunc, blendDstFunc: variar para cambiar el efecto de blend por defecto, por otro.
  */
+
 public class DrawParameter {
     private Color[] color;
     private float[] alpha;

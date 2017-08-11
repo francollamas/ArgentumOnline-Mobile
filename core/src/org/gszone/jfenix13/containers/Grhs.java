@@ -28,7 +28,7 @@ public class Grhs {
     }
 
     /**
-     * Carga todos los GRHs
+     * DtCarga todos los GRHs
      * @throws IOException
      */
     private void load() throws IOException {

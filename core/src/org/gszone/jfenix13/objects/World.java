@@ -3,6 +3,7 @@ package org.gszone.jfenix13.objects;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.graphics.DrawParameter;
 import org.gszone.jfenix13.graphics.Drawer;
@@ -41,7 +42,8 @@ public class World extends Actor {
     private WorldHandler h;
 
     public World() {
-        setSize(WINDOWS_TILE_WIDTH * TILE_PIXEL_WIDTH, WINDOWS_TILE_HEIGHT * TILE_PIXEL_HEIGHT);
+        setSize(getGeneral().getWindowsTileWidth() * getGeneral().getTilePixelWidth(),
+                getGeneral().getWindowsTileHeight() * getGeneral().getTilePixelHeight());
 
         h = new WorldHandler();
         addListener(new WorldListener(h));
@@ -97,8 +99,8 @@ public class World extends Actor {
     public void move() {
         if (moving) {
             if (addToPos.getX() != 0) {
-                offset.addX(-SCROLL_PIXELS_PER_FRAME * addToPos.getX() * Drawer.getDelta());
-                if (Math.abs(offset.getX()) >= Math.abs(TILE_PIXEL_WIDTH * addToPos.getX())) {
+                offset.addX(-getGeneral().getScrollPixelsPerFrame() * addToPos.getX() * Drawer.getDelta());
+                if (Math.abs(offset.getX()) >= Math.abs(getGeneral().getTilePixelWidth() * addToPos.getX())) {
                     offset.setX(0);
                     addToPos.setX(0);
                     moving = false;
@@ -106,8 +108,8 @@ public class World extends Actor {
             }
 
             if (addToPos.getY() != 0) {
-                offset.addY(-SCROLL_PIXELS_PER_FRAME * addToPos.getY() * Drawer.getDelta());
-                if (Math.abs(offset.getY()) >= Math.abs(TILE_PIXEL_HEIGHT * addToPos.getY())) {
+                offset.addY(-getGeneral().getScrollPixelsPerFrame() * addToPos.getY() * Drawer.getDelta());
+                if (Math.abs(offset.getY()) >= Math.abs(getGeneral().getTilePixelHeight() * addToPos.getY())) {
                     offset.setY(0);
                     addToPos.setY(0);
                     moving = false;
@@ -126,18 +128,18 @@ public class World extends Actor {
         Position minOffset = new Position();
         Position screen = new Position();
 
-        int halfWindowsTileWidth = WINDOWS_TILE_WIDTH / 2;
-        int halfWindowsTileHeight = WINDOWS_TILE_HEIGHT / 2;
+        int halfWindowsTileWidth = getGeneral().getWindowsTileWidth() / 2;
+        int halfWindowsTileHeight = getGeneral().getWindowsTileHeight() / 2;
 
         screenTile.setX1(pos.getX() - addToPos.getX() - halfWindowsTileWidth);
         screenTile.setY1(pos.getY() - addToPos.getY() - halfWindowsTileHeight);
         screenTile.setX2(pos.getX() - addToPos.getX() + halfWindowsTileWidth);
         screenTile.setY2(pos.getY() - addToPos.getY() + halfWindowsTileHeight);
 
-        screenBigTile.setX1(screenTile.getX1() - TILE_BUFFER_SIZE_X);
-        screenBigTile.setY1(screenTile.getY1() - TILE_BUFFER_SIZE_Y);
-        screenBigTile.setX2(screenTile.getX2() + TILE_BUFFER_SIZE_X);
-        screenBigTile.setY2(screenTile.getY2() + TILE_BUFFER_SIZE_Y);
+        screenBigTile.setX1(screenTile.getX1() - getGeneral().getTileBufferSizeX());
+        screenBigTile.setY1(screenTile.getY1() - getGeneral().getTileBufferSizeY());
+        screenBigTile.setX2(screenTile.getX2() + getGeneral().getTileBufferSizeX());
+        screenBigTile.setY2(screenTile.getY2() + getGeneral().getTileBufferSizeY());
 
 
         // Asegurarse de que screenBigTile está siempre dentro del mapa
@@ -192,9 +194,9 @@ public class World extends Actor {
         dpAC.setCenter(true);
 
         for (y = (int)screenTile.getY1(); y <= (int)screenTile.getY2(); y++) {
-            tempPos.setY(screen.getY() * TILE_PIXEL_HEIGHT + offset.getY());
+            tempPos.setY(screen.getY() * getGeneral().getTilePixelHeight() + offset.getY());
             for (x = (int)screenTile.getX1(); x <= (int)screenTile.getX2(); x++) {
-                tempPos.setX(screen.getX() * TILE_PIXEL_WIDTH + offset.getX());
+                tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
                 tile = getMapa().getTile(x - 1, y - 1);
 
                 // Capa 1
@@ -212,13 +214,13 @@ public class World extends Actor {
         }
 
 
-        screen.setX(minOffset.getX() - TILE_BUFFER_SIZE_X);
-        screen.setY(minOffset.getY() - TILE_BUFFER_SIZE_Y);
+        screen.setX(minOffset.getX() - getGeneral().getTileBufferSizeX());
+        screen.setY(minOffset.getY() - getGeneral().getTileBufferSizeY());
 
         for (y = (int)screenBigTile.getY1(); y <= (int)screenBigTile.getY2(); y++) {
-            tempPos.setY(screen.getY() * TILE_PIXEL_HEIGHT + offset.getY());
+            tempPos.setY(screen.getY() * getGeneral().getTilePixelHeight() + offset.getY());
             for (x = (int)screenBigTile.getX1(); x <= (int)screenBigTile.getX2(); x++) {
-                tempPos.setX(screen.getX() * TILE_PIXEL_WIDTH + offset.getX());
+                tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
                 tile = getMapa().getTile(x - 1, y - 1);
 
                 // Objetos
@@ -241,13 +243,13 @@ public class World extends Actor {
 
 
         if (!techo) {
-            screen.setX(minOffset.getX() - TILE_BUFFER_SIZE_X);
-            screen.setY(minOffset.getY() - TILE_BUFFER_SIZE_Y);
+            screen.setX(minOffset.getX() - getGeneral().getTileBufferSizeX());
+            screen.setY(minOffset.getY() - getGeneral().getTileBufferSizeY());
 
             for (y = (int) screenBigTile.getY1(); y <= (int) screenBigTile.getY2(); y++) {
-                tempPos.setY(screen.getY() * TILE_PIXEL_HEIGHT + offset.getY());
+                tempPos.setY(screen.getY() * getGeneral().getTilePixelHeight() + offset.getY());
                 for (x = (int) screenBigTile.getX1(); x <= (int) screenBigTile.getX2(); x++) {
-                    tempPos.setX(screen.getX() * TILE_PIXEL_WIDTH + offset.getX());
+                    tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
                     tile = getMapa().getTile(x - 1, y - 1);
 
                     // Capa 4
@@ -290,7 +292,9 @@ public class World extends Actor {
      * Define cuál es el tile en donde está el mouse por encima
      */
     public void setMouseTile(Position pos) {
-        mouseTile.setX((int)(this.pos.getX() + pos.getX() / TILE_PIXEL_WIDTH - WINDOWS_TILE_WIDTH / 2));
-        mouseTile.setY((int)(this.pos.getY() + (getHeight() - pos.getY()) / TILE_PIXEL_HEIGHT - WINDOWS_TILE_HEIGHT / 2));
+        mouseTile.setX((int)(this.pos.getX() + pos.getX() / getGeneral().getTilePixelWidth() - getGeneral().getWindowsTileWidth() / 2));
+        mouseTile.setY((int)(this.pos.getY() + (getHeight() - pos.getY()) / getGeneral().getTilePixelHeight() - getGeneral().getWindowsTileHeight() / 2));
     }
+
+    public static General getGeneral() { return Main.getInstance().getGeneral(); }
 }

@@ -8,6 +8,8 @@ public class FileNames {
     public static final String DIR_INITS = "inits";
     public static final String DIR_ICON = "icon";
     public static final String DIR_MAPS = "maps";
+    public static final String DIR_MUSICS = "musics";
+    public static final String DIR_SOUNDS = "sounds";
 
     public static String getIconDir() {
         return DIR_ICON + "/ic_launcher.png";
@@ -65,7 +67,25 @@ public class FileNames {
         return DIR_GUI + "/gui.atlas";
     }
 
-    public static final String getSkinFlat() {
+    public static String getSkinFlat() {
         return DIR_SKINS + "/flat/skin.json";
     }
+
+    public static String getMusicDir(int num) {
+        return getMusicDir("" + num);
+    }
+
+    public static String getMusicDir(String fileName) {
+        return DIR_MUSICS + "/" + fileName + ".ogg";
+    }
+
+    public static String getSoundDir(int num) {
+        return getSoundDir("" + num);
+    }
+
+    public static String getSoundDir(String fileName) {
+        return DIR_SOUNDS + "/" + fileName + ".ogg";
+    }
+
+
 }

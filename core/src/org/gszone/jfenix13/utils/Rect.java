@@ -1,5 +1,7 @@
 package org.gszone.jfenix13.utils;
 
+import org.gszone.jfenix13.general.Main;
+
 import static org.gszone.jfenix13.general.General.*;
 
 /**
@@ -142,10 +144,10 @@ public class Rect {
     }
 
     public float getTileWidth() {
-        return getWidth() / TILE_PIXEL_WIDTH;
+        return getWidth() / Main.getInstance().getGeneral().getTilePixelWidth();
     }
 
     public float getTileHeight() {
-        return getHeight() / TILE_PIXEL_HEIGHT;
+        return getHeight() / Main.getInstance().getGeneral().getTilePixelHeight();
     }
 }

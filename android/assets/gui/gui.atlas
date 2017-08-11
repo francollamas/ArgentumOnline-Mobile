@@ -4,10 +4,36 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-scr_principal
+scr_dt_carga
   rotate: false
   xy: 0, 0
   size: 1024, 768
   orig: 1024, 768
+  offset: 0, 0
+  index: -1
+
+gui2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+scr_dt_principal
+  rotate: false
+  xy: 0, 0
+  size: 1024, 768
+  orig: 1024, 768
+  offset: 0, 0
+  index: -1
+
+gui3.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+scr_mb_carga
+  rotate: false
+  xy: 0, 0
+  size: 800, 450
+  orig: 800, 450
   offset: 0, 0
   index: -1

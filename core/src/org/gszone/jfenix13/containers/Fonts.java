@@ -26,7 +26,7 @@ public class Fonts {
     }
 
     /**
-     * Carga todas las Fuentes
+     * DtCarga todas las Fuentes
      * @throws IOException
      */
     public void load() throws IOException {

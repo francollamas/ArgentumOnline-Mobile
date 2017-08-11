@@ -35,7 +35,7 @@ public class PartChar {
     }
 
     /**
-     * Carga todos los PartChar
+     * DtCarga todos los PartChar
      * @throws IOException
      */
     private void load() throws IOException {

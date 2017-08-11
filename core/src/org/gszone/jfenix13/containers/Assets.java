@@ -1,8 +1,10 @@
 package org.gszone.jfenix13.containers;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.objects.Map;
 import static org.gszone.jfenix13.containers.PartChar.*;
 
@@ -13,6 +15,7 @@ import static org.gszone.jfenix13.general.FileNames.*;
  *
  * gdxAssets: manejador de assets que libGDX sabe manejar (atlas, texturas, musica, sonidos, etc)
  * los demas corresponden a archivos de datos propios del juego.
+ * audio: manejador de sonidos y música
  * grhs: manejador de grhs
  * fonts: manejador de fuentes
  * bodies: manejador de cuerpos
@@ -27,6 +30,7 @@ import static org.gszone.jfenix13.general.FileNames.*;
 
 public class Assets {
     private AssetManager gdxAssets;
+    private Audio audio;
     private Grhs grhs;
     private Fonts fonts;
     private Bodies bodies;
@@ -39,9 +43,11 @@ public class Assets {
 
     public Assets() {
         gdxAssets = new AssetManager();
+        audio = new Audio();
+
         preloadGdxAssets();
 
-        // Carga desde el comienzo hasta la GUI. El resto va acompañado con la pantalla de carga.
+        // DtCarga desde el comienzo hasta la GUI. El resto va acompañado con la pantalla de carga.
         gdxAssets.finishLoadingAsset(getAtlasGuiDir());
     }
 
@@ -60,6 +66,12 @@ public class Assets {
         // Atlas de la GUI del juego
         gdxAssets.load(getAtlasGuiDir(), TextureAtlas.class);
 
+        // Sonidos
+        String[] soundDirs = Audio.getSoundDirs();
+        for(String dir: soundDirs) {
+            gdxAssets.load(dir, Sound.class);
+        }
+
         // Atlas de texturas normales
         gdxAssets.load(getAtlasNormTexDir(), TextureAtlas.class);
 
@@ -69,7 +81,7 @@ public class Assets {
 
 
     /**
-     * Carga al resto de los assets que sabe cargar libGDX
+     * DtCarga al resto de los assets que sabe cargar libGDX
      * @return: proporcion que representa el progreso
      */
     public float loadNextAsset() {
@@ -96,6 +108,8 @@ public class Assets {
 
     public Fonts getFonts() { return fonts; }
 
+    public Audio getAudio() { return audio; }
+
     public Bodies getBodies() { return bodies; }
 
     public PartChar getHeads() { return heads; }
@@ -117,5 +131,6 @@ public class Assets {
      */
     public void dispose() {
         gdxAssets.dispose();
+        audio.dispose();
     }
 }

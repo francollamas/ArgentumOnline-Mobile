@@ -29,7 +29,7 @@ public class Bodies {
     }
 
     /**
-     * Carga todos los Bodies
+     * DtCarga todos los Bodies
      * @throws IOException
      */
     private void load() throws IOException {

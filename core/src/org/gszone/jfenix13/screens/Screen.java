@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.gszone.jfenix13.connection.ClientPackages;
+import org.gszone.jfenix13.containers.Audio;
 import org.gszone.jfenix13.general.Main;
 
 import static org.gszone.jfenix13.general.General.*;
@@ -48,6 +49,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     public Scr getScrType() { return scrType; }
     public static Skin getSkin() { return Main.getInstance().getAssets().getGDXAssets().get(getSkinFlat(), Skin.class); }
     public Batch getBatch() { return stage.getBatch(); }
+    public Audio getAudio() { return Main.getInstance().getAssets().getAudio(); }
     public ClientPackages getClPack() { return Main.getInstance().getConnection().getClPack(); }
 
     /**
@@ -56,7 +58,8 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     @Override
     public void show() {
         // Crea un escenario para la pantalla
-        stage = new Stage(new FitViewport(SCR_WIDTH, SCR_HEIGHT));
+        stage = new Stage(new FitViewport(Main.getInstance().getGeneral().getScrWidth(),
+                                    Main.getInstance().getGeneral().getScrHeight()));
 
         // Setea la posición del fondo
         if (background != null)

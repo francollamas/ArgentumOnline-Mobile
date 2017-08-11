@@ -1,12 +1,84 @@
 package org.gszone.jfenix13.general;
 
+import com.badlogic.gdx.Gdx;
+
+import static com.badlogic.gdx.Application.ApplicationType.*;
+
 public class General {
     public enum Direccion {NORTE, ESTE, SUR, OESTE}
 
-    public static final int SCR_WIDTH = 1024, SCR_HEIGHT = 768;
-    public static final int WINDOWS_TILE_WIDTH = 23, WINDOWS_TILE_HEIGHT = 17;
-    public static final int TILE_PIXEL_WIDTH = 32, TILE_PIXEL_HEIGHT = 32;
-    public static final int TILE_BUFFER_SIZE_X = 9, TILE_BUFFER_SIZE_Y = 9;
-    public static final int SCROLL_PIXELS_PER_FRAME = 8;
-    public static final int BASE_SPEED = 17;
+    private int scrWidth, scrHeight;
+    private int windowsTileWidth, windowsTileHeight;
+    private int tilePixelWidth, tilePixelHeight;
+    private int TileBufferSizeX, TileBufferSizeY;
+    private int ScrollPixelsPerFrame;
+    private int BaseSpeed;
+
+    public General() {
+
+        tilePixelWidth = 32;
+        tilePixelHeight = 32;
+        ScrollPixelsPerFrame = 8;
+        BaseSpeed = 17;
+
+        if (Gdx.app.getType() == Desktop) {
+            scrWidth = Gdx.graphics.getWidth();
+            scrHeight = Gdx.graphics.getHeight();
+            windowsTileWidth = 23;
+            windowsTileHeight = 17;
+            TileBufferSizeX = 9;
+            TileBufferSizeY = 9;
+        }
+        else {
+            // Escala 16:9
+            scrWidth = 800;
+            scrHeight = 450;
+
+            windowsTileWidth = 17;
+            windowsTileHeight = 13;
+            TileBufferSizeX = 9;
+            TileBufferSizeY = 9;
+
+        }
+    }
+
+    public int getScrWidth() {
+        return scrWidth;
+    }
+
+    public int getScrHeight() {
+        return scrHeight;
+    }
+
+    public int getWindowsTileWidth() {
+        return windowsTileWidth;
+    }
+
+    public int getWindowsTileHeight() {
+        return windowsTileHeight;
+    }
+
+    public int getTilePixelWidth() {
+        return tilePixelWidth;
+    }
+
+    public int getTilePixelHeight() {
+        return tilePixelHeight;
+    }
+
+    public int getTileBufferSizeX() {
+        return TileBufferSizeX;
+    }
+
+    public int getTileBufferSizeY() {
+        return TileBufferSizeY;
+    }
+
+    public int getScrollPixelsPerFrame() {
+        return ScrollPixelsPerFrame;
+    }
+
+    public int getBaseSpeed() {
+        return BaseSpeed;
+    }
 }
