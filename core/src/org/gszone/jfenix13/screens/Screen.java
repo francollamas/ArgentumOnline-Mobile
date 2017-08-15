@@ -12,7 +12,6 @@ import org.gszone.jfenix13.connection.ClientPackages;
 import org.gszone.jfenix13.containers.Audio;
 import org.gszone.jfenix13.general.Main;
 
-import static org.gszone.jfenix13.general.General.*;
 import static org.gszone.jfenix13.general.FileNames.*;
 
 /**
@@ -24,7 +23,7 @@ import static org.gszone.jfenix13.general.FileNames.*;
  * background: imagen de fondo
  */
 public abstract class Screen implements com.badlogic.gdx.Screen {
-    public enum Scr {CARGA, MENU, PRINCIPAL, TEST}
+    public enum Scr {CARGA, MENU, PRINCIPAL}
 
     protected Scr scrType;
 
@@ -47,7 +46,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     }
 
     public Scr getScrType() { return scrType; }
-    public static Skin getSkin() { return Main.getInstance().getAssets().getGDXAssets().get(getSkinFlat(), Skin.class); }
+    public Stage getStage() { return stage; }
     public Batch getBatch() { return stage.getBatch(); }
     public Audio getAudio() { return Main.getInstance().getAssets().getAudio(); }
     public ClientPackages getClPack() { return Main.getInstance().getConnection().getClPack(); }

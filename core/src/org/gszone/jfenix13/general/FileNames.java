@@ -1,7 +1,6 @@
 package org.gszone.jfenix13.general;
 
 public class FileNames {
-    public static final String DIR_SKINS = "skins";
     public static final String DIR_FONTS = "fonts";
     public static final String DIR_GUI = "gui";
     public static final String DIR_TEXTURAS = "textures";
@@ -65,10 +64,6 @@ public class FileNames {
 
     public static String getAtlasGuiDir() {
         return DIR_GUI + "/gui.atlas";
-    }
-
-    public static String getSkinFlat() {
-        return DIR_SKINS + "/flat/skin.json";
     }
 
     public static String getMusicDir(int num) {

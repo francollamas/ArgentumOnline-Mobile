@@ -6,6 +6,10 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
+import org.gszone.jfenix13.general.Main;
+import org.gszone.jfenix13.screens.Screen;
+
 import java.io.*;
 
 /**
@@ -16,6 +20,9 @@ import java.io.*;
  * disposed: booleano que indica si va a destruir el socket (para evitar excepciones en el nuevo thread)
  */
 public class Connection {
+    public static final String IP = "201.252.50.170";
+    public static final int PORT = 7666;
+
     private Thread thread;
     private Socket socket;
     private boolean disposed;
@@ -33,11 +40,9 @@ public class Connection {
     /**
      * Se conecta con el servidor
      *
-     * @param ip: ip del servior
-     * @param port: puerto del servidor
      * @return: booleano que indica si se estableció o no la conexión.
      */
-    public boolean connect(String ip, int port) {
+    public boolean connect() {
         try {
             // Si el socket y el thread estaban abiertos, los destruye
             dispose();
@@ -46,9 +51,10 @@ public class Connection {
             // Conectarse al servidor
             SocketHints hints = new SocketHints();
             hints.connectTimeout = 5000;
-            socket = Gdx.net.newClientSocket(Net.Protocol.TCP, ip, port, hints);
+            socket = Gdx.net.newClientSocket(Net.Protocol.TCP, IP, PORT, hints);
         }
         catch (GdxRuntimeException ex) {
+            Dialogs.showOKDialog(((Screen)Main.getInstance().getScreen()).getStage(), "Error", "No se pudo establecer la conexión con el servidor.");
             socket = null;
             return false;
         }
@@ -113,7 +119,7 @@ public class Connection {
             socket.getOutputStream().write(b);
 
             /* Obliga a enviar los datos que están en el OutputStream
-             * sacarlo si da lag. Lo dejo porque sino podría llegar a tardar en enviar un paquete sumamente necesario.
+             * TODO: sacarlo si da lag. Lo dejo porque sino podría llegar a tardar en enviar un paquete sumamente necesario.
              */
             socket.getOutputStream().flush();
         }

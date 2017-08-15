@@ -70,7 +70,7 @@ public class Audio {
         music = Gdx.audio.newMusic(fh);
         music.setLooping(true);
         music.setVolume(musicVolume);
-        music.play();
+        music.play(); //TODO: descomentar esta línea
     }
 
     public float getMusicVolume() { return musicVolume; }

@@ -6,9 +6,23 @@ filter: Nearest,Nearest
 repeat: none
 scr_dt_carga
   rotate: false
-  xy: 0, 0
+  xy: 0, 180
   size: 1024, 768
   orig: 1024, 768
+  offset: 0, 0
+  index: -1
+tp_background
+  rotate: false
+  xy: 0, 45
+  size: 135, 135
+  orig: 135, 135
+  offset: 0, 0
+  index: -1
+tp_knob
+  rotate: false
+  xy: 0, 0
+  size: 45, 45
+  orig: 45, 45
   offset: 0, 0
   index: -1
 

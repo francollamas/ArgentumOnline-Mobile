@@ -120,10 +120,10 @@ public class ClientPackages {
     /**
      * Petición para conectarse
      */
-    public void writeLoginExistingChar() {
+    public void writeLoginExistingChar(String name, String password) {
         writeByte(bytes, (byte)ID.LoginExistingChar.ordinal());
-        writeString(bytes, "Thusing");
-        writeString(bytes, "asdasd");
+        writeString(bytes, name);
+        writeString(bytes, password);
         writeByte(bytes, (byte) 0);
         writeByte(bytes, (byte) 13);
         writeByte(bytes, (byte) 0);

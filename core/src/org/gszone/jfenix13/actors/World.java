@@ -1,5 +1,6 @@
-package org.gszone.jfenix13.objects;
+package org.gszone.jfenix13.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,9 +10,12 @@ import org.gszone.jfenix13.graphics.DrawParameter;
 import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.handlers.WorldHandler;
 import org.gszone.jfenix13.listeners.WorldListener;
+import org.gszone.jfenix13.objects.Map;
+import org.gszone.jfenix13.objects.MapTile;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
 
+import static com.badlogic.gdx.Input.Keys.*;
 import static org.gszone.jfenix13.general.General.*;
 
 /**
@@ -73,6 +77,23 @@ public class World extends Actor {
      */
     public Rectangle getRect() {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
+    }
+
+    /**
+     * Mueve la pantalla según la entrada del teclado
+     */
+    public void checkKeys() {
+        if (!isMoving()) {
+            if (Gdx.input.isKeyPressed(UP)) {
+                setMove(Direccion.NORTE);
+            } else if (Gdx.input.isKeyPressed(RIGHT)) {
+                setMove(Direccion.ESTE);
+            } else if (Gdx.input.isKeyPressed(DOWN)) {
+                setMove(Direccion.SUR);
+            } else if (Gdx.input.isKeyPressed(LEFT)) {
+                setMove(Direccion.OESTE);
+            }
+        }
     }
 
     /**

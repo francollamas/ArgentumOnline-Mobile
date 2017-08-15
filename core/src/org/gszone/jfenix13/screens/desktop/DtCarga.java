@@ -1,7 +1,6 @@
 package org.gszone.jfenix13.screens.desktop;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.kotcrab.vis.ui.widget.*;
 import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.screens.Screen;
 
@@ -9,7 +8,7 @@ import org.gszone.jfenix13.screens.Screen;
  * Pantalla de carga
  */
 public class DtCarga extends Screen {
-    Label lb;
+    private VisLabel lb;
 
     public DtCarga() { super(Scr.CARGA, "dt_carga"); }
 
@@ -17,9 +16,8 @@ public class DtCarga extends Screen {
     public void show() {
         super.show();
 
-        lb = new Label("0 %", getSkin());
+        lb = new VisLabel("0 %");
         lb.setPosition(950, 30);
-        lb.setFontScale(1.2f);
         lb.setColor(0.7f, 0.7f, 0.7f, 1);
         stage.addActor(lb);
         Main.getInstance().getAssets().getAudio().playMusic(6);
@@ -42,7 +40,7 @@ public class DtCarga extends Screen {
 
         if (value == 1f) {
             Main.getInstance().getAssets().loadRemaining();
-            Main.getInstance().setScreen(new DtPrincipal());
+            Main.getInstance().setScreen(new DtMenu());
         }
     }
 }

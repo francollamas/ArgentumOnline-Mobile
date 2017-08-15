@@ -3,8 +3,8 @@ package org.gszone.jfenix13.containers;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import org.gszone.jfenix13.general.Main;
+import com.kotcrab.vis.ui.VisUI;
+import org.gszone.jfenix13.actors.Controller;
 import org.gszone.jfenix13.objects.Map;
 import static org.gszone.jfenix13.containers.PartChar.*;
 
@@ -45,6 +45,7 @@ public class Assets {
         gdxAssets = new AssetManager();
         audio = new Audio();
 
+        VisUI.load();
         preloadGdxAssets();
 
         // DtCarga desde el comienzo hasta la GUI. El resto va acompañado con la pantalla de carga.
@@ -57,9 +58,6 @@ public class Assets {
      * Precarga los assets (indica cuáles y de que tipo son los assets a cargar)
      */
     private void preloadGdxAssets() {
-        // Skin de la GUI
-        gdxAssets.load(getSkinFlat(), Skin.class);
-
         // Atlas de las fuentes
         gdxAssets.load(getAtlasFontTexDir(), TextureAtlas.class);
 
@@ -101,7 +99,6 @@ public class Assets {
         weapons = new PartChar(Tipo.WEAPON);
         shields = new PartChar(Tipo.SHIELD);
         fxs = new Fxs();
-        mapa = new Map(1);
     }
 
     public Grhs getGrhs() { return grhs; }
@@ -124,13 +121,15 @@ public class Assets {
 
     public Map getMapa() {  return mapa; }
 
-    public void setMapa(Map mapa) { this.mapa = mapa; }
+    public void changeMap(int num) { this.mapa = new Map(num); }
 
     /**
      * Elimina de memoria lo que no se elimina por defecto
      */
     public void dispose() {
         gdxAssets.dispose();
+        VisUI.dispose();
+        Controller.dispose();
         audio.dispose();
     }
 }

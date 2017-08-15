@@ -1,12 +1,13 @@
 package org.gszone.jfenix13.screens.mobile;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.screens.Screen;
 import org.gszone.jfenix13.screens.desktop.DtPrincipal;
 
 public class MbCarga extends Screen {
-    Label lb;
+    VisLabel lb;
 
     public MbCarga() { super(Screen.Scr.CARGA, "mb_carga"); }
 
@@ -14,8 +15,8 @@ public class MbCarga extends Screen {
     public void show() {
         super.show();
 
-        lb = new Label("0 %", getSkin());
-        lb.setPosition(720, 30);
+        lb = new VisLabel("0 %");
+        lb.setPosition(580, 20);
         lb.setFontScale(1.2f);
         lb.setColor(0.7f, 0.7f, 0.7f, 1);
         stage.addActor(lb);

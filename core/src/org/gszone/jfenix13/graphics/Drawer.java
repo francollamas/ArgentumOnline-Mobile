@@ -161,6 +161,8 @@ public final class Drawer {
         // El color final depende del color por default
         Color[] c = dp.getColors();
 
+        // TODO: agregar funciones de color al libGDX 1.9.6 y descomentar el bloque de abajo
+        /*
         if (defColor == Color.WHITE || dp.isLight())
             // Para evitar multiplicar cada elemento del color por el color por defecto
             sp.setColors(c);
@@ -170,6 +172,16 @@ public final class Drawer {
                         c[i].a * defColor.a));
 
         sp.setAlphas(dp.getAlphas());
+        */
+
+        // TODO: si arregle lo de arriba, borrar este trozo:
+        if (defColor == Color.WHITE || dp.isLight())
+            sp.setColor(c[0]);
+        else
+            sp.setColor(new Color(c[0].r * defColor.r, c[0].g * defColor.g, c[0].b * defColor.b,
+                    c[0].a * defColor.a));
+        sp.setAlpha(dp.getAlphas()[0]);
+
 
         sp.setScale(dp.getScaleX(), dp.getScaleY());
         sp.setPosition(x, y);

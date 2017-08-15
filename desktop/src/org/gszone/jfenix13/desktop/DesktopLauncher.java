@@ -6,7 +6,6 @@ import org.gszone.jfenix13.general.Main;
 import com.badlogic.gdx.Files.FileType;
 
 import static org.gszone.jfenix13.general.FileNames.*;
-import static org.gszone.jfenix13.general.General.*;
 
 /**
  * Clase que inicia el juego en escritorio
@@ -18,14 +17,14 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1024;
 		config.height = 768;
-		config.fullscreen = false;
+		//config.fullscreen = true;
 		config.resizable = false;
 		config.addIcon(getIconDir(), FileType.Internal);
 
 		// Descomentar para liberar FPS!
-		config.vSyncEnabled = false;
-		config.foregroundFPS = 0;
-		config.backgroundFPS = 0;
+		//config.vSyncEnabled = false;
+		//config.foregroundFPS = 0;
+		//config.backgroundFPS = 0;
 
 		new LwjglApplication(new Main(), config);
 	}
