@@ -57,7 +57,7 @@ public class Bodies {
             // Los seteo en el cuerpo
             if (grhIndex[0] > 0) {
                 for (General.Direccion dir : General.Direccion.values()) {
-                    body.setGrh(dir, new Grh(grhIndex[dir.ordinal()], 0));
+                    body.setGrhIndex(dir, grhIndex[dir.ordinal()]);
                 }
                 body.setHeadOffsetX(x);
                 body.setHeadOffsetY(y);

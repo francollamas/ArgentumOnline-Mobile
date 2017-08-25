@@ -21,7 +21,7 @@ public class DtPrincipal extends Screen {
 
     private VisTextButton tbCerrar;
 
-    public DtPrincipal() { super(Scr.PRINCIPAL, "dt_principal"); }
+    public DtPrincipal() { super(Scr.PRINCIPAL, "principal"); }
 
     @Override
     public void show() {

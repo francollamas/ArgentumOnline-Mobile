@@ -24,14 +24,14 @@ public class Fx {
     /**
      * Obtiene la posición exacta del offset
      */
-    public Position offset() {
+    public Position getOffset() {
         return offset;
     }
 
     /**
      * Setea la posición exacta del offset
      */
-    public void offset(Position offset) {
+    public void setOffset(Position offset) {
         this.offset = offset;
     }
 

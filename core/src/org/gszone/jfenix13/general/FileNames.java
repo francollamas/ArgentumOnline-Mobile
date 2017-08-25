@@ -46,14 +46,6 @@ public class FileNames {
         return DIR_INITS + "/shields.ind";
     }
 
-    public static String getAtlasNormTexDir() {
-        return DIR_TEXTURAS + "/normal.atlas";
-    }
-
-    public static String getAtlasBigTexDir() {
-        return DIR_TEXTURAS + "/big.atlas";
-    }
-
     public static String getFontsIndicesDir() {
         return DIR_FONTS + "/fonts.ind";
     }
@@ -62,8 +54,16 @@ public class FileNames {
         return DIR_FONTS + "/fuentes.atlas";
     }
 
-    public static String getAtlasGuiDir() {
-        return DIR_GUI + "/gui.atlas";
+    public static String getAtlasDtGuiDir() {
+        return DIR_GUI + "/dt_gui.atlas";
+    }
+
+    public static String getAtlasMbGuiDir() {
+        return DIR_GUI + "/mb_gui.atlas";
+    }
+
+    public static String getAtlasGralGuiDir() {
+        return DIR_GUI + "/gral_gui.atlas";
     }
 
     public static String getMusicDir(int num) {

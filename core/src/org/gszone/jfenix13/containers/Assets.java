@@ -1,5 +1,6 @@
 package org.gszone.jfenix13.containers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -9,6 +10,7 @@ import org.gszone.jfenix13.objects.Map;
 import static org.gszone.jfenix13.containers.PartChar.*;
 
 import static org.gszone.jfenix13.general.FileNames.*;
+import static com.badlogic.gdx.Application.ApplicationType.*;
 
 /**
  * Contiene todos los objetos cargados desde los assets
@@ -30,6 +32,7 @@ import static org.gszone.jfenix13.general.FileNames.*;
 
 public class Assets {
     private AssetManager gdxAssets;
+    private Textures textures;
     private Audio audio;
     private Grhs grhs;
     private Fonts fonts;
@@ -48,8 +51,9 @@ public class Assets {
         VisUI.load();
         preloadGdxAssets();
 
-        // DtCarga desde el comienzo hasta la GUI. El resto va acompañado con la pantalla de carga.
-        gdxAssets.finishLoadingAsset(getAtlasGuiDir());
+        // Cargar todos los elementos necesarios para poder visualizar la pantalla de carga.
+        //gdxAssets.finishLoadingAsset(getAtlasGralGuiDir());
+        gdxAssets.finishLoading(); // TODO: dejar la linea de arriba cuando pueda
     }
 
     public AssetManager getGDXAssets() { return gdxAssets; }
@@ -61,20 +65,20 @@ public class Assets {
         // Atlas de las fuentes
         gdxAssets.load(getAtlasFontTexDir(), TextureAtlas.class);
 
-        // Atlas de la GUI del juego
-        gdxAssets.load(getAtlasGuiDir(), TextureAtlas.class);
+        // Atlas de la GUI del juego (ya sea para MOBILE o DESKTOP)
+        if (Gdx.app.getType() == Desktop)
+            gdxAssets.load(getAtlasDtGuiDir(), TextureAtlas.class);
+        else
+            gdxAssets.load(getAtlasMbGuiDir(), TextureAtlas.class);
+
+        // Atlas de la GUI general para cualquier plataforma
+        //gdxAssets.load(getAtlasGralGuiDir(), TextureAtlas.class); // TODO: descomentar esto cuando tenga algun GUI general
 
         // Sonidos
         String[] soundDirs = Audio.getSoundDirs();
         for(String dir: soundDirs) {
             gdxAssets.load(dir, Sound.class);
         }
-
-        // Atlas de texturas normales
-        gdxAssets.load(getAtlasNormTexDir(), TextureAtlas.class);
-
-        // Atlas de texturas grandes
-        gdxAssets.load(getAtlasBigTexDir(), TextureAtlas.class);
     }
 
 
@@ -91,6 +95,7 @@ public class Assets {
      * Termina de cargar el resto de assets propios del juego
      */
     public void loadRemaining() {
+        textures = new Textures();
         grhs = new Grhs();
         fonts = new Fonts();
         bodies = new Bodies();
@@ -100,6 +105,8 @@ public class Assets {
         shields = new PartChar(Tipo.SHIELD);
         fxs = new Fxs();
     }
+
+    public Textures getTextures() { return textures; }
 
     public Grhs getGrhs() { return grhs; }
 
@@ -128,6 +135,7 @@ public class Assets {
      */
     public void dispose() {
         gdxAssets.dispose();
+        textures.dispose();
         VisUI.dispose();
         Controller.dispose();
         audio.dispose();

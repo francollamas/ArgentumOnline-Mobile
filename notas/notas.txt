@@ -1,0 +1,38 @@
+ver.bin > escribe la version
+initColours > inicia colores comunes (para los 4 vertices)
+-----Inicio.con > (leergameini) osea musica, fx, name, password, dirs, puerto, etc.
+|||||ao.dat > (loadCLIENTSETUP) resolucion, que graficos.ind usa, ttex dinamicas o estaticas, nores, nosound, nomusic, etcc (ver tSetupMods). Dim clientsetup as tSetupMods
+
+TODAS CONSTANTES:
+Inicializar nombres: asigna nombres a las constantes para ciudades, razas, clases, skills y atributos.
+InitFonts: inicia Fonttypes.
+
+EstablecerRecompensas: por cada una, nombre y descripción.
+
+Charinfo.dat (solo el MODRAZA).... osea, cuanto extra de cada atributo según raza.
+
+Call LoadGrhData
+Call CargarCuerpos (personajes.ind)
+Call CargarCabezas
+Call CargarCascos
+Call CargarFxs (Fxs.ind)
+
+CargarTips (ayuda, tutorial del principio)
+CargarArrayLluvia (fk.ind)
+
+LOS 3 .DAT:
+CargarAnimArmas
+CaegarAnimEscudos
+CargarColores (colores para los distintos tipos de usuarios)
+
+Carga musica y sonido.. (para esto le da bola al: ao.dat)
+
+Iniciar intervalos (y constantes de intervalo: INT_ATTACK, INT_WORK, etc)
+
+
+
+
+AL SALIR:
+|||||SaveSetupClient
+-----EscribirGameIni 
+

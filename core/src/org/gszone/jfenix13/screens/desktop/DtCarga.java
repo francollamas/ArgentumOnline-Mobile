@@ -10,7 +10,7 @@ import org.gszone.jfenix13.screens.Screen;
 public class DtCarga extends Screen {
     private VisLabel lb;
 
-    public DtCarga() { super(Scr.CARGA, "dt_carga"); }
+    public DtCarga() { super(Scr.CARGA, "carga"); }
 
     @Override
     public void show() {

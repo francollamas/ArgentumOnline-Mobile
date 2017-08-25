@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.GameData;
+import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.objects.Char;
@@ -14,6 +15,7 @@ import org.gszone.jfenix13.screens.desktop.DtPrincipal;
 import org.gszone.jfenix13.screens.mobile.MbPrincipal;
 
 import static org.gszone.jfenix13.utils.Bytes.*;
+import org.gszone.jfenix13.general.General.Direccion;
 
 /**
  * Clase con los paquetes que vienen del servidor y el cliente tiene que procesar
@@ -196,6 +198,8 @@ public class ServerPackages {
                 case ErrorMsg:
                     handleErrorMsg(bytes);
                     break;
+                case ShowMessageBox:
+                    handleShowMessageBox(bytes);
                 default:
                     broken = true;
                     break;
@@ -215,6 +219,7 @@ public class ServerPackages {
         grh.setLoops(loops);
 
         getGD().getChars().getChar(index).setFx(grh);
+        getGD().getChars().getChar(index).setFxIndex(fx);
     }
 
 
@@ -277,6 +282,7 @@ public class ServerPackages {
     }
 
     private void handleCharacterCreate(Array<Byte> bytes) {
+        Grh[] grhs;
         int index = readShort(bytes);
         int body = readShort(bytes);
         int head = readShort(bytes);
@@ -319,10 +325,55 @@ public class ServerPackages {
         if (!user.isActive()) getGD().getChars().setNumChars(getGD().getChars().getNumChars() + 1);
 
         if (weapon == 0) weapon = 2;
-        if (shield == 0) weapon = 2;
+        if (shield == 0) shield = 2;
         if (helmet == 0) helmet = 2;
 
-        // TODO: agregar trozo de codigo que falta, (para animaciones, etccc)
+        if (body > 0) {
+            grhs = new Grh[Direccion.values().length];
+            for (int i = 0; i < grhs.length; i++) {
+                Grh grh = new Grh(getAssets().getBodies().getBody(body).getGrhIndex(Direccion.values()[i]));
+                grhs[i] = grh;
+            }
+            user.setBody(grhs);
+            user.setBodyIndex(body);
+        }
+
+        if (head > 0) {
+            grhs = new Grh[Direccion.values().length];
+            for (int i = 0; i < grhs.length; i++) {
+                Grh grh = new Grh(getAssets().getHeads().getGrhDir(head).getGrhIndex(Direccion.values()[i]));
+                grhs[i] = grh;
+            }
+            user.setHead(grhs);
+            user.setHeadIndex(head);
+        }
+
+        grhs = new Grh[Direccion.values().length];
+        for (int i = 0; i < grhs.length; i++) {
+            Grh grh = new Grh(getAssets().getHelmets().getGrhDir(helmet).getGrhIndex(Direccion.values()[i]));
+            grhs[i] = grh;
+        }
+        user.setHelmet(grhs);
+
+
+        grhs = new Grh[Direccion.values().length];
+        for (int i = 0; i < grhs.length; i++) {
+            Grh grh = new Grh(getAssets().getShields().getGrhDir(shield).getGrhIndex(Direccion.values()[i]));
+            grhs[i] = grh;
+        }
+        user.setShield(grhs);
+
+
+        grhs = new Grh[Direccion.values().length];
+        for (int i = 0; i < grhs.length; i++) {
+            Grh grh = new Grh(getAssets().getWeapons().getGrhDir(weapon).getGrhIndex(Direccion.values()[i]));
+            grhs[i] = grh;
+        }
+        user.setWeapon(grhs);
+
+
+        user.setHeading(General.Direccion.values()[heading - 1]);
+
 
         user.getPos().setX(x);
         user.getPos().setY(y);
@@ -388,5 +439,9 @@ public class ServerPackages {
 
     private void handleErrorMsg(Array<Byte> bytes) {
         Dialogs.showOKDialog(((Screen)Main.getInstance().getScreen()).getStage(), "Error", readString(bytes));
+    }
+
+    private void handleShowMessageBox(Array<Byte> bytes) {
+        Dialogs.showOKDialog(((Screen)Main.getInstance().getScreen()).getStage(), "Mensaje del Servidor", readString(bytes));
     }
 }

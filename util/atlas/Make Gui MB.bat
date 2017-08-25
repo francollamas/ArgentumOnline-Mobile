@@ -1,0 +1,1 @@
+java -cp gdx.jar;gdx-tools.jar com.badlogic.gdx.tools.texturepacker.TexturePacker input/gui/mb output/gui mb_gui

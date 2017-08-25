@@ -13,6 +13,7 @@ import static org.gszone.jfenix13.general.FileNames.*;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+		System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1024;
@@ -22,9 +23,9 @@ public class DesktopLauncher {
 		config.addIcon(getIconDir(), FileType.Internal);
 
 		// Descomentar para liberar FPS!
-		//config.vSyncEnabled = false;
-		//config.foregroundFPS = 0;
-		//config.backgroundFPS = 0;
+		config.vSyncEnabled = false;
+		config.foregroundFPS = 0;
+		config.backgroundFPS = 0;
 
 		new LwjglApplication(new Main(), config);
 	}

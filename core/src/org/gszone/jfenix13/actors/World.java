@@ -10,8 +10,7 @@ import org.gszone.jfenix13.graphics.DrawParameter;
 import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.handlers.WorldHandler;
 import org.gszone.jfenix13.listeners.WorldListener;
-import org.gszone.jfenix13.objects.Map;
-import org.gszone.jfenix13.objects.MapTile;
+import org.gszone.jfenix13.objects.*;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
 
@@ -85,16 +84,21 @@ public class World extends Actor {
     public void checkKeys() {
         if (!isMoving()) {
             if (Gdx.input.isKeyPressed(UP)) {
-                setMove(Direccion.NORTE);
+                moveChar(Direccion.NORTE);
             } else if (Gdx.input.isKeyPressed(RIGHT)) {
-                setMove(Direccion.ESTE);
+                moveChar(Direccion.ESTE);
             } else if (Gdx.input.isKeyPressed(DOWN)) {
-                setMove(Direccion.SUR);
+                moveChar(Direccion.SUR);
             } else if (Gdx.input.isKeyPressed(LEFT)) {
-                setMove(Direccion.OESTE);
+                moveChar(Direccion.OESTE);
             }
         }
     }
+
+    public void moveChar(Direccion dir) {
+        setMove(dir);
+    }
+
 
     /**
      * Determina si la pantalla se tiene que mover hacia alguna dirección.
@@ -250,7 +254,8 @@ public class World extends Actor {
                         Drawer.drawGrh(stage.getBatch(), tile.getObjeto().getGrh(), tempPos.getX(), tempPos.getY(), dpAC);
 
                 // Personajes
-
+                if (tile.getCharIndex() != 0)
+                    drawChar(stage, tile.getCharIndex(), tempPos.getX() - 32, tempPos.getY() - 32, dpAC);
 
                 // Capa 3
                 if (tile.getCapa(2) != null)
@@ -281,6 +286,42 @@ public class World extends Actor {
                 }
                 screen.addX(-x + screenBigTile.getX1());
                 screen.addY(1);
+            }
+        }
+
+    }
+
+    private void drawChar(Stage stage, int charIndex, float x, float y, DrawParameter dp) {
+        Char c = Main.getInstance().getGameData().getChars().getChar(charIndex);
+
+        dp.setAnimated(false);
+        Body bodyData = Main.getInstance().getAssets().getBodies().getBody(c.getBodyIndex());
+        if (c.getBody() != null) {
+            Drawer.drawGrh(stage.getBatch(), c.getBody()[c.getHeading().ordinal()], x, y, dp);
+        }
+
+        if (c.getHead() != null)
+            Drawer.drawGrh(stage.getBatch(), c.getHead()[c.getHeading().ordinal()], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
+
+        if (c.getHelmet() != null)
+            Drawer.drawGrh(stage.getBatch(), c.getHelmet()[c.getHeading().ordinal()], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
+
+        if (c.getWeapon() != null)
+            Drawer.drawGrh(stage.getBatch(), c.getWeapon()[c.getHeading().ordinal()], x, y, dp);
+
+        if (c.getShield() != null)
+            Drawer.drawGrh(stage.getBatch(), c.getShield()[c.getHeading().ordinal()], x, y, dp);
+
+
+        dp.setAnimated(true);
+
+
+        if (c.getFxIndex() != 0) {
+            Fx fxData = Main.getInstance().getAssets().getFxs().getFx(c.getFxIndex());
+            Drawer.drawGrh(stage.getBatch(), c.getFx(), x + fxData.getOffset().getX(), y + fxData.getOffset().getY(), dp);
+            if (c.getFx().getStarted() == 0) {
+                c.setFxIndex(0);
+                c.setFx(null);
             }
         }
 

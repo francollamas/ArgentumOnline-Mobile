@@ -9,7 +9,7 @@ import org.gszone.jfenix13.screens.desktop.DtPrincipal;
 public class MbCarga extends Screen {
     VisLabel lb;
 
-    public MbCarga() { super(Screen.Scr.CARGA, "mb_carga"); }
+    public MbCarga() { super(Screen.Scr.CARGA, "carga"); }
 
     @Override
     public void show() {

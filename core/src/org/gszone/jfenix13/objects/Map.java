@@ -192,6 +192,17 @@ public class Map {
 
         if (tile.isBlocked()) return false;
 
+        // Si hay un char
+        if (tile.getCharIndex() > 0) {
+
+            // QUE CARAJOS HACE ESTO??? PARA QUE SIRVE??
+            Position pos2 = Main.getInstance().getGameData().getWorld().getPos();
+            if ((tiles[(int)pos2.getX() - 1][(int)pos2.getY() - 1]).isBlocked()) return false;
+            // <<<<
+
+            
+        }
+
         return true;
     }
 

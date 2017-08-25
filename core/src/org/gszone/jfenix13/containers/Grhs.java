@@ -68,7 +68,6 @@ public class Grhs {
                 grhData.getRect().setY1(leReadShort(dis));
                 grhData.getRect().setWidth(leReadShort(dis));
                 grhData.getRect().setHeight(leReadShort(dis));
-                grhData.updateTR();
             }
 
             //Si es una animación

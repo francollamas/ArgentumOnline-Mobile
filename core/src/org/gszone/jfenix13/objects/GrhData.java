@@ -66,12 +66,9 @@ public class GrhData {
     }
 
     public TextureRegion getTR() {
+        if (tr == null)
+            tr = Drawer.getTextureRegion(Drawer.TipoTex.PRINCIPAL, fileNum, rect);
         return tr;
-    }
-
-    // Se hace al cargar los datos del Grh, ya que es un proceso lento.
-    public void updateTR() {
-        tr = Drawer.getTextureRegion(Drawer.TipoTex.PRINCIPAL, fileNum, rect);
     }
 
 }

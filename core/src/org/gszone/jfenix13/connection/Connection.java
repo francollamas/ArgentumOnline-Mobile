@@ -20,7 +20,7 @@ import java.io.*;
  * disposed: booleano que indica si va a destruir el socket (para evitar excepciones en el nuevo thread)
  */
 public class Connection {
-    public static final String IP = "201.252.50.170";
+    public static final String IP = "francollamas.ddns.net";
     public static final int PORT = 7666;
 
     private Thread thread;

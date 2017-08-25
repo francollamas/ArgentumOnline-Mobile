@@ -1,5 +1,6 @@
 package org.gszone.jfenix13.screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -39,7 +40,12 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
      */
     public Screen(Scr scrType, String background) {
         this.scrType = scrType;
-        TextureAtlas atlas = Main.getInstance().getAssets().getGDXAssets().get(getAtlasGuiDir(), TextureAtlas.class);
+        TextureAtlas atlas;
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop)
+            atlas = Main.getInstance().getAssets().getGDXAssets().get(getAtlasDtGuiDir(), TextureAtlas.class);
+        else
+            atlas = Main.getInstance().getAssets().getGDXAssets().get(getAtlasMbGuiDir(), TextureAtlas.class);
+
         this.background = null;
         if (background != null)
             this.background = new Image(atlas.findRegion("scr_" + background));

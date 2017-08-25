@@ -1,36 +1,35 @@
 package org.gszone.jfenix13.objects;
 
 import org.gszone.jfenix13.general.General;
-import org.gszone.jfenix13.graphics.Grh;
 
 /**
  * Representa a un objeto con Grh en las 4 direcciones.
  */
 public class GrhDir {
-    protected Grh[] grhs;
+    protected int[] grhsIndex;
 
     public GrhDir() {
-        grhs = new Grh[General.Direccion.values().length];
+        grhsIndex = new int[General.Direccion.values().length];
     }
 
     /**
-     * Obtiene todos los Grh
+     * Obtiene todos los GrhIndex
      */
-    public Grh[] getGrhs() {
-        return grhs;
+    public int[] getGrhsIndex() {
+        return grhsIndex;
     }
 
     /**
-     * Obtiene el Grh de una dirección
+     * Obtiene el GrhIndex de una dirección
      */
-    public Grh getGrh(General.Direccion dir) {
-        return grhs[dir.ordinal()];
+    public int getGrhIndex(General.Direccion dir) {
+        return grhsIndex[dir.ordinal()];
     }
 
     /**
-     * Setea un grh para una dirección.
+     * Setea un GrhIndex para una dirección.
      */
-    public void setGrh(General.Direccion dir, Grh grh) {
-        this.grhs[dir.ordinal()] = grh;
+    public void setGrhIndex(General.Direccion dir, int grhIndex) {
+        this.grhsIndex[dir.ordinal()] = grhIndex;
     }
 }

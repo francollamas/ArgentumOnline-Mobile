@@ -1,15 +1,12 @@
 package org.gszone.jfenix13.actors;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import org.gszone.jfenix13.general.FileNames;
-import org.gszone.jfenix13.general.General;
-import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.general.General.Direccion;
-import static org.gszone.jfenix13.general.General.Direccion.*;
 
+import static org.gszone.jfenix13.general.General.Direccion.*;
 
 public class Controller extends Touchpad {
     private static Skin tpSkin;
@@ -61,7 +58,6 @@ public class Controller extends Touchpad {
                     }
                 }
 
-
                 if (dir != null)
                     world.setMove(dir);
             }
@@ -69,7 +65,8 @@ public class Controller extends Touchpad {
     }
 
     public static void dispose() {
-        tpSkin.dispose();
+        if (tpSkin != null)
+            tpSkin.dispose();
         tpStyle = null;
     }
 }

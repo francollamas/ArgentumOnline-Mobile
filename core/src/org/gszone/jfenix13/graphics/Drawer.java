@@ -2,6 +2,7 @@ package org.gszone.jfenix13.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -103,7 +104,7 @@ public final class Drawer {
                         if (grh.getLoops() > 0)
                             grh.setLoops((short)(grh.getLoops() - 1));
                         else
-                            grh.getStarted();
+                            grh.setStarted((byte)0);
                     }
                 }
             }
@@ -139,14 +140,14 @@ public final class Drawer {
         if (reg == null) return;
 
         if (dp.isCenter()) {
-            float tileWidth = reg.getRegionWidth() / getGeneral().getTilePixelWidth();
-            float tileHeight = reg.getRegionHeight() / getGeneral().getTilePixelHeight();
+            float tileWidth = reg.getRegionWidth() / (float)getGeneral().getTilePixelWidth();
+            float tileHeight = reg.getRegionHeight() / (float)getGeneral().getTilePixelHeight();
 
             if (tileWidth != 1f)
-                x += - reg.getRegionWidth() / 2 + getGeneral().getTilePixelWidth() / 2;
+                x = x - reg.getRegionWidth() / 2 + getGeneral().getTilePixelWidth() / 2;
 
             if (tileHeight != 1f)
-                y += - reg.getRegionHeight() + getGeneral().getTilePixelHeight();
+               y = y - reg.getRegionHeight() + getGeneral().getTilePixelHeight();
         }
 
         // Transforma el Y tomando el origen arriba, por un Y tomando el origen abajo
@@ -199,34 +200,27 @@ public final class Drawer {
 
     /**
      * Devuelve una TextureRegion según el número de gráfico
-     * Es conveniente llamar a este método solo al cargar el Grh, porque es un proceso algo lento.
      */
     public static TextureRegion getTextureRegion(TipoTex tipoGrafico, int numGrafico, Rect r) {
-        TextureAtlas atlas;
         TextureRegion reg = null;
 
         switch (tipoGrafico) {
             case PRINCIPAL:
-                // Busca entre texturas chicas (menores o iguales a 1024x1024)
-                atlas = Main.getInstance().getAssets().getGDXAssets().get(getAtlasNormTexDir(), TextureAtlas.class);
-                reg = atlas.findRegion("" + numGrafico);
-
-                // Si no existe, busca entre texturas grandes (menores o iguales a 2048x2048)
-                if (reg == null) {
-                    atlas = Main.getInstance().getAssets().getGDXAssets().get(getAtlasBigTexDir(), TextureAtlas.class);
-                    reg = atlas.findRegion("" + numGrafico);
-                }
+                reg = new TextureRegion(Main.getInstance().getAssets().getTextures().getTexture(numGrafico));
                 break;
             case FUENTE:
-                atlas = Main.getInstance().getAssets().getGDXAssets().get(getAtlasFontTexDir(), TextureAtlas.class);
+                TextureAtlas atlas = Main.getInstance().getAssets().getGDXAssets().get(getAtlasFontTexDir(), TextureAtlas.class);
                 reg = atlas.findRegion("" + numGrafico);
                 break;
         }
 
+        int padding = 0;
+        if (tipoGrafico == TipoTex.PRINCIPAL)
+            padding = 16;
         // Verificamos si hay que buscar una región específica de la textura.
         if (r != null)
             if (reg != null)
-                reg = new TextureRegion(reg, (int) r.getX1(), (int) r.getY1(), (int) r.getWidth(), (int) r.getHeight());
+                reg = new TextureRegion(reg, (int) r.getX1() + padding, (int) r.getY1() + padding, (int) r.getWidth(), (int) r.getHeight());
 
         return reg;
     }

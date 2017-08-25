@@ -3,7 +3,6 @@ package org.gszone.jfenix13.containers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import org.gszone.jfenix13.general.General;
-import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.objects.GrhDir;
 
 import java.io.DataInputStream;
@@ -77,7 +76,7 @@ public class PartChar {
             // Los seteo en la parte del personaje
             if (grhIndex[0] > 0 || tipo == Tipo.WEAPON || tipo == Tipo.SHIELD) {
                 for (General.Direccion dir : General.Direccion.values())
-                    grhdir.setGrh(dir, new Grh(grhIndex[dir.ordinal()], 0));
+                    grhdir.setGrhIndex(dir, grhIndex[dir.ordinal()]);
             }
 
             grhDirs[i] = grhdir;
