@@ -141,7 +141,7 @@ public class Map {
     }
 
     public MapTile getTile(int x, int y) {
-        return tiles[x][y];
+        return tiles[x - 1][y - 1];
     }
 
     public int getNumero() {

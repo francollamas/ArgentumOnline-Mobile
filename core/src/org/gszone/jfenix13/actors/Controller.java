@@ -59,7 +59,7 @@ public class Controller extends Touchpad {
                 }
 
                 if (dir != null)
-                    world.setMove(dir);
+                    world.moveChar(dir);
             }
         }
     }

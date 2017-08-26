@@ -1,6 +1,5 @@
 package org.gszone.jfenix13.objects;
 
-
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.utils.Position;
 
@@ -9,10 +8,13 @@ import static org.gszone.jfenix13.general.General.*;
 public class Char {
     private boolean active;
     private String nombre;
+    private int nombreOffset;
     private String guildName;
+    private int guildNameOffset;
     private byte criminal;
     private boolean muerto;
     private boolean invisible;
+    private int priv;
 
     private Direccion heading;
 
@@ -29,13 +31,14 @@ public class Char {
     private Position pos;
     private Position moveDir;
     private Position moveOffset;
-    private Boolean moving;
+    private boolean moving;
 
 
 
     public Char() {
         pos = new Position();
         moveDir = new Position();
+        moveOffset = new Position();
     }
 
     public boolean isActive() {
@@ -54,12 +57,28 @@ public class Char {
         this.nombre = nombre;
     }
 
+    public int getNombreOffset() {
+        return nombreOffset;
+    }
+
+    public void setNombreOffset(int nombreOffset) {
+        this.nombreOffset = nombreOffset;
+    }
+
     public String getGuildName() {
         return guildName;
     }
 
     public void setGuildName(String guildName) {
         this.guildName = guildName;
+    }
+
+    public int getGuildNameOffset() {
+        return guildNameOffset;
+    }
+
+    public void setGuildNameOffset(int guildNameOffset) {
+        this.guildNameOffset = guildNameOffset;
     }
 
     public byte getCriminal() {
@@ -84,6 +103,14 @@ public class Char {
 
     public void setInvisible(boolean invisible) {
         this.invisible = invisible;
+    }
+
+    public int getPriv() {
+        return priv;
+    }
+
+    public void setPriv(int priv) {
+        this.priv = priv;
     }
 
     public Direccion getHeading() {
@@ -190,11 +217,11 @@ public class Char {
         this.moveOffset = moveOffset;
     }
 
-    public Boolean getMoving() {
+    public boolean isMoving() {
         return moving;
     }
 
-    public void setMoving(Boolean moving) {
+    public void setMoving(boolean moving) {
         this.moving = moving;
     }
 }

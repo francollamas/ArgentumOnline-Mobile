@@ -1,6 +1,9 @@
 package org.gszone.jfenix13.containers;
 
+import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.objects.Char;
+import org.gszone.jfenix13.utils.Position;
 
 /**
  * Contiene a los usuarios que el cliente va mostrando
@@ -12,6 +15,21 @@ public class Chars {
 
     public Chars() {
         chars = new Char[10000];
+    }
+
+    public void moveChar(int index, General.Direccion dir, Position relPos, Position absPos) {
+        Char c = chars[index];
+
+        Main.getInstance().getAssets().getMapa().getTile((int)absPos.getX(), (int)absPos.getY()).setCharIndex(index);
+        Main.getInstance().getAssets().getMapa().getTile((int)c.getPos().getX(), (int)c.getPos().getY()).setCharIndex(0);
+        c.setPos(absPos);
+
+        c.setHeading(dir);
+        c.getMoveOffset().setX(-1 * Main.getInstance().getGeneral().getTilePixelWidth() * relPos.getX());
+        c.getMoveOffset().setY(-1 * Main.getInstance().getGeneral().getTilePixelHeight() * relPos.getY());
+
+        c.setMoveDir(relPos);
+        c.setMoving(true);
     }
 
     public Char getChar(int index) {

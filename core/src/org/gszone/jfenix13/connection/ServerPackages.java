@@ -2,12 +2,14 @@ package org.gszone.jfenix13.connection;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.general.Main;
+import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.objects.Char;
 import org.gszone.jfenix13.screens.Screen;
@@ -128,6 +130,7 @@ public class ServerPackages {
 
     public GameData getGD() { return Main.getInstance().getGameData(); }
     public Assets getAssets() { return Main.getInstance().getAssets(); }
+    private Stage getActStage() { return ((Screen)Main.getInstance().getScreen()).getStage(); }
 
     /**
      * Ejecuta el método correspondiente al ID del paquete recibido.
@@ -297,21 +300,16 @@ public class ServerPackages {
 
         Char user = getGD().getChars().getChar(index);
 
-        // TODO: verificar este problema, quiere cargar un FX 0 que no existe
-        //Grh grh = new Grh(getAssets().getFxs().getFx(readShort(bytes)).getGrhIndex());
-        //grh.setLoops(readShort(bytes));
-        //user.setFx(grh);
-
-        // TODO: borrar estas dos lecturas si es que llego a solucionar el problema de arriba
+        // Lecturas innecesarias (fx y loop, pero no se usan)
         readShort(bytes);
         readShort(bytes);
 
 
         user.setNombre(readString(bytes));
-        // TODO: nombre offset
+        user.setNombreOffset((int)(Drawer.getTextWidth(3, user.getNombre()) / 2));
 
         user.setGuildName(readString(bytes));
-        // TODO: guild offset
+        user.setGuildNameOffset((int)(Drawer.getTextWidth(3, user.getGuildName()) / 2));
 
         user.setCriminal(readByte(bytes));
         privs = readByte(bytes);
@@ -438,10 +436,11 @@ public class ServerPackages {
     }
 
     private void handleErrorMsg(Array<Byte> bytes) {
-        Dialogs.showOKDialog(((Screen)Main.getInstance().getScreen()).getStage(), "Error", readString(bytes));
+        Dialogs.showOKDialog(getActStage(), "Error", readString(bytes));
     }
 
     private void handleShowMessageBox(Array<Byte> bytes) {
-        Dialogs.showOKDialog(((Screen)Main.getInstance().getScreen()).getStage(), "Mensaje del Servidor", readString(bytes));
+        Dialogs.showOKDialog(getActStage(), "Mensaje del Servidor", readString(bytes));
     }
+
 }

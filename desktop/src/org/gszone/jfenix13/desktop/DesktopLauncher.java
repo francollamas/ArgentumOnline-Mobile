@@ -23,9 +23,9 @@ public class DesktopLauncher {
 		config.addIcon(getIconDir(), FileType.Internal);
 
 		// Descomentar para liberar FPS!
-		config.vSyncEnabled = false;
-		config.foregroundFPS = 0;
-		config.backgroundFPS = 0;
+		//config.vSyncEnabled = false;
+		//config.foregroundFPS = 0;
+		//config.backgroundFPS = 0;
 
 		new LwjglApplication(new Main(), config);
 	}

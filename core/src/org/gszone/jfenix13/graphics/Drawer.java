@@ -225,6 +225,32 @@ public final class Drawer {
         return reg;
     }
 
+    /**
+     * Obtiene el ancho de un texto
+     */
+    public static float getTextWidth(int numFont, String text) {
+        Font[] fonts = Main.getInstance().getAssets().getFonts().getFonts();
+        if (text.length() == 0) return 0;
+        if (numFont < 1 || numFont > fonts.length) return 0;
+
+        CharFont c;
+        int tempX = 0;
+        Font font = fonts[numFont - 1];
+
+
+        for (int i = 0; i < text.length(); i++) {
+            // Si el caracter no existe lo reemplaza por '?'
+            try {
+                c = font.getChars()[text.charAt(i)];
+            } catch (ArrayIndexOutOfBoundsException ex){
+                c = font.getChars()[63];
+            }
+            tempX += (c.getWidth() + font.getOffset()) * dp.getScaleX();
+        }
+
+        return tempX;
+    }
+
     public static void drawText(Batch batch, int numFont, String text, float x, float y) {
         drawText(batch, numFont, text, x, y, dp);
     }
@@ -245,7 +271,7 @@ public final class Drawer {
 
 
         for (int i = 0; i < text.length(); i++) {
-            // Si el caracter no existe muestra un '?'
+            // Si el caracter no existe lo reemplaza por '?'
             try {
                 c = font.getChars()[text.charAt(i)];
             } catch (ArrayIndexOutOfBoundsException ex){

@@ -46,7 +46,7 @@ public class Position {
     }
 
     /**
-     * Obtener la suma de la posición actual y una pasada por parámetro
+     * Obtener la suma de la posición actual y una pasada por parámetro (no modifica la pos original)
      */
     public Position getSuma(Position pos) {
         Position p = new Position(this.getX(), this.getY());

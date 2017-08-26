@@ -1,6 +1,7 @@
 package org.gszone.jfenix13.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -96,19 +97,20 @@ public class World extends Actor {
     }
 
     public void moveChar(Direccion dir) {
-        setMove(dir);
+        Position relPos = Position.dirToPos(dir);
+        Position absPos = pos.getSuma(relPos);
+        if (!getMapa().isLegalPos(absPos)) return;
+
+        int index = Main.getInstance().getGameData().getCurrentUser().getIndexInServer();
+        Main.getInstance().getGameData().getChars().moveChar(index, dir, relPos, absPos);
+        setMove(relPos, absPos);
     }
 
 
     /**
-     * Determina si la pantalla se tiene que mover hacia alguna dirección.
+     * Mueve la pantalla a una dirección
      */
-    public void setMove(Direccion dir) {
-        Position relPos = Position.dirToPos(dir);
-        Position absPos = pos.getSuma(relPos);
-
-        if (!getMapa().isLegalPos(absPos)) return;
-
+    private void setMove(Position relPos, Position absPos) {
         pos = absPos;
         addToPos = relPos;
         moving = true;
@@ -222,7 +224,7 @@ public class World extends Actor {
             tempPos.setY(screen.getY() * getGeneral().getTilePixelHeight() + offset.getY());
             for (x = (int)screenTile.getX1(); x <= (int)screenTile.getX2(); x++) {
                 tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
-                tile = getMapa().getTile(x - 1, y - 1);
+                tile = getMapa().getTile(x, y);
 
                 // Capa 1
                 Drawer.drawGrh(stage.getBatch(), tile.getCapa(0), tempPos.getX(), tempPos.getY(), dpA);
@@ -246,7 +248,7 @@ public class World extends Actor {
             tempPos.setY(screen.getY() * getGeneral().getTilePixelHeight() + offset.getY());
             for (x = (int)screenBigTile.getX1(); x <= (int)screenBigTile.getX2(); x++) {
                 tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
-                tile = getMapa().getTile(x - 1, y - 1);
+                tile = getMapa().getTile(x, y);
 
                 // Objetos
                 if (tile.getObjeto() != null)
@@ -255,7 +257,7 @@ public class World extends Actor {
 
                 // Personajes
                 if (tile.getCharIndex() != 0)
-                    drawChar(stage, tile.getCharIndex(), tempPos.getX() - 32, tempPos.getY() - 32, dpAC);
+                    drawChar(stage, tile.getCharIndex(), tempPos.getX(), tempPos.getY(), dpAC);
 
                 // Capa 3
                 if (tile.getCapa(2) != null)
@@ -276,7 +278,7 @@ public class World extends Actor {
                 tempPos.setY(screen.getY() * getGeneral().getTilePixelHeight() + offset.getY());
                 for (x = (int) screenBigTile.getX1(); x <= (int) screenBigTile.getX2(); x++) {
                     tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
-                    tile = getMapa().getTile(x - 1, y - 1);
+                    tile = getMapa().getTile(x, y);
 
                     // Capa 4
                     if (tile.getCapa(3) != null)
@@ -293,27 +295,88 @@ public class World extends Actor {
 
     private void drawChar(Stage stage, int charIndex, float x, float y, DrawParameter dp) {
         Char c = Main.getInstance().getGameData().getChars().getChar(charIndex);
+        int heading = c.getHeading().ordinal();
+        boolean moved = false;
 
-        dp.setAnimated(false);
-        Body bodyData = Main.getInstance().getAssets().getBodies().getBody(c.getBodyIndex());
-        if (c.getBody() != null) {
-            Drawer.drawGrh(stage.getBatch(), c.getBody()[c.getHeading().ordinal()], x, y, dp);
+        // Movimiento del char
+        if (c.isMoving()) {
+
+            if (c.getMoveDir().getX() != 0 || c.getMoveDir().getY() != 0) {
+                // Arranco las animaciones
+                if (c.getBody()[heading].getSpeed() > 0) c.getBody()[heading].setStarted((byte)1);
+                c.getWeapon()[heading].setStarted((byte)1);
+                c.getShield()[heading].setStarted((byte)1);
+                moved = true;
+
+
+                // Muevo en X
+                if (c.getMoveDir().getX() != 0) {
+                    c.getMoveOffset().setX(c.getMoveOffset().getX()
+                            + Main.getInstance().getGeneral().getScrollPixelsPerFrame() * c.getMoveDir().getX() * Drawer.getDelta());
+
+                    if ((c.getMoveDir().getX() == 1 && c.getMoveOffset().getX() >= 0)
+                            || c.getMoveDir().getX() == -1 && c.getMoveOffset().getX() <= 0) {
+                        c.getMoveOffset().setX(0);
+                        c.getMoveDir().setX(0);
+                    }
+                }
+
+                // Muevo en Y
+                if (c.getMoveDir().getY() != 0) {
+                    c.getMoveOffset().setY(c.getMoveOffset().getY()
+                            + Main.getInstance().getGeneral().getScrollPixelsPerFrame() * c.getMoveDir().getY() * Drawer.getDelta());
+
+                    if ((c.getMoveDir().getY() == 1 && c.getMoveOffset().getY() >= 0)
+                            || c.getMoveDir().getY() == -1 && c.getMoveOffset().getY() <= 0) {
+                        c.getMoveOffset().setY(0);
+                        c.getMoveDir().setY(0);
+                    }
+                }
+
+            }
         }
 
-        if (c.getHead() != null)
-            Drawer.drawGrh(stage.getBatch(), c.getHead()[c.getHeading().ordinal()], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
+        // Si no se movió (o sea, si no pasó por el trozo de código de arriba)
+        if (!moved) {
+            c.getBody()[heading].setStarted((byte)0);
+            c.getBody()[heading].setFrame(1);
 
-        if (c.getHelmet() != null)
-            Drawer.drawGrh(stage.getBatch(), c.getHelmet()[c.getHeading().ordinal()], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
+            c.getWeapon()[heading].setStarted((byte)0);
+            c.getWeapon()[heading].setFrame(1);
 
-        if (c.getWeapon() != null)
-            Drawer.drawGrh(stage.getBatch(), c.getWeapon()[c.getHeading().ordinal()], x, y, dp);
+            c.getShield()[heading].setStarted((byte)0);
+            c.getShield()[heading].setFrame(1);
+        }
 
-        if (c.getShield() != null)
-            Drawer.drawGrh(stage.getBatch(), c.getShield()[c.getHeading().ordinal()], x, y, dp);
+        x += c.getMoveOffset().getX();
+        y += c.getMoveOffset().getY();
 
+        // Si no tiene cabeza, no renderizamos nada
+        if (c.getHead() != null) {
+            if (!c.isInvisible()) {
+                Body bodyData = Main.getInstance().getAssets().getBodies().getBody(c.getBodyIndex());
+                if (c.getBody() != null)
+                    Drawer.drawGrh(stage.getBatch(), c.getBody()[heading], x, y, dp);
 
-        dp.setAnimated(true);
+                if (c.getHead() != null)
+                    Drawer.drawGrh(stage.getBatch(), c.getHead()[heading], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
+
+                if (c.getHelmet() != null)
+                    Drawer.drawGrh(stage.getBatch(), c.getHelmet()[heading], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
+
+                if (c.getWeapon() != null)
+                    Drawer.drawGrh(stage.getBatch(), c.getWeapon()[heading], x, y, dp);
+
+                if (c.getShield() != null)
+                    Drawer.drawGrh(stage.getBatch(), c.getShield()[heading], x, y, dp);
+
+                DrawParameter dpp = new DrawParameter();
+                dpp.setColor(new Color(0, 0.5f, 1f, 1f));
+
+                if (c.getNombre().length() > 0)
+                    Drawer.drawText(stage.getBatch(), 3, c.getNombre(), x - c.getNombreOffset() + 16, y + 30, dpp);
+            }
+        }
 
 
         if (c.getFxIndex() != 0) {
@@ -345,7 +408,7 @@ public class World extends Actor {
      * Activa el flag para ver los techos, según el trigger del tile donde se está.
      */
     public void setTecho() {
-        MapTile tile = getMapa().getTile((int)pos.getX() - 1, (int)pos.getY() - 1);
+        MapTile tile = getMapa().getTile((int)pos.getX(), (int)pos.getY());
         this.techo = tile.getTrigger() == 1 || tile.getTrigger() == 2 || tile.getTrigger() == 4;
     }
 
