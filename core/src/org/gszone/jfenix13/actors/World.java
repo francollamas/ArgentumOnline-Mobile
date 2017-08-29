@@ -80,19 +80,14 @@ public class World extends Actor {
     }
 
     /**
-     * Mueve la pantalla según la entrada del teclado
+     * Inicia el movimiento del pj y mundo hacia una dirección
      */
     public void checkKeys() {
         if (!isMoving()) {
-            if (Gdx.input.isKeyPressed(UP)) {
-                moveChar(Direccion.NORTE);
-            } else if (Gdx.input.isKeyPressed(RIGHT)) {
-                moveChar(Direccion.ESTE);
-            } else if (Gdx.input.isKeyPressed(DOWN)) {
-                moveChar(Direccion.SUR);
-            } else if (Gdx.input.isKeyPressed(LEFT)) {
-                moveChar(Direccion.OESTE);
-            }
+            if (Gdx.input.isKeyPressed(UP)) moveChar(Direccion.NORTE);
+            else if (Gdx.input.isKeyPressed(RIGHT)) moveChar(Direccion.ESTE);
+            else if (Gdx.input.isKeyPressed(DOWN)) moveChar(Direccion.SUR);
+            else if (Gdx.input.isKeyPressed(LEFT)) moveChar(Direccion.OESTE);
         }
     }
 
@@ -102,7 +97,8 @@ public class World extends Actor {
         if (!getMapa().isLegalPos(absPos)) return;
 
         int index = Main.getInstance().getGameData().getCurrentUser().getIndexInServer();
-        Main.getInstance().getGameData().getChars().moveChar(index, dir, relPos, absPos);
+        Main.getInstance().getConnection().getClPack().writeWalk(dir);
+        Main.getInstance().getGameData().getChars().moveChar(index, dir);
         setMove(relPos, absPos);
     }
 
@@ -114,7 +110,6 @@ public class World extends Actor {
         pos = absPos;
         addToPos = relPos;
         moving = true;
-
         setTecho();
     }
 
@@ -124,7 +119,8 @@ public class World extends Actor {
      * (se ejecuta constantemente)
      */
     public void move() {
-        if (moving) {
+
+        if (isMoving()) {
             if (addToPos.getX() != 0) {
                 offset.addX(-getGeneral().getScrollPixelsPerFrame() * addToPos.getX() * Drawer.getDelta());
                 if (Math.abs(offset.getX()) >= Math.abs(getGeneral().getTilePixelWidth() * addToPos.getX())) {
@@ -252,8 +248,8 @@ public class World extends Actor {
 
                 // Objetos
                 if (tile.getObjeto() != null)
-                    if (tile.getObjeto().getGrh() != null)
-                        Drawer.drawGrh(stage.getBatch(), tile.getObjeto().getGrh(), tempPos.getX(), tempPos.getY(), dpAC);
+                    if (tile.getObjeto() != null)
+                        Drawer.drawGrh(stage.getBatch(), tile.getObjeto(), tempPos.getX(), tempPos.getY(), dpAC);
 
                 // Personajes
                 if (tile.getCharIndex() != 0)
@@ -293,6 +289,9 @@ public class World extends Actor {
 
     }
 
+    /**
+     * Dibuja a un char. (es llamado por el método render())
+     */
     private void drawChar(Stage stage, int charIndex, float x, float y, DrawParameter dp) {
         Char c = Main.getInstance().getGameData().getChars().getChar(charIndex);
         int heading = c.getHeading().ordinal();
@@ -346,37 +345,38 @@ public class World extends Actor {
 
             c.getShield()[heading].setStarted((byte)0);
             c.getShield()[heading].setFrame(1);
+
+            c.setMoving(false);
         }
 
         x += c.getMoveOffset().getX();
         y += c.getMoveOffset().getY();
 
-        // Si no tiene cabeza, no renderizamos nada
-        if (c.getHead() != null) {
-            if (!c.isInvisible()) {
-                Body bodyData = Main.getInstance().getAssets().getBodies().getBody(c.getBodyIndex());
-                if (c.getBody() != null)
-                    Drawer.drawGrh(stage.getBatch(), c.getBody()[heading], x, y, dp);
 
-                if (c.getHead() != null)
-                    Drawer.drawGrh(stage.getBatch(), c.getHead()[heading], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
+        if (!c.isInvisible()) {
+            Body bodyData = Main.getInstance().getAssets().getBodies().getBody(c.getBodyIndex());
+            if (c.getBody() != null)
+                Drawer.drawGrh(stage.getBatch(), c.getBody()[heading], x, y, dp);
 
-                if (c.getHelmet() != null)
-                    Drawer.drawGrh(stage.getBatch(), c.getHelmet()[heading], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
+            if (c.getHead() != null)
+                Drawer.drawGrh(stage.getBatch(), c.getHead()[heading], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
 
-                if (c.getWeapon() != null)
-                    Drawer.drawGrh(stage.getBatch(), c.getWeapon()[heading], x, y, dp);
+            if (c.getHelmet() != null)
+                Drawer.drawGrh(stage.getBatch(), c.getHelmet()[heading], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
 
-                if (c.getShield() != null)
-                    Drawer.drawGrh(stage.getBatch(), c.getShield()[heading], x, y, dp);
+            if (c.getWeapon() != null)
+                Drawer.drawGrh(stage.getBatch(), c.getWeapon()[heading], x, y, dp);
 
-                DrawParameter dpp = new DrawParameter();
-                dpp.setColor(new Color(0, 0.5f, 1f, 1f));
+            if (c.getShield() != null)
+                Drawer.drawGrh(stage.getBatch(), c.getShield()[heading], x, y, dp);
 
-                if (c.getNombre().length() > 0)
-                    Drawer.drawText(stage.getBatch(), 3, c.getNombre(), x - c.getNombreOffset() + 16, y + 30, dpp);
-            }
+            DrawParameter dpp = new DrawParameter();
+            dpp.setColor(new Color(0, 0.5f, 1f, 1f));
+
+            if (c.getNombre().length() > 0)
+                Drawer.drawText(stage.getBatch(), 3, c.getNombre(), x + c.getNombreOffset(), y + 30, dpp);
         }
+
 
 
         if (c.getFxIndex() != 0) {

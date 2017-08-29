@@ -80,7 +80,7 @@ public class Grhs {
                 }
 
                 // Propiedades de la animación
-                grhData.setSpeed(leReadFloat(dis) / 34.67f);
+                grhData.setSpeed(leReadFloat(dis) / 45f);
                 grhData.getRect().setWidth(getGrhData(grhData.getFrame((short)0)).getRect().getWidth());
                 grhData.getRect().setHeight(getGrhData(grhData.getFrame((short)0)).getRect().getHeight());
             }

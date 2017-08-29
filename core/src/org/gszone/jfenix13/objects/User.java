@@ -2,6 +2,7 @@ package org.gszone.jfenix13.objects;
 
 /**
  * Representa al usuario actual
+ * indexInServer: es el número de index del pj actual (sirve para buscarlo entre los chars).
  */
 public class User {
     private int index;

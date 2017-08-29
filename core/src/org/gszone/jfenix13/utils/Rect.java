@@ -15,8 +15,8 @@ import static org.gszone.jfenix13.general.General.*;
  * (x1, y1 + height) ------------ (x1 + width, y1 + height)
  */
 public class Rect {
-    private float x1, y1;
-    private float width, height;
+    protected float x1, y1;
+    protected float width, height;
 
     public Rect() {
 

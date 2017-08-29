@@ -6,6 +6,7 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Queue;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.screens.Screen;
@@ -20,7 +21,8 @@ import java.io.*;
  * disposed: booleano que indica si va a destruir el socket (para evitar excepciones en el nuevo thread)
  */
 public class Connection {
-    public static final String IP = "francollamas.ddns.net";
+    //public static final String IP = "francollamas.ddns.net";
+    public static final String IP = "127.0.0.1";
     public static final int PORT = 7666;
 
     private Thread thread;
@@ -59,15 +61,15 @@ public class Connection {
             return false;
         }
 
-        if (socket.isConnected()) listen();
+        if (socket.isConnected()) sendAndListen();
         return true;
     }
 
 
     /**
-     * Escucha datos del servidor
+     * Recibe y envía datos al servidor
      */
-    public void listen() {
+    public void sendAndListen() {
         // Escuchamos en un nuevo thread para que no afecte al juego
         thread = new Thread(new Runnable() {
 
@@ -79,6 +81,13 @@ public class Connection {
 
                         // Si el socket está desconectado o se está por destruir no sigue.
                         if (disposed || !socket.isConnected()) return;
+
+                        // Mandamos lo que haya para mandar...
+                        Queue<Array<Byte>> cola = clPack.getCola();
+                        int size = cola.size;
+                        for (int i = 0; i < size; i++)
+                            write(cola.removeFirst());
+
                         // Si hay datos entrantes...
                         if (socket.getInputStream().available() > 0) {
                             BufferedInputStream buffer = new BufferedInputStream(socket.getInputStream());

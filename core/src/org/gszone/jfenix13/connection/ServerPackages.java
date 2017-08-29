@@ -12,12 +12,16 @@ import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.objects.Char;
+import org.gszone.jfenix13.objects.MapTile;
+import org.gszone.jfenix13.objects.Objeto;
 import org.gszone.jfenix13.screens.Screen;
 import org.gszone.jfenix13.screens.desktop.DtPrincipal;
 import org.gszone.jfenix13.screens.mobile.MbPrincipal;
 
 import static org.gszone.jfenix13.utils.Bytes.*;
 import org.gszone.jfenix13.general.General.Direccion;
+import org.gszone.jfenix13.utils.Position;
+import org.gszone.jfenix13.utils.Rect;
 
 /**
  * Clase con los paquetes que vienen del servidor y el cliente tiene que procesar
@@ -147,7 +151,7 @@ public class ServerPackages {
             ID id = ID.values()[readByte(bytes)];
 
             // TODO: borrar sout
-            //System.out.println(id.ordinal());
+            System.out.println(id.ordinal());
 
             switch (id) {
                 case CreateFX:
@@ -203,7 +207,27 @@ public class ServerPackages {
                     break;
                 case ShowMessageBox:
                     handleShowMessageBox(bytes);
+                    break;
+                case ObjectCreate:
+                    handleObjectCreate(bytes);
+                    break;
+                case ObjectDelete:
+                    handleObjectDelete(bytes);
+                    break;
+                case BlockPosition:
+                    handleBlockPosition(bytes);
+                    break;
+                case CharacterMove:
+                    handleCharacterMove(bytes);
+                    break;
+                case PosUpdate:
+                    handlePosUpdate(bytes);
+                    break;
+                case ConsoleMsg:
+                    handleConsoleMsg(bytes);
+                    break;
                 default:
+                    System.out.println("se rompió...");
                     broken = true;
                     break;
             }
@@ -275,13 +299,43 @@ public class ServerPackages {
         if (num > 0)
             getAssets().getAudio().playMusic(num);
 
-        readShort(bytes); // TODO: corresponde a los LOOPS, pero CONSIDERO que todas las musicas se van a repetir
+        // Corresponde a los loops, pero considero que todas las músicas se repiten infinitamente
+        readShort(bytes);
     }
 
+
     private void handleAreaChanged(Array<Byte> bytes) {
-        readByte(bytes);
-        readByte(bytes);
-        // TODO: hacer el cambio de area con el X e Y que acabo de recibir
+        // Los valores están hardcodeados, no dependen del tamaño del mapa
+        Rect area = Main.getInstance().getGameData().getArea();
+        int x = readByte(bytes);
+        int y = readByte(bytes);
+        Position pos = new Position(x, y);
+
+        area.setX1((x / 11 - 1) * 11);
+        area.setWidth(32);
+
+        area.setY1((y / 11 - 1) * 11);
+        area.setHeight(32);
+
+        for (int i = 1; i <= 100; i++) {
+            for (int j = 1; j <= 100; j++) {
+                if (!area.isPointIn(pos)) {
+                    // Borro usuarios y npcs.
+                    MapTile tile = Main.getInstance().getAssets().getMapa().getTile(i, j);
+                    if (tile.getCharIndex() > 0) {
+                        if (tile.getCharIndex() != Main.getInstance().getGameData().getCurrentUser().getIndexInServer()) {
+                            Main.getInstance().getGameData().getChars().deleteChar(tile.getCharIndex());
+                        }
+                    }
+
+                    // TODO: borrar objetos
+                    tile.setObjeto(null);
+                }
+            }
+        }
+
+
+
     }
 
     private void handleCharacterCreate(Array<Byte> bytes) {
@@ -297,24 +351,23 @@ public class ServerPackages {
         int helmet = readShort(bytes);
         byte privs;
 
-
         Char user = getGD().getChars().getChar(index);
 
         // Lecturas innecesarias (fx y loop, pero no se usan)
         readShort(bytes);
         readShort(bytes);
 
-
         user.setNombre(readString(bytes));
-        user.setNombreOffset((int)(Drawer.getTextWidth(3, user.getNombre()) / 2));
+        user.setNombreOffset(-(int)(Drawer.getTextWidth(3, user.getNombre()) / 2) + Main.getInstance().getGeneral().getTilePixelWidth() / 2);
 
         user.setGuildName(readString(bytes));
-        user.setGuildNameOffset((int)(Drawer.getTextWidth(3, user.getGuildName()) / 2));
+        user.setGuildNameOffset(-(int)(Drawer.getTextWidth(3, user.getGuildName()) / 2) + Main.getInstance().getGeneral().getTilePixelWidth() / 2);
 
         user.setCriminal(readByte(bytes));
-        privs = readByte(bytes);
-        // TODO: manejar privilegios (es un if largo)
 
+        privs = readByte(bytes);
+        user.setPriv((int)(Math.log(privs) / Math.log(2)));
+        // TODO: manejar privilegios (es un if largo)
 
         // Actualizamos el atributo lastChar. (para saber cual es el index del char con nro mas alto)
         if (index > getGD().getChars().getLastChar()) getGD().getChars().setLastChar(index);
@@ -371,8 +424,6 @@ public class ServerPackages {
 
 
         user.setHeading(General.Direccion.values()[heading - 1]);
-
-
         user.getPos().setX(x);
         user.getPos().setY(y);
         user.setActive(true);
@@ -441,6 +492,48 @@ public class ServerPackages {
 
     private void handleShowMessageBox(Array<Byte> bytes) {
         Dialogs.showOKDialog(getActStage(), "Mensaje del Servidor", readString(bytes));
+    }
+
+    private void handleObjectCreate(Array<Byte> bytes) {
+        int x = readByte(bytes);
+        int y = readByte(bytes);
+        MapTile tile = Main.getInstance().getAssets().getMapa().getTile(x, y);
+
+        tile.setObjeto(new Grh(readShort(bytes)));
+    }
+
+    private void handleObjectDelete(Array<Byte> bytes) {
+        int x = readByte(bytes);
+        int y = readByte(bytes);
+        MapTile tile = Main.getInstance().getAssets().getMapa().getTile(x, y);
+
+        tile.setObjeto(null);
+    }
+
+    private void handleBlockPosition(Array<Byte> bytes) {
+        int x = readByte(bytes);
+        int y = readByte(bytes);
+        MapTile tile = Main.getInstance().getAssets().getMapa().getTile(x, y);
+
+        tile.setBlocked(readBoolean(bytes));
+    }
+
+    private void handleCharacterMove(Array<Byte> bytes) {
+        int index = readShort(bytes);
+        int x = readByte(bytes);
+        int y = readByte(bytes);
+
+        Main.getInstance().getGameData().getChars().moveChar(index, x, y);
+    }
+
+    private void handlePosUpdate(Array<Byte> bytes) {
+        readByte(bytes);
+        readByte(bytes);
+    }
+
+    private void handleConsoleMsg(Array<Byte> bytes) {
+        readString(bytes);
+        readByte(bytes);
     }
 
 }

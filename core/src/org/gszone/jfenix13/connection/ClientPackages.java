@@ -1,6 +1,8 @@
 package org.gszone.jfenix13.connection;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Queue;
+import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.general.Main;
 
 import static org.gszone.jfenix13.utils.Bytes.*;
@@ -107,14 +109,25 @@ public class ClientPackages {
     }
 
     private Array<Byte> bytes;
+    private Queue<Array<Byte>> cola;
+
+    public Queue<Array<Byte>> getCola() {
+        return cola;
+    }
 
     public ClientPackages() {
         bytes = new Array();
+        cola = new Queue();
     }
 
+    /**
+     * Agrega el array pendiente a la cola, y lo vacía para mas escritura de paquetes
+     */
     public void write() {
-        Main.getInstance().getConnection().write(bytes);
-        bytes.clear();
+        if (bytes.size > 0) {
+            cola.addLast(bytes);
+            bytes = new Array();
+        }
     }
 
     /**
@@ -127,5 +140,15 @@ public class ClientPackages {
         writeByte(bytes, (byte) 0);
         writeByte(bytes, (byte) 13);
         writeByte(bytes, (byte) 0);
+    }
+
+    public void writeWalk(General.Direccion dir) {
+        writeByte(bytes, (byte)ID.Walk.ordinal());
+        writeByte(bytes, (byte)(dir.ordinal() + 1));
+    }
+
+    public void writeChangeHeading(General.Direccion dir) {
+        writeByte(bytes, (byte)ID.ChangeHeading.ordinal());
+        writeByte(bytes, (byte)(dir.ordinal() + 1));
     }
 }

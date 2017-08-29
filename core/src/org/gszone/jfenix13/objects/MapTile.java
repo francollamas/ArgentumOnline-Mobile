@@ -12,7 +12,7 @@ public class MapTile {
     private Grh[] capas;
     private int charIndex;
     private int npcIndex;
-    private Objeto objeto;
+    private Grh objeto;
 
     private boolean blocked;
     private int trigger;
@@ -59,11 +59,11 @@ public class MapTile {
         this.npcIndex = npcIndex;
     }
 
-    public Objeto getObjeto() {
+    public Grh getObjeto() {
         return objeto;
     }
 
-    public void setObjeto(Objeto objeto) {
+    public void setObjeto(Grh objeto) {
         this.objeto = objeto;
     }
 

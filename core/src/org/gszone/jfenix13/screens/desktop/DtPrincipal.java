@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import org.gszone.jfenix13.actors.Controller;
+import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.actors.World;
@@ -54,8 +55,10 @@ public class DtPrincipal extends Screen {
         
         Drawer.pushScissors(stage, getWorld().getRect());
         getWorld().checkKeys();
+        getClPack().write();
         getWorld().move();
         getWorld().render(stage);
+
         Drawer.setDefColor(Color.WHITE);
         Drawer.popScissors(stage);
 

@@ -2,7 +2,6 @@ package org.gszone.jfenix13.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -17,12 +16,10 @@ import org.gszone.jfenix13.objects.CharFont;
 import org.gszone.jfenix13.objects.Font;
 import org.gszone.jfenix13.objects.GrhData;
 import org.gszone.jfenix13.utils.Rect;
-
 import java.util.Stack;
 
 import static com.badlogic.gdx.graphics.GL20.GL_ONE_MINUS_SRC_ALPHA;
 import static com.badlogic.gdx.graphics.GL20.GL_SRC_ALPHA;
-import static org.gszone.jfenix13.general.General.*;
 import static org.gszone.jfenix13.general.FileNames.*;
 
 /**
@@ -214,6 +211,7 @@ public final class Drawer {
                 break;
         }
 
+        // Hardcode: arranco a partir del pixel (16,16), ya que los gráficos tienen bordes blancos (para evitar problemas gráficos)
         int padding = 0;
         if (tipoGrafico == TipoTex.PRINCIPAL)
             padding = 16;
