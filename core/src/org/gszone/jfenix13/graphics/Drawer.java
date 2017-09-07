@@ -31,6 +31,7 @@ import static org.gszone.jfenix13.general.FileNames.*;
  */
 public final class Drawer {
     public enum TipoTex {PRINCIPAL, FUENTE}
+    public enum Alignment {LEFT, CENTER, RIGHT}
 
 
     public static Stack<Rectangle> containerRect;
@@ -223,37 +224,14 @@ public final class Drawer {
         return reg;
     }
 
+    public static void drawText(Batch batch, int numFont, String text, float x, float y, Alignment a) {
+        drawText(batch, numFont, text, x, y, a, dp);
+    }
+
     /**
-     * Obtiene el ancho de un texto
+     * Dibuja texto en pantalla
      */
-    public static float getTextWidth(int numFont, String text) {
-        Font[] fonts = Main.getInstance().getAssets().getFonts().getFonts();
-        if (text.length() == 0) return 0;
-        if (numFont < 1 || numFont > fonts.length) return 0;
-
-        CharFont c;
-        int tempX = 0;
-        Font font = fonts[numFont - 1];
-
-
-        for (int i = 0; i < text.length(); i++) {
-            // Si el caracter no existe lo reemplaza por '?'
-            try {
-                c = font.getChars()[text.charAt(i)];
-            } catch (ArrayIndexOutOfBoundsException ex){
-                c = font.getChars()[63];
-            }
-            tempX += (c.getWidth() + font.getOffset()) * dp.getScaleX();
-        }
-
-        return tempX;
-    }
-
-    public static void drawText(Batch batch, int numFont, String text, float x, float y) {
-        drawText(batch, numFont, text, x, y, dp);
-    }
-
-    public static void drawText(Batch batch, int numFont, String text, float x, float y, DrawParameter dp) {
+    public static void drawText(Batch batch, int numFont, String text, float x, float y, Alignment a, DrawParameter dp) {
         Font[] fonts = Main.getInstance().getAssets().getFonts().getFonts();
         if (text.length() == 0) {
             return;
@@ -263,22 +241,38 @@ public final class Drawer {
             return;
         }
 
-        CharFont c;
-        int tempX = 0;
         Font font = fonts[numFont - 1];
+        CharFont[] chars = new CharFont[text.length()];
+        int[] charOffset = new int[text.length() + 1];
+        charOffset[0] = 0;
 
-
+        int width = 0;
         for (int i = 0; i < text.length(); i++) {
             // Si el caracter no existe lo reemplaza por '?'
             try {
-                c = font.getChars()[text.charAt(i)];
+                chars[i] = font.getChars()[text.charAt(i)];
             } catch (ArrayIndexOutOfBoundsException ex){
-                c = font.getChars()[63];
+                chars[i] = font.getChars()[63];
             }
 
-            draw(batch, c.getTR(), tempX + x, y, dp);
-            tempX += (c.getWidth() + font.getOffset()) * dp.getScaleX();
+            width += (chars[i].getWidth() + font.getOffset()) * dp.getScaleX();
+            charOffset[i + 1] = width;
         }
+
+        int start = 0;
+        switch (a) {
+            case CENTER:
+                start = - (width / 2);
+                break;
+            case RIGHT:
+                start = -width;
+                break;
+        }
+
+        for (int i = 0; i < chars.length; i++) {
+            draw(batch, chars[i].getTR(), x + start + charOffset[i], y, dp);
+        }
+
     }
 
     /**
@@ -293,10 +287,12 @@ public final class Drawer {
         return defColor;
     }
 
+    // Setea el color por default, con valores de 0 a 255
     public static void setDefColor(int r, int g, int b, int a) {
         setDefColor((float)r/255, (float)g/255, (float)b/255, (float)a/255);
     }
 
+    // Setea el color por default, con valores de 0 a 1
     public static void setDefColor(float r, float g, float b, float a) {
         setDefColor(new Color(r, g, b, a));
     }

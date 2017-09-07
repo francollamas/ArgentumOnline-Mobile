@@ -1,9 +1,12 @@
 package org.gszone.jfenix13.objects;
 
 import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.graphics.Grh;
 
 /**
- * Representa a un objeto con Grh en las 4 direcciones.
+ * Representa a un objeto con Grh en las 4 direcciones. (se utiliza para cabezas, cascos, escudos y armas)
+ *
+ * grhsIndex: conjunto de los 4 grhs correspondientes a un GrhDir.
  */
 public class GrhDir {
     protected int[] grhsIndex;
@@ -17,6 +20,19 @@ public class GrhDir {
      */
     public int[] getGrhsIndex() {
         return grhsIndex;
+    }
+
+    /**
+     * Retorna un nuevo array de Grhs, según los grhIndex.
+     */
+    public Grh[] getGrhs() {
+        Grh[] grhs;
+        grhs = new Grh[General.Direccion.values().length];
+        for (int i = 0; i < grhs.length; i++) {
+            Grh grh = new Grh(getGrhIndex(General.Direccion.values()[i]));
+            grhs[i] = grh;
+        }
+        return grhs;
     }
 
     /**

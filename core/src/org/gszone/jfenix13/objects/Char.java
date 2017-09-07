@@ -1,17 +1,27 @@
 package org.gszone.jfenix13.objects;
 
+import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.utils.Position;
 
 import static org.gszone.jfenix13.general.General.*;
 
+/**
+ * Representa a un PJ o NPC
+ *
+ * active: determina si el personaje se acaba de crear o ya estaba creado (útil para actualizar el pj)
+ * nombre: nombre del PJ
+ * guildName: nombre del clan
+ * bando: número que indica bando (ciudadano, criminal, neutral, newbie). Es distinto al número manejado en el servidor.
+ * muerto: indica si está muerto
+ * invisible: indica si está invisible
+ * priv: número que indica los privilegios del usuario.
+ */
 public class Char {
     private boolean active;
     private String nombre;
-    private int nombreOffset;
     private String guildName;
-    private int guildNameOffset;
-    private byte criminal;
+    private byte bando;
     private boolean muerto;
     private boolean invisible;
     private int priv;
@@ -32,8 +42,6 @@ public class Char {
     private Position moveDir;
     private Position moveOffset;
     private boolean moving;
-
-
 
     public Char() {
         pos = new Position();
@@ -57,14 +65,6 @@ public class Char {
         this.nombre = nombre;
     }
 
-    public int getNombreOffset() {
-        return nombreOffset;
-    }
-
-    public void setNombreOffset(int nombreOffset) {
-        this.nombreOffset = nombreOffset;
-    }
-
     public String getGuildName() {
         return guildName;
     }
@@ -73,20 +73,12 @@ public class Char {
         this.guildName = guildName;
     }
 
-    public int getGuildNameOffset() {
-        return guildNameOffset;
+    public byte getBando() {
+        return bando;
     }
 
-    public void setGuildNameOffset(int guildNameOffset) {
-        this.guildNameOffset = guildNameOffset;
-    }
-
-    public byte getCriminal() {
-        return criminal;
-    }
-
-    public void setCriminal(byte criminal) {
-        this.criminal = criminal;
+    public void setBando(byte bando) {
+        this.bando = bando;
     }
 
     public boolean isMuerto() {
@@ -125,72 +117,97 @@ public class Char {
         return fxIndex;
     }
 
-    public void setFxIndex(int fxIndex) {
-        this.fxIndex = fxIndex;
-    }
-
     public Grh getFx() {
         return fx;
     }
 
-    public void setFx(Grh fx) {
-        this.fx = fx;
+    public void setFx(int index, int loops) {
+        Fx fx = Main.getInstance().getAssets().getFxs().getFx(index);
+        if (fx != null) {
+            this.fx = fx.getGrh();
+            this.fx.setLoops((short)loops);
+            this.fxIndex = index;
+        }
+        else {
+            this.fx = null;
+            this.fxIndex = 0;
+        }
     }
 
     public int getBodyIndex() {
         return bodyIndex;
     }
 
-    public void setBodyIndex(int bodyIndex) {
-        this.bodyIndex = bodyIndex;
-    }
-
     public Grh[] getBody() {
         return body;
     }
 
-    public void setBody(Grh[] body) {
-        this.body = body;
+    public void setBody(int index) {
+        Body body = Main.getInstance().getAssets().getBodies().getBody(index);
+        if (body != null) {
+            this.body = body.getGrhs();
+            this.bodyIndex = index;
+        }
+        else {
+            this.body = null;
+            this.bodyIndex = 0;
+        }
     }
 
     public int getHeadIndex() {
         return headIndex;
     }
 
-    public void setHeadIndex(int headIndex) {
-        this.headIndex = headIndex;
-    }
-
     public Grh[] getHead() {
         return head;
     }
 
-    public void setHead(Grh[] head) {
-        this.head = head;
+    public void setHead(int index) {
+        GrhDir head = Main.getInstance().getAssets().getHeads().getGrhDir(index);
+        if (head != null) {
+            this.head = head.getGrhs();
+            this.headIndex = index;
+        }
+        else {
+            this.head = null;
+            this.headIndex = 0;
+        }
     }
 
     public Grh[] getHelmet() {
         return helmet;
     }
 
-    public void setHelmet(Grh[] helmet) {
-        this.helmet = helmet;
+    public void setHelmet(int index) {
+        GrhDir helmet = Main.getInstance().getAssets().getHelmets().getGrhDir(index);
+        if (helmet != null)
+            this.helmet = helmet.getGrhs();
+        else
+            this.helmet = null;
     }
 
     public Grh[] getWeapon() {
         return weapon;
     }
 
-    public void setWeapon(Grh[] weapon) {
-        this.weapon = weapon;
+    public void setWeapon(int index) {
+        GrhDir weapon = Main.getInstance().getAssets().getWeapons().getGrhDir(index);
+        if (weapon != null)
+            this.weapon = weapon.getGrhs();
+        else
+            this.weapon = null;
     }
 
     public Grh[] getShield() {
         return shield;
     }
 
-    public void setShield(Grh[] shield) {
-        this.shield = shield;
+    public void setShield(int index) {
+        GrhDir shield = Main.getInstance().getAssets().getShields().getGrhDir(index);
+        if (shield != null)
+            this.shield = shield.getGrhs();
+        else
+            this.weapon = null;
     }
 
     public Position getPos() {

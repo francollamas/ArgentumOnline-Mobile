@@ -8,16 +8,26 @@ import org.gszone.jfenix13.general.General.Direccion;
 
 import static org.gszone.jfenix13.general.General.Direccion.*;
 
+/**
+ * Touchpad que controla el movimiento del personaje (se usa en dispositivos móviles)
+ *
+ * tpSkin y tpStyle: necesarias para darle un estilo al controlador.
+ * world: referencia al mundo para poder moverse en él.
+ */
 public class Controller extends Touchpad {
     private static Skin tpSkin;
     private static TouchpadStyle tpStyle;
+
     private World world;
 
     public Controller() {
-        super(20, getTouchPadStyle());
-        setSize(140, 140);
+        super(15, getTouchPadStyle());
+        setSize(108, 108);
     }
 
+    /**
+     * Obtiene el estilo del touchpad (gráficos que lo representan)
+     */
     private static TouchpadStyle getTouchPadStyle(){
 
         tpSkin = new Skin();
@@ -34,36 +44,38 @@ public class Controller extends Touchpad {
         this.world = world;
     }
 
+    /**
+     * Comportamiento del controlador, se ejecuta constantemente
+     */
     @Override
     public void act(float delta) {
         super.act(delta);
 
-        if (isTouched()) {
+        if (isTouched())
             if (!world.isMoving()) {
                 float despX = getKnobPercentX();
                 float despY = getKnobPercentY();
                 Direccion dir = null;
-                if (despX != 0 || despY != 0) {
-                    if (Math.abs(despX) > Math.abs(despY)) {
+                if (despX != 0 || despY != 0)
+                    if (Math.abs(despX) > Math.abs(despY))
                         if (despX > 0)
                             dir = ESTE;
                         else
                             dir = OESTE;
-                    }
-                    else {
+                    else
                         if (despY > 0)
                             dir = NORTE;
                         else
                             dir = SUR;
-                    }
-                }
 
                 if (dir != null)
                     world.moveChar(dir);
             }
-        }
     }
 
+    /**
+     * Destruye el skin del estilo del controlador
+     */
     public static void dispose() {
         if (tpSkin != null)
             tpSkin.dispose();

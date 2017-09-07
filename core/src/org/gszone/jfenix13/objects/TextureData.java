@@ -5,6 +5,13 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import static org.gszone.jfenix13.general.FileNames.*;
 
+/**
+ * Información de una textua
+ *
+ * tex: textura
+ * num: número de gráfico que representa a la textura
+ * lastAccess: ultimo momento en que se solicitó esta textura (en milisegundos)
+ */
 public class TextureData {
     private int num;
     private long lastAccess;

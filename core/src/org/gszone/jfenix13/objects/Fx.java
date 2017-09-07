@@ -1,9 +1,13 @@
 package org.gszone.jfenix13.objects;
 
+import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.utils.Position;
 
 /**
  * Representa a un Fx
+ *
+ * grhIndex: índex del grh del fx
+ * offset: distancia desde donde se comienza a dibujar
  */
 public class Fx {
     private int grhIndex;
@@ -19,6 +23,13 @@ public class Fx {
 
     public void setGrhIndex(int grhIndex) {
         this.grhIndex = grhIndex;
+    }
+
+    /**
+     * Obtiene un nuevo Grh según el grhIndex del Fx
+     */
+    public Grh getGrh() {
+        return new Grh(grhIndex);
     }
 
     /**
@@ -42,4 +53,5 @@ public class Fx {
     public void setOffsetY(int y) {
         offset.setY(y);
     }
+
 }

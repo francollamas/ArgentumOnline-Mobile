@@ -4,6 +4,8 @@ import org.gszone.jfenix13.utils.Position;
 
 /**
  * Representa a un cuerpo
+ *
+ * headOffset: distancia desde el piso hasta donde debe comenzar la cabeza
  */
 public class Body extends GrhDir {
     private Position headOffset;

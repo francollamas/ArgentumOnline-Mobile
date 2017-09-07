@@ -6,7 +6,7 @@ import static com.badlogic.gdx.graphics.GL20.GL_ONE;
 import static com.badlogic.gdx.graphics.GL20.GL_SRC_ALPHA;
 
 /**
- * Contiene los parametros para usar al renderizar
+ * Contiene los parametros para usar al renderizar algo
  *
  * color: color de cada vértice
  * alpha: cantidad de transparencia que luego se combina con el color.

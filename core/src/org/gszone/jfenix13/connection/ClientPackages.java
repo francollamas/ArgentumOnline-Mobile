@@ -3,15 +3,18 @@ package org.gszone.jfenix13.connection;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
 import org.gszone.jfenix13.general.General;
-import org.gszone.jfenix13.general.Main;
 
 import static org.gszone.jfenix13.utils.Bytes.*;
 
 /**
  * Clase con los paquetes que se envían al servidor
+ *
+ * bytes: corresponde a la secuencia de paquetes que se está armando antes de ser enviada al servidor
+ * cola: colección con las secuencais obtenidas en 'bytes' (el socket va leyendo esta cola constantemente)
  */
 public class ClientPackages {
 
+    // Enumeración de los paquetes que se envían al servidor
     enum ID {
         LoginExistingChar,       // OLOGIN
         ThrowDices,              // TIRDAD
@@ -142,13 +145,26 @@ public class ClientPackages {
         writeByte(bytes, (byte) 0);
     }
 
+    /**
+     * Caminar hacia una dirección
+     */
     public void writeWalk(General.Direccion dir) {
         writeByte(bytes, (byte)ID.Walk.ordinal());
         writeByte(bytes, (byte)(dir.ordinal() + 1));
     }
 
+    /**
+     * Cambio de dirección sin cambiar de tile
+     */
     public void writeChangeHeading(General.Direccion dir) {
         writeByte(bytes, (byte)ID.ChangeHeading.ordinal());
         writeByte(bytes, (byte)(dir.ordinal() + 1));
+    }
+
+    /**
+     * Petición de posición (para corregirla)
+     */
+    public void writeRequestPositionUpdate() {
+        writeByte(bytes, (byte)ID.RequestPositionUpdate.ordinal());
     }
 }

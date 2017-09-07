@@ -1,4 +1,5 @@
 ///// LIBRERÍAS MODIFICADAS //////
+(obsoletas, porque se está usando libGDX 1.9.6 actualmente, tengo que modificar la nueva versión)
 
 -----gdx-1.9.5.jar-----
 Se modificó para poder colorear vértices sin necesidad de usar shaders.

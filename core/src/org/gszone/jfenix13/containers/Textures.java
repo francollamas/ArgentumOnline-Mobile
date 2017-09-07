@@ -4,6 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import org.gszone.jfenix13.objects.TextureData;
 
+/**
+ * Manejador de las texturas del juego
+ * TODO: PONER LÍMITE DE MEMORIA Y BORRAR LAS TEXTURAS MÁS VIEJAS!!!
+ *
+ * hash: array de array de TextureData. Se usa para agiliar la búsqueda de texturas.
+ */
 public class Textures {
 
     private Array<TextureData>[] hash;
@@ -12,6 +18,9 @@ public class Textures {
         hash = new Array[350];
     }
 
+    /**
+     * Obtiene una textura a partir de su número de gráfico (si no existe la crea)
+     */
     public Texture getTexture(int num) {
         // Determino en que posición del Hash va la textura solicitada
         int hashIndex = num % hash.length;
@@ -35,6 +44,9 @@ public class Textures {
         return createTexture(num);
     }
 
+    /**
+     * Crea una textura
+     */
     private Texture createTexture(int num) {
         // Creo la nueva textura y la agrego en el array de la posición correspondiente del Hash
         TextureData td = new TextureData(num);
@@ -42,6 +54,9 @@ public class Textures {
         return td.getTex();
     }
 
+    /**
+     * Elimina todas las texturas de la placa de video
+     */
     public void dispose() {
         for (Array<TextureData> h : hash)
             if (h != null)

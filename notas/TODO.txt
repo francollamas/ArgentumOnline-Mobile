@@ -1,1 +1,0 @@
-Luces: trozos de código comentados (en la carga de mapa, etc), ya que no hay un sistema todavía

@@ -2,8 +2,6 @@ package org.gszone.jfenix13.utils;
 
 import org.gszone.jfenix13.general.Main;
 
-import static org.gszone.jfenix13.general.General.*;
-
 /**
  * Clase que representa a un rectángulo
  *

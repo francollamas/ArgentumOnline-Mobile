@@ -42,6 +42,16 @@ public class Bytes {
         }
     }
 
+    public static String leReadString(DataInputStream dis) throws IOException {
+        String str = "";
+        int len = leReadShort(dis);
+        for (int i = 0; i < len; i++) {
+            str+= (char)leReadByte(dis);
+        }
+
+        return str;
+    }
+
     public static short leShort(short n) {
         ByteBuffer buf = ByteBuffer.allocate(2);
         buf.order(BIG_ENDIAN);

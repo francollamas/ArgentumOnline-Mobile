@@ -5,9 +5,15 @@ import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.objects.Char;
 import org.gszone.jfenix13.objects.MapTile;
 import org.gszone.jfenix13.utils.Position;
+import org.gszone.jfenix13.utils.Rect;
+import org.gszone.jfenix13.general.General.Direccion;
 
 /**
  * Contiene a los usuarios que el cliente va mostrando
+ *
+ * chars: array de chars
+ * numChars: cantidad de chars
+ * lastChar: index del último char
  */
 public class Chars {
     private Char[] chars;
@@ -18,12 +24,13 @@ public class Chars {
         chars = new Char[10000];
     }
 
+    /**
+     * Mueve a un PJ o NPC hacia una dirección (cualquiera excepto al que estamos manejando)
+     */
     public void moveChar(int index, int x, int y) {
-        General.Direccion dir = null;
-
         Char c = chars[index];
-        Main.getInstance().getAssets().getMapa().getTile(x, y).setCharIndex(index);
         Main.getInstance().getAssets().getMapa().getTile((int)c.getPos().getX(), (int)c.getPos().getY()).setCharIndex(0);
+        Main.getInstance().getAssets().getMapa().getTile(x, y).setCharIndex(index);
 
         int xDif = x - (int)c.getPos().getX();
         int yDif = y - (int)c.getPos().getY();
@@ -31,15 +38,8 @@ public class Chars {
         if (xDif != 0) xDif /= Math.abs(xDif);
         if (yDif != 0) yDif /= Math.abs(yDif);
 
-        // Determinamos dirección.
-        if (xDif == 1) dir = General.Direccion.ESTE;
-        else if (xDif == -1) dir = General.Direccion.OESTE;
-        else if (yDif == 1) dir = General.Direccion.SUR;
-        else if (yDif == -1) dir = General.Direccion.NORTE;
-
-        // Si no se movió, no se hace nada...
+        Direccion dir = Position.posToDir(new Position(xDif, yDif));
         if (dir == null) return;
-
 
         c.getPos().setX(x);
         c.getPos().setY(y);
@@ -53,18 +53,21 @@ public class Chars {
 
         c.setMoving(true);
 
+        Rect area = Main.getInstance().getGameData().getCurrentUser().getArea();
+        if (!area.isPointIn(new Position(x, y)))
+            deleteChar(index);
     }
 
     /**
-     * Mueve al char hacia una dirección
+     * Mueve al char actual hacia una dirección
      */
     public void moveChar(int index, General.Direccion dir) {
         Char c = chars[index];
         Position relPos = Position.dirToPos(dir);
         Position absPos = c.getPos().getSuma(relPos);
 
-        Main.getInstance().getAssets().getMapa().getTile((int)absPos.getX(), (int)absPos.getY()).setCharIndex(index);
         Main.getInstance().getAssets().getMapa().getTile((int)c.getPos().getX(), (int)c.getPos().getY()).setCharIndex(0);
+        Main.getInstance().getAssets().getMapa().getTile((int)absPos.getX(), (int)absPos.getY()).setCharIndex(index);
         c.setPos(absPos);
 
         c.setHeading(dir);
@@ -73,6 +76,13 @@ public class Chars {
 
         c.setMoveDir(relPos);
         c.setMoving(true);
+
+        /* TODO: considerar sacar este chequeo, parece estar de más, xq esto mueve solo al user que estamos usando
+         por lo que este trozo no tiene sentido, no se cumple nunca supuestamente */
+        Rect area = Main.getInstance().getGameData().getCurrentUser().getArea();
+        if (!area.isPointIn(absPos))
+            if (index != Main.getInstance().getGameData().getCurrentUser().getIndexInServer())
+                deleteChar(index);
     }
 
     /**
@@ -82,12 +92,11 @@ public class Chars {
         Char c = chars[index];
         c.setActive(false);
 
+        // TODO: lastChar no está actualizándose correctamente!!!
         // Actualizo el valor que indica el index del último char.
         if (index == lastChar) {
-            while (chars[lastChar] != null && !chars[lastChar].isActive()) {
+            while (lastChar > 0 && ((chars[lastChar] != null && !chars[lastChar].isActive()) || chars[lastChar] == null))
                 lastChar--;
-                if (lastChar == 0) break;
-            }
         }
 
         // Lo saco del mapa
@@ -97,15 +106,52 @@ public class Chars {
         // TODO: borrar diálogos del pj en cuestión...
 
         chars[index] = null;
-
         numChars--;
-
     }
 
+    /**
+     * Borra todos los chars existentes.
+     */
+    public void clear() {
+        int lastChar = Main.getInstance().getGameData().getChars().getLastChar();
+        for (int i = 1; i <=lastChar; i++) {
+            if (Main.getInstance().getGameData().getChars().getChar(i) != null)
+                deleteChar(i);
+        }
+    }
+
+    /**
+     * Se asegura de que todos los chars del mapa realmente se estén mostrando.
+     * Es necesario ya que por lag el cliente podría hacer que se pisen dos personajes, y uno de los dos
+     * no se actualizaría hasta que no se mueva.
+     */
+    public void refresh() {
+        int lastChar = Main.getInstance().getGameData().getChars().getLastChar();
+        for (int i = 1; i <=lastChar; i++) {
+            Char c = Main.getInstance().getGameData().getChars().getChar(i);
+            if (c != null && c.isActive()) {
+                Main.getInstance().getAssets().getMapa().getTile((int)c.getPos().getX(), (int)c.getPos().getY()).setCharIndex(i);
+            }
+        }
+    }
+
+    /**
+     * Obtiene un char, si no existe devuelve null
+     */
     public Char getChar(int index) {
+        return getChar(index, false);
+    }
+
+    /**
+     * Obtiene un char
+     * @param index: número asociado al char
+     * @param crear: indica si debe crear un nuevo char en caso que no exista
+     * @return: char
+     */
+    public Char getChar(int index, boolean crear) {
         /* Si quiero obtener un char que no existe, lo creo (ya que se va a estar usando).
         Con ésto me aseguro de crear solo los chars necesarios. */
-        if (chars[index] == null)
+        if (chars[index] == null && crear)
             chars[index] = new Char();
         return chars[index];
     }

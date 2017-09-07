@@ -7,8 +7,8 @@ repeat: none
 scr_carga
   rotate: false
   xy: 0, 0
-  size: 1024, 768
-  orig: 1024, 768
+  size: 800, 600
+  orig: 800, 600
   offset: 0, 0
   index: -1
 
@@ -20,7 +20,7 @@ repeat: none
 scr_principal
   rotate: false
   xy: 0, 0
-  size: 1024, 768
-  orig: 1024, 768
+  size: 800, 600
+  orig: 800, 600
   offset: 0, 0
   index: -1

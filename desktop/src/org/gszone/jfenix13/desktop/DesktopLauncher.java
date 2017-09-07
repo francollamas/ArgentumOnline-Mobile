@@ -16,16 +16,16 @@ public class DesktopLauncher {
 		System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1024;
-		config.height = 768;
+		config.width = 800;
+		config.height = 600;
 		//config.fullscreen = true;
 		config.resizable = false;
 		config.addIcon(getIconDir(), FileType.Internal);
 
 		// Descomentar para liberar FPS!
-		//config.vSyncEnabled = false;
-		//config.foregroundFPS = 0;
-		//config.backgroundFPS = 0;
+		config.vSyncEnabled = false;
+		config.foregroundFPS = 0;
+		config.backgroundFPS = 0;
 
 		new LwjglApplication(new Main(), config);
 	}

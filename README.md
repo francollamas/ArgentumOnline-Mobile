@@ -1,10 +1,11 @@
 # JFenix13
-FenixAO (cliente) en Java con libGDX tomando como referencia al proyecto Fenix13
+FenixAO (cliente) en Java con libGDX tomando como referencia al proyecto FenixXIII
 
-Corre en las plataformas: PC, Android e iOS
+Corre en las plataformas: Windows, Linux, macOS, iOS y Android
 
-Versión de libGDX: 1.9.5
+Versión de libGDX: 1.9.6
 
-[![](http://image.prntscr.com/image/59019d01ee374ec186ffab786ee19935.png)](http://image.prntscr.com/image/59019d01ee374ec186ffab786ee19935.png)
+[![](https://image.prntscr.com/image/UvDNDAKwRhGLGNNr1C5Slg.png)](https://image.prntscr.com/image/UvDNDAKwRhGLGNNr1C5Slg.png)
 
+[![](https://image.prntscr.com/image/X2ioNvQNRkS0hxIqOltUWg.png)](https://image.prntscr.com/image/X2ioNvQNRkS0hxIqOltUWg.png)
 

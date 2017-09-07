@@ -21,9 +21,9 @@ import java.io.*;
  * disposed: booleano que indica si va a destruir el socket (para evitar excepciones en el nuevo thread)
  */
 public class Connection {
-    //public static final String IP = "francollamas.ddns.net";
-    public static final String IP = "127.0.0.1";
-    public static final int PORT = 7666;
+    //public static final String IP = "sv1.arghostum.com";
+    public static final String IP = "sv1.arghostum.com";
+    public static final int PORT = 7677;
 
     private Thread thread;
     private Socket socket;
@@ -38,6 +38,7 @@ public class Connection {
     }
 
     public ClientPackages getClPack() { return clPack; }
+    public ServerPackages getSvPack() { return svPack; }
 
     /**
      * Se conecta con el servidor
@@ -52,7 +53,6 @@ public class Connection {
 
             // Conectarse al servidor
             SocketHints hints = new SocketHints();
-            hints.connectTimeout = 5000;
             socket = Gdx.net.newClientSocket(Net.Protocol.TCP, IP, PORT, hints);
         }
         catch (GdxRuntimeException ex) {
@@ -99,7 +99,7 @@ public class Connection {
                                 buffer.read(leido);
                                 bytes.add(leido[0]);
                             }
-                            svPack.handleReceived(bytes);
+                            svPack.getCola().addLast(bytes);
 
                         }
                     } catch (IOException ex) {

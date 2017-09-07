@@ -7,9 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import org.gszone.jfenix13.connection.ClientPackages;
+import org.gszone.jfenix13.connection.*;
 import org.gszone.jfenix13.containers.Audio;
 import org.gszone.jfenix13.general.Main;
 
@@ -56,6 +55,8 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     public Batch getBatch() { return stage.getBatch(); }
     public Audio getAudio() { return Main.getInstance().getAssets().getAudio(); }
     public ClientPackages getClPack() { return Main.getInstance().getConnection().getClPack(); }
+    public ServerPackages getSvPack() { return Main.getInstance().getConnection().getSvPack(); }
+    public Connection getConnection() { return Main.getInstance().getConnection(); }
 
     /**
      * Se ejecuta al mostrarse la pantalla
@@ -90,6 +91,10 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
      */
     @Override
     public void render(float delta) {
+        // Comunicación con el servidor, la dejo activada desde cualquier pantalla
+        getSvPack().doActions();
+        getClPack().write();
+
         // Realiza las acciones pendientes de todos los actores agregados al escenario.
         stage.act();
 

@@ -1,10 +1,10 @@
 package org.gszone.jfenix13.actors;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import org.gszone.jfenix13.connection.ClientPackages;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.general.Main;
 import org.gszone.jfenix13.graphics.DrawParameter;
@@ -14,6 +14,7 @@ import org.gszone.jfenix13.listeners.WorldListener;
 import org.gszone.jfenix13.objects.*;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
+import org.gszone.jfenix13.graphics.Drawer.Alignment;
 
 import static com.badlogic.gdx.Input.Keys.*;
 import static org.gszone.jfenix13.general.General.*;
@@ -30,7 +31,7 @@ import static org.gszone.jfenix13.general.General.*;
  * screenTile: rectángulo con las posiciones del mundo que se visualizan (para capas 1 y 2)
  * screenBigTile: lo mismo que screenTile pero más grande (para dibujar incluso donde no se ve: para capa 3, etc).
  *                Es para evitar que objetos muy grandes aparezcan de repente.
- * mapa: hace referencia al mapa actual.
+ * h: manejador o conjunto de flags que manejan las acciones que hará el World.
  */
 public class World extends Actor {
     private boolean moving;
@@ -39,7 +40,6 @@ public class World extends Actor {
     private Position offset;
     private Position mouseTile;
     private boolean techo;
-
     private Rect screenTile;
     private Rect screenBigTile;
 
@@ -52,7 +52,7 @@ public class World extends Actor {
         h = new WorldHandler();
         addListener(new WorldListener(h));
 
-        pos = new Position(50, 50);
+        pos = new Position();
         addToPos = new Position();
         offset = new Position();
         mouseTile = new Position();
@@ -80,47 +80,97 @@ public class World extends Actor {
     }
 
     /**
-     * Inicia el movimiento del pj y mundo hacia una dirección
+     * Activa el flag para ver los techos, según el trigger del tile donde se está.
      */
-    public void checkKeys() {
-        if (!isMoving()) {
+    public void setTecho() {
+        MapTile tile = getMapa().getTile((int)pos.getX(), (int)pos.getY());
+        this.techo = tile.getTrigger() == 1 || tile.getTrigger() == 2 || tile.getTrigger() == 4;
+    }
+
+    /**
+     * Define cuál es el tile en donde está el mouse por encima
+     */
+    public void setMouseTile(Position pos) {
+        mouseTile.setX((int) (this.pos.getX() + pos.getX() / getGeneral().getTilePixelWidth() - getGeneral().getWindowsTileWidth() / 2));
+        mouseTile.setY((int) (this.pos.getY() + (getHeight() - pos.getY()) / getGeneral().getTilePixelHeight() - getGeneral().getWindowsTileHeight() / 2));
+    }
+
+    /**
+     * Acciones ejecutadas según lo que pasa
+     */
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        if (!isMoving())
             if (Gdx.input.isKeyPressed(UP)) moveChar(Direccion.NORTE);
             else if (Gdx.input.isKeyPressed(RIGHT)) moveChar(Direccion.ESTE);
             else if (Gdx.input.isKeyPressed(DOWN)) moveChar(Direccion.SUR);
             else if (Gdx.input.isKeyPressed(LEFT)) moveChar(Direccion.OESTE);
+
+        // Lo vuelvo a chequear, porque al mover el char, se activa el flag 'moving'
+        if (isMoving()) {
+            move();
+            setMouseTile(h.getPos());
+        }
+
+        if (h.isMoved()) {
+            setMouseTile(h.getPos());
+            h.setMoved(false);
         }
     }
 
+    /**
+     * Mueve o cambia la dirección del personaje
+     */
     public void moveChar(Direccion dir) {
         Position relPos = Position.dirToPos(dir);
         Position absPos = pos.getSuma(relPos);
-        if (!getMapa().isLegalPos(absPos)) return;
+        User u = Main.getInstance().getGameData().getCurrentUser();
 
-        int index = Main.getInstance().getGameData().getCurrentUser().getIndexInServer();
-        Main.getInstance().getConnection().getClPack().writeWalk(dir);
-        Main.getInstance().getGameData().getChars().moveChar(index, dir);
-        setMove(relPos, absPos);
+        if (getMapa().isLegalPos(absPos) && !u.isParalizado()) {
+            getClPack().writeWalk(dir);
+
+            if (!u.isDescansando() && !u.isMeditando()) {
+                u.setCambiandoDir(false);
+                Main.getInstance().getGameData().getChars().moveChar(u.getIndexInServer(), dir);
+                setMove(relPos, absPos);
+            }
+        }
+        else
+            if (Main.getInstance().getGameData().getChars().getChar(u.getIndexInServer()).getHeading().ordinal() != dir.ordinal())
+                if (!u.isCambiandoDir()) {
+                    getClPack().writeChangeHeading(dir);
+                    u.setCambiandoDir(true);
+                }
     }
 
 
     /**
-     * Mueve la pantalla a una dirección
+     * Activa el movimiento de la pantalla hacia una dirección
      */
-    private void setMove(Position relPos, Position absPos) {
+    public void setMove(Direccion dir) {
+        Position relPos = Position.dirToPos(dir);
+        Position absPos = pos.getSuma(relPos);
+
+        setMove(relPos, absPos);
+    }
+
+    /**
+     * Activa el movimiento de la pantalla según la posición absoluta final y la relativa.
+     */
+    public void setMove(Position relPos, Position absPos) {
         pos = absPos;
         addToPos = relPos;
         moving = true;
         setTecho();
     }
 
-
     /**
-     * Si la pantalla se tiene que mover, esto se encarga de ir moviendola.
+     * Si la pantalla se tiene que mover, esto se encarga de ir moviéndola
      * (se ejecuta constantemente)
      */
     public void move() {
-
-        if (isMoving()) {
             if (addToPos.getX() != 0) {
                 offset.addX(-getGeneral().getScrollPixelsPerFrame() * addToPos.getX() * Drawer.getDelta());
                 if (Math.abs(offset.getX()) >= Math.abs(getGeneral().getTilePixelWidth() * addToPos.getX())) {
@@ -138,13 +188,13 @@ public class World extends Actor {
                     moving = false;
                 }
             }
-
-            setMouseTile(h.getPos());
-        }
     }
 
+    /**
+     * Dibuja todos los elementos del World.
+     * (no uso el método draw() de Actor, para poder manejar el uso de scissors (limitar render a un rectángulo específico)
+     */
     public void render(Stage stage) {
-
         int x, y;
         MapTile tile;
         Position tempPos = new Position();
@@ -221,6 +271,10 @@ public class World extends Actor {
             for (x = (int)screenTile.getX1(); x <= (int)screenTile.getX2(); x++) {
                 tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
                 tile = getMapa().getTile(x, y);
+                if (tile == null) {
+                    screen.addX(1);
+                    continue;
+                }
 
                 // Capa 1
                 Drawer.drawGrh(stage.getBatch(), tile.getCapa(0), tempPos.getX(), tempPos.getY(), dpA);
@@ -245,6 +299,10 @@ public class World extends Actor {
             for (x = (int)screenBigTile.getX1(); x <= (int)screenBigTile.getX2(); x++) {
                 tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
                 tile = getMapa().getTile(x, y);
+                if (tile == null) {
+                    screen.addX(1);
+                    continue;
+                }
 
                 // Objetos
                 if (tile.getObjeto() != null)
@@ -275,6 +333,10 @@ public class World extends Actor {
                 for (x = (int) screenBigTile.getX1(); x <= (int) screenBigTile.getX2(); x++) {
                     tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
                     tile = getMapa().getTile(x, y);
+                    if (tile == null) {
+                        screen.addX(1);
+                        continue;
+                    }
 
                     // Capa 4
                     if (tile.getCapa(3) != null)
@@ -302,9 +364,9 @@ public class World extends Actor {
 
             if (c.getMoveDir().getX() != 0 || c.getMoveDir().getY() != 0) {
                 // Arranco las animaciones
-                if (c.getBody()[heading].getSpeed() > 0) c.getBody()[heading].setStarted((byte)1);
-                c.getWeapon()[heading].setStarted((byte)1);
-                c.getShield()[heading].setStarted((byte)1);
+                if (c.getBody() != null && c.getBody()[heading].getSpeed() > 0) c.getBody()[heading].setStarted((byte)1);
+                if (c.getWeapon() != null) c.getWeapon()[heading].setStarted((byte)1);
+                if (c.getShield() != null) c.getShield()[heading].setStarted((byte)1);
                 moved = true;
 
 
@@ -337,14 +399,20 @@ public class World extends Actor {
 
         // Si no se movió (o sea, si no pasó por el trozo de código de arriba)
         if (!moved) {
-            c.getBody()[heading].setStarted((byte)0);
-            c.getBody()[heading].setFrame(1);
+            if (c.getBody() != null) {
+                c.getBody()[heading].setStarted((byte) 0);
+                c.getBody()[heading].setFrame(1);
+            }
 
-            c.getWeapon()[heading].setStarted((byte)0);
-            c.getWeapon()[heading].setFrame(1);
+            if (c.getWeapon() != null) {
+                c.getWeapon()[heading].setStarted((byte) 0);
+                c.getWeapon()[heading].setFrame(1);
+            }
 
-            c.getShield()[heading].setStarted((byte)0);
-            c.getShield()[heading].setFrame(1);
+            if (c.getShield() != null) {
+                c.getShield()[heading].setStarted((byte) 0);
+                c.getShield()[heading].setFrame(1);
+            }
 
             c.setMoving(false);
         }
@@ -354,15 +422,20 @@ public class World extends Actor {
 
 
         if (!c.isInvisible()) {
-            Body bodyData = Main.getInstance().getAssets().getBodies().getBody(c.getBodyIndex());
-            if (c.getBody() != null)
+            Position headOffset;
+
+            if (c.getBody() != null) {
+                Body bodyData = Main.getInstance().getAssets().getBodies().getBody(c.getBodyIndex());
+                headOffset = bodyData.getHeadOffset();
                 Drawer.drawGrh(stage.getBatch(), c.getBody()[heading], x, y, dp);
+            } else
+                headOffset = new Position();
 
             if (c.getHead() != null)
-                Drawer.drawGrh(stage.getBatch(), c.getHead()[heading], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
+                Drawer.drawGrh(stage.getBatch(), c.getHead()[heading], x + headOffset.getX(), y + headOffset.getY(), dp);
 
             if (c.getHelmet() != null)
-                Drawer.drawGrh(stage.getBatch(), c.getHelmet()[heading], x + bodyData.getHeadOffset().getX(), y + bodyData.getHeadOffset().getY(), dp);
+                Drawer.drawGrh(stage.getBatch(), c.getHelmet()[heading], x + headOffset.getX(), y + headOffset.getY(), dp);
 
             if (c.getWeapon() != null)
                 Drawer.drawGrh(stage.getBatch(), c.getWeapon()[heading], x, y, dp);
@@ -370,56 +443,25 @@ public class World extends Actor {
             if (c.getShield() != null)
                 Drawer.drawGrh(stage.getBatch(), c.getShield()[heading], x, y, dp);
 
-            DrawParameter dpp = new DrawParameter();
-            dpp.setColor(new Color(0, 0.5f, 1f, 1f));
 
-            if (c.getNombre().length() > 0)
-                Drawer.drawText(stage.getBatch(), 3, c.getNombre(), x + c.getNombreOffset(), y + 30, dpp);
+            if (c.getNombre().length() > 0) {
+                DrawParameter dpc = new DrawParameter();
+                dpc.setColor(Main.getInstance().getAssets().getColors().getColor(c.getPriv(), c.getBando()));
+                Drawer.drawText(stage.getBatch(), 3, c.getNombre(), x + 16, y + 30, Alignment.CENTER, dpc);
+            }
+
         }
-
-
 
         if (c.getFxIndex() != 0) {
             Fx fxData = Main.getInstance().getAssets().getFxs().getFx(c.getFxIndex());
             Drawer.drawGrh(stage.getBatch(), c.getFx(), x + fxData.getOffset().getX(), y + fxData.getOffset().getY(), dp);
             if (c.getFx().getStarted() == 0) {
-                c.setFxIndex(0);
-                c.setFx(null);
+                c.setFx(0, 0);
             }
         }
 
     }
 
-
-    /**
-     * Acciones ejecutadas según lo que pasa
-     */
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-        if (h.isMoved()) {
-            setMouseTile(h.getPos());
-            h.setMoved(false);
-        }
-    }
-
-    /**
-     * Activa el flag para ver los techos, según el trigger del tile donde se está.
-     */
-    public void setTecho() {
-        MapTile tile = getMapa().getTile((int)pos.getX(), (int)pos.getY());
-        this.techo = tile.getTrigger() == 1 || tile.getTrigger() == 2 || tile.getTrigger() == 4;
-    }
-
-
-    /**
-     * Define cuál es el tile en donde está el mouse por encima
-     */
-    public void setMouseTile(Position pos) {
-        mouseTile.setX((int)(this.pos.getX() + pos.getX() / getGeneral().getTilePixelWidth() - getGeneral().getWindowsTileWidth() / 2));
-        mouseTile.setY((int)(this.pos.getY() + (getHeight() - pos.getY()) / getGeneral().getTilePixelHeight() - getGeneral().getWindowsTileHeight() / 2));
-    }
-
-    public static General getGeneral() { return Main.getInstance().getGeneral(); }
+    public General getGeneral() { return Main.getInstance().getGeneral(); }
+    public ClientPackages getClPack() { return Main.getInstance().getConnection().getClPack(); }
 }

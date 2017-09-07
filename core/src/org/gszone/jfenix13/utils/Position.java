@@ -1,6 +1,7 @@
 package org.gszone.jfenix13.utils;
 
 import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.General.Direccion;
 
 /**
  * Clase que representa un punto
@@ -42,6 +43,11 @@ public class Position {
     }
 
     public void setY(float y) {
+        this.y = y;
+    }
+
+    public void set(float x, float y) {
+        this.x = x;
         this.y = y;
     }
 
@@ -93,5 +99,24 @@ public class Position {
                 break;
         }
         return pos;
+    }
+
+    /**
+     * Obtiene una dirección según una posición relativa
+     */
+    public static Direccion posToDir(Position pos) {
+        Direccion dir = null;
+
+        if (pos.getX() == 1) dir = General.Direccion.ESTE;
+        else if (pos.getX() == -1) dir = General.Direccion.OESTE;
+        else if (pos.getY() == 1) dir = General.Direccion.SUR;
+        else if (pos.getY() == -1) dir = General.Direccion.NORTE;
+
+        return dir;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
     }
 }

@@ -6,12 +6,18 @@ import org.gszone.jfenix13.graphics.Grh;
 /**
  * Características de 1 tile del mapa.
  *
- *
+ * capas: array de grhs (uno por cada capa).
+ * charIndex: índice del char que esta ocupando el tile
+ * objeto: grh que representa al objeto del tile
+ * blocked: indica si está bloqueado
+ * trigger: indica cómo se debe comportar el cliente si el usuario está parado sobre este tile
+ * light: indica si se inicia una luz en esa posición
+ * partícula: indica si hay una partícula
+ * color: representa los colores del tile (en sus 4 vértices).
  */
 public class MapTile {
     private Grh[] capas;
     private int charIndex;
-    private int npcIndex;
     private Grh objeto;
 
     private boolean blocked;
@@ -49,14 +55,6 @@ public class MapTile {
 
     public void setCharIndex(int charIndex) {
         this.charIndex = charIndex;
-    }
-
-    public int getNpcIndex() {
-        return npcIndex;
-    }
-
-    public void setNpcIndex(int npcIndex) {
-        this.npcIndex = npcIndex;
     }
 
     public Grh getObjeto() {
@@ -105,5 +103,14 @@ public class MapTile {
 
     public void setColors(Color[] color) {
         this.color = color;
+    }
+
+    /**
+     * Determina si en el tile hay agua
+     */
+    public boolean hayAgua() {
+        int index = capas[0].getIndex();
+        return ((index >= 1505 && index <= 1520) || (index >= 5665 && index <= 5680) || (index >= 13547 && index <= 13562))
+                && (capas[1] == null);
     }
 }

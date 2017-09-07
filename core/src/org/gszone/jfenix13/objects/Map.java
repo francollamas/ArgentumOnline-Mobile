@@ -13,19 +13,21 @@ import java.io.IOException;
 
 import static org.gszone.jfenix13.general.FileNames.*;
 import static org.gszone.jfenix13.utils.Bytes.*;
-import static org.gszone.jfenix13.general.General.*;
+import static org.gszone.jfenix13.containers.GameData.*;
 
 /**
  * Es el mapa actual del juego
  *
  * tiles: matriz de tiles, cada tile con sus correspondientes componentes (objetos, capas, luces, partículas, etc)
  * número: número de mapa
+ * nombre: nombre del mapa
  * size: rectángulo que representa el tamaño del mapa
  */
 public class Map {
 
     private MapTile[][] tiles;
     private int numero;
+    private String nombre;
     private Rect size;
 
     public Map(int numero) {
@@ -45,6 +47,7 @@ public class Map {
         FileHandle fh = Gdx.files.internal(DIR_MAPS + "/Mapa" + numero + ".mcl");
         DataInputStream dis = new DataInputStream(fh.read());
 
+        this.nombre = leReadString(dis);
         // Lee la cabecera (cantidades de cada tipo)
         int cantBloqueados = leReadInt(dis);
         int[] cantTilesEnCapa = {leReadInt(dis), leReadInt(dis), leReadInt(dis)};
@@ -140,8 +143,14 @@ public class Map {
         dis.close();
     }
 
+    public MapTile getTile(Position pos) {
+        return getTile((int)pos.getX(), (int)pos.getY());
+    }
+
     public MapTile getTile(int x, int y) {
-        return tiles[x - 1][y - 1];
+        if (x >= size.getX1() && x <= size.getX2() && y >= size.getY1() && y <= size.getY2())
+            return tiles[x - 1][y - 1];
+        return null;
     }
 
     public int getNumero() {
@@ -150,6 +159,10 @@ public class Map {
 
     public Rect getSize() {
         return size;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     /**
@@ -185,25 +198,39 @@ public class Map {
      * Indica si es posible moverse a un tile final (pos)
      */
     public boolean isLegalPos(Position pos) {
-        MapTile tile = tiles[(int) pos.getX() - 1][(int) pos.getY() - 1];
+        MapTile tile = getTile(pos);
+        MapTile wTile = getTile(Main.getInstance().getGameData().getWorld().getPos());
 
-        // Verificamos que no se pase ciertos límites (porque sino intentaría renderizar tiles que no existen)
         if (!getBorderRect().isPointIn(pos)) return false;
-
         if (tile.isBlocked()) return false;
+
+        User u = Main.getInstance().getGameData().getCurrentUser();
+        Char wC = Main.getInstance().getGameData().getChars().getChar(u.getIndexInServer());
 
         // Si hay un char
         if (tile.getCharIndex() > 0) {
 
-            // QUE CARAJOS HACE ESTO??? PARA QUE SIRVE??
-            Position pos2 = Main.getInstance().getGameData().getWorld().getPos();
-            if ((tiles[(int)pos2.getX() - 1][(int)pos2.getY() - 1]).isBlocked()) return false;
-            // <<<<
+            if (wTile.isBlocked()) return false;
 
-            
+            Char c = Main.getInstance().getGameData().getChars().getChar(tile.getCharIndex());
+            // Si el char está muerto
+            if (c.getHeadIndex() == MUERTO_HEAD || c.getBodyIndex() == MUERTO_NAV_BODY) {
+                // Si el muerto esta en el agua y yo estoy en tierra (o viceversa), no lo dejo intercambiar.
+                if (wTile.hayAgua() != tile.hayAgua()) return false;
+
+                // Si soy admin y estoy invisible, no puedo intercambiar con el muerto
+                if (wC.getPriv() > 0 && wC.getPriv() < 6 && wC.isInvisible()) return false;
+            }
+            // Si no está muerto
+            else return false;
         }
+
+        // Si quiere entrar al agua y no está navegando, o si quiere entrar a tierra y está navegando, no lo deja caminar
+        if (u.isNavegando() != tile.hayAgua()) return false;
 
         return true;
     }
+
+
 
 }

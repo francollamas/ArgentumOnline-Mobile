@@ -15,6 +15,7 @@ import static org.gszone.jfenix13.utils.Bytes.*;
 /**
  * Manejador de cuerpos
  *
+ * bodies: conjunto de cuerpos
  */
 public class Bodies {
     private Body[] bodies;

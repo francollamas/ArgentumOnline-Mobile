@@ -12,6 +12,8 @@ import static org.gszone.jfenix13.utils.Bytes.*;
 
 /**
  * Manejador de Fxs
+ *
+ * fxs: array de Fxs
  */
 public class Fxs {
     private Fx[] fxs;

@@ -26,8 +26,8 @@ import static com.badlogic.gdx.Application.ApplicationType.*;
  * weapons: manejador de armas
  * shields: manejador de escudos
  * fxs: manejador de fxs
- *
  * mapa: mapa actual
+ * colors: conjunto de colores de personajes
  */
 
 public class Assets {
@@ -43,6 +43,7 @@ public class Assets {
     private PartChar shields;
     private Fxs fxs;
     private Map mapa;
+    private Colors colors;
 
     public Assets() {
         gdxAssets = new AssetManager();
@@ -75,15 +76,16 @@ public class Assets {
         //gdxAssets.load(getAtlasGralGuiDir(), TextureAtlas.class); // TODO: descomentar esto cuando tenga algun GUI general
 
         // Sonidos
-        String[] soundDirs = Audio.getSoundDirs();
+        // TODO: cargarlos sobre la marcha y liberarlos al terminar c/u.
+        /*String[] soundDirs = Audio.getSoundDirs();
         for(String dir: soundDirs) {
             gdxAssets.load(dir, Sound.class);
-        }
+        }*/
     }
 
 
     /**
-     * DtCarga al resto de los assets que sabe cargar libGDX
+     * Carga al resto de los assets que sabe cargar libGDX
      * @return: proporcion que representa el progreso
      */
     public float loadNextAsset() {
@@ -104,29 +106,21 @@ public class Assets {
         weapons = new PartChar(Tipo.WEAPON);
         shields = new PartChar(Tipo.SHIELD);
         fxs = new Fxs();
+        colors = new Colors();
     }
 
     public Textures getTextures() { return textures; }
-
     public Grhs getGrhs() { return grhs; }
-
     public Fonts getFonts() { return fonts; }
-
     public Audio getAudio() { return audio; }
-
     public Bodies getBodies() { return bodies; }
-
     public PartChar getHeads() { return heads; }
-
     public PartChar getHelmets() { return helmets; }
-
     public PartChar getWeapons() { return weapons; }
-
     public PartChar getShields() { return shields; }
-
     public Fxs getFxs() { return fxs; }
-
     public Map getMapa() {  return mapa; }
+    public Colors getColors() { return colors; }
 
     public void changeMap(int num) { this.mapa = new Map(num); }
 

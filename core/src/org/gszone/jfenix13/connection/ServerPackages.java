@@ -4,29 +4,33 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Queue;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.general.Main;
-import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.graphics.Grh;
-import org.gszone.jfenix13.objects.Char;
-import org.gszone.jfenix13.objects.MapTile;
-import org.gszone.jfenix13.objects.Objeto;
+import org.gszone.jfenix13.objects.*;
 import org.gszone.jfenix13.screens.Screen;
 import org.gszone.jfenix13.screens.desktop.DtPrincipal;
 import org.gszone.jfenix13.screens.mobile.MbPrincipal;
-
-import static org.gszone.jfenix13.utils.Bytes.*;
 import org.gszone.jfenix13.general.General.Direccion;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
 
+import static org.gszone.jfenix13.containers.GameData.*;
+import static org.gszone.jfenix13.utils.Bytes.*;
+
+
 /**
  * Clase con los paquetes que vienen del servidor y el cliente tiene que procesar
+ *
+ * cola: conjunto de secuencias de paquetes (el socket va ingresando las secuencias constantemente).
  */
 public class ServerPackages {
+
+    // Enumeración de los paquetes que se reciben del servidor
     enum ID {
         Logged,                  // LOGGED
         RemoveDialogs,           // QTDL
@@ -129,7 +133,14 @@ public class ServerPackages {
         GuildFoundation
     }
 
+    private Queue<Array<Byte>> cola;
+
+    public Queue<Array<Byte>> getCola() {
+        return cola;
+    }
+
     public ServerPackages() {
+        cola = new Queue();
     }
 
     public GameData getGD() { return Main.getInstance().getGameData(); }
@@ -137,7 +148,16 @@ public class ServerPackages {
     private Stage getActStage() { return ((Screen)Main.getInstance().getScreen()).getStage(); }
 
     /**
-     * Ejecuta el método correspondiente al ID del paquete recibido.
+     * Lee los paquetes almacenados en la cola.
+     */
+    public void doActions() {
+        int size = cola.size;
+        for (int i = 0; i < size; i++)
+            handleReceived(cola.removeFirst());
+    }
+
+    /**
+     * Ejecuta los métodos correspondientes al ID de los paquetes recibidos.
      */
     public void handleReceived(Array<Byte> bytes) {
         /*
@@ -149,9 +169,6 @@ public class ServerPackages {
 
         while (bytes.size > 0 && !broken) {
             ID id = ID.values()[readByte(bytes)];
-
-            // TODO: borrar sout
-            System.out.println(id.ordinal());
 
             switch (id) {
                 case CreateFX:
@@ -180,6 +197,9 @@ public class ServerPackages {
                     break;
                 case CharacterCreate:
                     handleCharacterCreate(bytes);
+                    break;
+                case CharacterChange:
+                    handleCharacterChange(bytes);
                     break;
                 case UserCharIndexInServer:
                     handleUserCharIndexInServer(bytes);
@@ -223,11 +243,47 @@ public class ServerPackages {
                 case PosUpdate:
                     handlePosUpdate(bytes);
                     break;
+                case ChatOverHead:
+                    handleChatOverHead(bytes);
+                    break;
                 case ConsoleMsg:
                     handleConsoleMsg(bytes);
                     break;
+                case CharacterRemove:
+                    handleCharacterRemove(bytes);
+                    break;
+                case ForceCharMove:
+                    handleForceCharMove(bytes);
+                    break;
+                case RemoveDialogs:
+                    handleRemoveDialogs();
+                    break;
+                case PlaySound:
+                    handlePlaySound(bytes);
+                    break;
+                case RemoveCharDialog:
+                    handleRemoveCharDialog(bytes);
+                    break;
+                case UpdateSta:
+                    handleUpdateSta(bytes);
+                    break;
+                case UpdateMana:
+                    handleUpdateMana(bytes);
+                    break;
+                case UpdateHP:
+                    handleUpdateHP(bytes);
+                    break;
+                case UpdateGold:
+                    handleUpdateGold(bytes);
+                    break;
+                case UpdateExp:
+                    handleUpdateExp(bytes);
+                    break;
+                case Disconnect:
+                    handleDisconnect();
+                    break;
                 default:
-                    System.out.println("se rompió...");
+                    Dialogs.showOKDialog(getActStage(), "Error", "No se reconoce el paquete '" + id.toString() + "'. Posiblemente se perdieron más paquetes");
                     broken = true;
                     break;
             }
@@ -238,15 +294,13 @@ public class ServerPackages {
      * Asigna un FX a un char
      */
     public void handleCreateFX(Array<Byte> bytes) {
-        short index = readShort(bytes);
-        short fx = readShort(bytes);
+        short charIndex = readShort(bytes);
+        short fxIndex = readShort(bytes);
         short loops = readShort(bytes);
 
-        Grh grh = new Grh(getAssets().getFxs().getFx(fx).getGrhIndex());
-        grh.setLoops(loops);
-
-        getGD().getChars().getChar(index).setFx(grh);
-        getGD().getChars().getChar(index).setFxIndex(fx);
+        Char c = getGD().getChars().getChar(charIndex);
+        if (c == null) return;
+        c.setFx(fxIndex, loops);
     }
 
 
@@ -291,6 +345,7 @@ public class ServerPackages {
         readShort(bytes);
 
         getAssets().changeMap(getGD().getCurrentUser().getMap());
+        getGD().getChars().clear();
         // TODO: manejar la lluvia.. (si no hay, parar el sonido)
     }
 
@@ -304,139 +359,188 @@ public class ServerPackages {
     }
 
 
+    /**
+     * Define la nueva área, y borra todos los personajes y objetos que no pertenecen a esa área
+     */
     private void handleAreaChanged(Array<Byte> bytes) {
-        // Los valores están hardcodeados, no dependen del tamaño del mapa
-        Rect area = Main.getInstance().getGameData().getArea();
+        // Los valores están hardcodeados
+        Rect area = getGD().getCurrentUser().getArea();
         int x = readByte(bytes);
         int y = readByte(bytes);
-        Position pos = new Position(x, y);
 
-        area.setX1((x / 11 - 1) * 11);
-        area.setWidth(32);
+        area.setX1((x / 9 - 1) * 9);
+        area.setWidth(26);
 
-        area.setY1((y / 11 - 1) * 11);
-        area.setHeight(32);
+        area.setY1((y / 9 - 1) * 9);
+        area.setHeight(26);
 
         for (int i = 1; i <= 100; i++) {
             for (int j = 1; j <= 100; j++) {
-                if (!area.isPointIn(pos)) {
+                if (!area.isPointIn(new Position(i, j))) {
                     // Borro usuarios y npcs.
-                    MapTile tile = Main.getInstance().getAssets().getMapa().getTile(i, j);
+                    MapTile tile = getAssets().getMapa().getTile(i, j);
                     if (tile.getCharIndex() > 0) {
-                        if (tile.getCharIndex() != Main.getInstance().getGameData().getCurrentUser().getIndexInServer()) {
-                            Main.getInstance().getGameData().getChars().deleteChar(tile.getCharIndex());
+                        if (tile.getCharIndex() != getGD().getCurrentUser().getIndexInServer()) {
+                            getGD().getChars().deleteChar(tile.getCharIndex());
                         }
                     }
 
-                    // TODO: borrar objetos
+                    // Borro objetos
                     tile.setObjeto(null);
                 }
             }
         }
 
-
-
+        getGD().getChars().refresh();
+        // TODO: remover dialogos de los que no están en la PCArea
     }
 
+    /**
+     * Crea un PJ o NPC, asignándole todas sus características y lo ubica en una posición del mapa
+     */
     private void handleCharacterCreate(Array<Byte> bytes) {
-        Grh[] grhs;
         int index = readShort(bytes);
-        int body = readShort(bytes);
-        int head = readShort(bytes);
-        int heading =  readByte(bytes);
-        int x = readByte(bytes);
-        int y = readByte(bytes);
-        int weapon = readShort(bytes);
-        int shield = readShort(bytes);
-        int helmet = readShort(bytes);
-        byte privs;
+        Char c = getGD().getChars().getChar(index, true);
 
-        Char user = getGD().getChars().getChar(index);
+        c.setBody(readShort(bytes));
+        c.setHead(readShort(bytes));
+        c.setHeading(General.Direccion.values()[readByte(bytes) - 1]);
+        c.getPos().set(readByte(bytes), readByte(bytes));
+        c.setWeapon(readShort(bytes));
+        c.setShield(readShort(bytes));
+        c.setHelmet(readShort(bytes));
 
         // Lecturas innecesarias (fx y loop, pero no se usan)
         readShort(bytes);
         readShort(bytes);
 
-        user.setNombre(readString(bytes));
-        user.setNombreOffset(-(int)(Drawer.getTextWidth(3, user.getNombre()) / 2) + Main.getInstance().getGeneral().getTilePixelWidth() / 2);
+        c.setNombre(readString(bytes));
+        c.setGuildName(readString(bytes));
+        c.setBando(readByte(bytes));
 
-        user.setGuildName(readString(bytes));
-        user.setGuildNameOffset(-(int)(Drawer.getTextWidth(3, user.getGuildName()) / 2) + Main.getInstance().getGeneral().getTilePixelWidth() / 2);
+        // Privilegios
+        byte privs = readByte(bytes);
+        if (privs != 0) {
+            // Si es del concejo del caos y tiene privilegios
+            if ((privs & 64) != 0 && (privs & 1) == 0)
+                privs = (byte)(privs ^ 64);
 
-        user.setCriminal(readByte(bytes));
+            // Si es del concejo de banderbill y tiene privilegios
+            if ((privs & 128) != 0 && (privs & 1) == 0)
+                privs = (byte)(privs ^ 128);
 
-        privs = readByte(bytes);
-        user.setPriv((int)(Math.log(privs) / Math.log(2)));
-        // TODO: manejar privilegios (es un if largo)
+            // Si es rolmaster
+            if ((privs & 32) != 0)
+                privs = 32;
+
+            // Con ésta operación se obtiene el número correspondiente al privilegio del usuario y se le asigna.
+            c.setPriv((int)(Math.log(privs) / Math.log(2)));
+        }
+        else
+            c.setPriv(0);
 
         // Actualizamos el atributo lastChar. (para saber cual es el index del char con nro mas alto)
         if (index > getGD().getChars().getLastChar()) getGD().getChars().setLastChar(index);
 
         // Si el char es nuevo, aumento la cantidad de chars.
-        if (!user.isActive()) getGD().getChars().setNumChars(getGD().getChars().getNumChars() + 1);
+        if (!c.isActive()) getGD().getChars().setNumChars(getGD().getChars().getNumChars() + 1);
 
-        if (weapon == 0) weapon = 2;
-        if (shield == 0) shield = 2;
-        if (helmet == 0) helmet = 2;
-
-        if (body > 0) {
-            grhs = new Grh[Direccion.values().length];
-            for (int i = 0; i < grhs.length; i++) {
-                Grh grh = new Grh(getAssets().getBodies().getBody(body).getGrhIndex(Direccion.values()[i]));
-                grhs[i] = grh;
-            }
-            user.setBody(grhs);
-            user.setBodyIndex(body);
-        }
-
-        if (head > 0) {
-            grhs = new Grh[Direccion.values().length];
-            for (int i = 0; i < grhs.length; i++) {
-                Grh grh = new Grh(getAssets().getHeads().getGrhDir(head).getGrhIndex(Direccion.values()[i]));
-                grhs[i] = grh;
-            }
-            user.setHead(grhs);
-            user.setHeadIndex(head);
-        }
-
-        grhs = new Grh[Direccion.values().length];
-        for (int i = 0; i < grhs.length; i++) {
-            Grh grh = new Grh(getAssets().getHelmets().getGrhDir(helmet).getGrhIndex(Direccion.values()[i]));
-            grhs[i] = grh;
-        }
-        user.setHelmet(grhs);
-
-
-        grhs = new Grh[Direccion.values().length];
-        for (int i = 0; i < grhs.length; i++) {
-            Grh grh = new Grh(getAssets().getShields().getGrhDir(shield).getGrhIndex(Direccion.values()[i]));
-            grhs[i] = grh;
-        }
-        user.setShield(grhs);
-
-
-        grhs = new Grh[Direccion.values().length];
-        for (int i = 0; i < grhs.length; i++) {
-            Grh grh = new Grh(getAssets().getWeapons().getGrhDir(weapon).getGrhIndex(Direccion.values()[i]));
-            grhs[i] = grh;
-        }
-        user.setWeapon(grhs);
-
-
-        user.setHeading(General.Direccion.values()[heading - 1]);
-        user.getPos().setX(x);
-        user.getPos().setY(y);
-        user.setActive(true);
-
-        getAssets().getMapa().getTile(x, y).setCharIndex(index);
+        // Lo activamos e insertamos en el mapa
+        c.setActive(true);
+        getAssets().getMapa().getTile((int)c.getPos().getX(), (int)c.getPos().getY()).setCharIndex(index);
+        getGD().getChars().refresh();
     }
 
+    /**
+     * Actualiza las características del PJ o NPC ya existente.
+     */
+    private void handleCharacterChange(Array<Byte> bytes) {
+        int index = readShort(bytes);
+        Char c = getGD().getChars().getChar(index);
+
+        c.setBody(readShort(bytes));
+        c.setHead(readShort(bytes));
+        c.setMuerto(c.getHeadIndex() == MUERTO_HEAD);
+        c.setHeading(Direccion.values()[readByte(bytes) - 1]);
+        c.setWeapon(readShort(bytes));
+        c.setShield(readShort(bytes));
+        c.setHelmet(readShort(bytes));
+        c.setFx(readShort(bytes), readShort(bytes));
+
+        User u = getGD().getCurrentUser();
+        if (index == u.getIndexInServer() && u.isCambiandoDir())
+            u.setCambiandoDir(false);
+
+        getGD().getChars().refresh();
+    }
+
+    /**
+     * Borra un PJ o NPC
+     */
+    private void handleCharacterRemove(Array<Byte> bytes) {
+        int index = readShort(bytes);
+        getGD().getChars().deleteChar(index);
+        getGD().getChars().refresh();
+    }
+
+    /**
+     * Mueve a cualquier PJ o NPC
+     */
+    private void handleCharacterMove(Array<Byte> bytes) {
+        getGD().getChars().moveChar(readShort(bytes), readByte(bytes), readByte(bytes));
+        getGD().getChars().refresh();
+    }
+
+    /**
+     * Mueve al PJ actual a una dirección especificada (el servidor fuerza el movimiento de nuestro PJ)
+     */
+    private void handleForceCharMove(Array<Byte> bytes) {
+        Direccion dir = Direccion.values()[readByte(bytes) - 1];
+        User u = getGD().getCurrentUser();
+        getGD().getChars().moveChar(u.getIndexInServer(), dir);
+        getGD().getWorld().setMove(dir);
+        getGD().getChars().refresh();
+    }
+
+    /**
+     * Actualiza la posición del usuario (en caso que esté incorrecta)
+     */
+    private void handlePosUpdate(Array<Byte> bytes) {
+        // Obtengo la posición real del personaje
+        int x = readByte(bytes);
+        int y = readByte(bytes);
+
+        // Obtengo la posición posiblemente incorrecta
+        Position wPos = getGD().getWorld().getPos();
+
+        // Si estaba bien, salgo
+        if (wPos.equals(new Position(x, y))) return;
+
+        // Si estaba mal:
+        // Borro el char de esa pos del mapa
+        getAssets().getMapa().getTile((int)wPos.getX(), (int)wPos.getY()).setCharIndex(0);
+
+        // Cambio las coordenadas del World
+        wPos.set(x, y);
+
+        // Pongo al char en donde debe ir realmente
+        User u = getGD().getCurrentUser();
+        getAssets().getMapa().getTile(x, y).setCharIndex(u.getIndexInServer());
+        Position cPos = getGD().getChars().getChar(u.getIndexInServer()).getPos();
+        cPos.set(x, y);
+
+        getGD().getWorld().setTecho();
+    }
+
+    /**
+     * Asigna el índice del usuario principal y cambia la posición del mundo
+     */
     private void handleUserCharIndexInServer(Array<Byte> bytes) {
         int index = readShort(bytes);
         getGD().getCurrentUser().setIndexInServer(index);
-        getGD().getWorld().getPos().setX(getGD().getChars().getChar(index).getPos().getX());
-        getGD().getWorld().getPos().setY(getGD().getChars().getChar(index).getPos().getY());
 
+        Position p = getGD().getChars().getChar(index).getPos();
+        getGD().getWorld().getPos().set(p.getX(), p.getY());
         getGD().getWorld().setTecho();
     }
 
@@ -479,6 +583,9 @@ public class ServerPackages {
         readShort(bytes);
     }
 
+    /**
+     * Carga la pantalla principal
+     */
     private void handleLogged() {
         if (Gdx.app.getType() == Application.ApplicationType.Desktop)
             Main.getInstance().setScreen(new DtPrincipal());
@@ -486,54 +593,122 @@ public class ServerPackages {
             Main.getInstance().setScreen(new MbPrincipal());
     }
 
+    /**
+     * Muestra un mensaje de error
+     */
     private void handleErrorMsg(Array<Byte> bytes) {
         Dialogs.showOKDialog(getActStage(), "Error", readString(bytes));
     }
 
+    /**
+     * Muestra un mensaje del servidor
+     */
     private void handleShowMessageBox(Array<Byte> bytes) {
         Dialogs.showOKDialog(getActStage(), "Mensaje del Servidor", readString(bytes));
     }
 
+    /**
+     * Crea un objeto en el mapa
+     */
     private void handleObjectCreate(Array<Byte> bytes) {
-        int x = readByte(bytes);
-        int y = readByte(bytes);
-        MapTile tile = Main.getInstance().getAssets().getMapa().getTile(x, y);
-
+        MapTile tile = getAssets().getMapa().getTile(readByte(bytes), readByte(bytes));
         tile.setObjeto(new Grh(readShort(bytes)));
     }
 
+    /**
+     * Borra un objeto del mapa
+     */
     private void handleObjectDelete(Array<Byte> bytes) {
-        int x = readByte(bytes);
-        int y = readByte(bytes);
-        MapTile tile = Main.getInstance().getAssets().getMapa().getTile(x, y);
-
+        MapTile tile = getAssets().getMapa().getTile(readByte(bytes), readByte(bytes));
         tile.setObjeto(null);
     }
 
+    /**
+     * Bloquea o desbloquea una posición del mapa
+     */
     private void handleBlockPosition(Array<Byte> bytes) {
-        int x = readByte(bytes);
-        int y = readByte(bytes);
-        MapTile tile = Main.getInstance().getAssets().getMapa().getTile(x, y);
-
+        MapTile tile = getAssets().getMapa().getTile(readByte(bytes), readByte(bytes));
         tile.setBlocked(readBoolean(bytes));
     }
 
-    private void handleCharacterMove(Array<Byte> bytes) {
+    /**
+     * Agrega el diálogo de un PJ
+     */
+    private void handleChatOverHead(Array<Byte> bytes) {
+        String texto = readString(bytes).trim();
         int index = readShort(bytes);
-        int x = readByte(bytes);
-        int y = readByte(bytes);
+        byte r = readByte(bytes);
+        byte g = readByte(bytes);
+        byte b = readByte(bytes);
 
-        Main.getInstance().getGameData().getChars().moveChar(index, x, y);
+        // TODO: crear diálogo arriba del pj
     }
 
-    private void handlePosUpdate(Array<Byte> bytes) {
-        readByte(bytes);
-        readByte(bytes);
-    }
-
+    /**
+     * Agrega un mensaje en consola
+     */
     private void handleConsoleMsg(Array<Byte> bytes) {
-        readString(bytes);
+        readString(bytes); //TODO: << agregar este mensaje en la consola
+        readByte(bytes); // TODO: << con esta ID de fuente...
+    }
+
+    private void handleRemoveDialogs() {
+        // TODO: Borrar diálogos
+    }
+
+    /**
+     * Reproduce un sonido
+     */
+    private void handlePlaySound(Array<Byte> bytes) {
+        getAssets().getAudio().playSound(readByte(bytes));
+
+        // Estos valores corresponden a la posición (X, Y) de donde proviene el sonido (para sonido 3D, que no se usa)
+        readByte(bytes);
         readByte(bytes);
     }
+
+    /**
+     * Borra el dialogo de un PJ
+     */
+    private void handleRemoveCharDialog(Array<Byte> bytes) {
+        int index = readShort(bytes);
+
+        //TODO: llamar a RemoveDialog(index)
+    }
+
+    private void handleDisconnect() {
+        Main.getInstance().getConnection().dispose();
+        // TODO: parar lluvia
+        Main.getInstance().setScreen(Screen.Scr.MENU);
+        getGD().resetGameData();
+        getAssets().getAudio().playMusic(6);
+    }
+
+    public void handleUpdateSta(Array<Byte> bytes) {
+        User u = getGD().getCurrentUser();
+        u.setMinSta(readShort(bytes));
+    }
+
+    public void handleUpdateMana(Array<Byte> bytes) {
+        User u = getGD().getCurrentUser();
+        u.setMinMana(readShort(bytes));
+    }
+
+    public void handleUpdateHP(Array<Byte> bytes) {
+        User u = getGD().getCurrentUser();
+        u.setMinHP(readShort(bytes));
+    }
+
+    public void handleUpdateGold(Array<Byte> bytes) {
+        User u = getGD().getCurrentUser();
+        u.setOro(readInt(bytes));
+    }
+
+    public void handleUpdateExp(Array<Byte> bytes) {
+        User u = getGD().getCurrentUser();
+        u.setMinExp(readInt(bytes));
+    }
+
+
 
 }

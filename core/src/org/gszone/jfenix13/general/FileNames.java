@@ -1,5 +1,8 @@
 package org.gszone.jfenix13.general;
 
+/**
+ * Clase que permite obtener la dirección de cada fichero del juego.
+ */
 public class FileNames {
     public static final String DIR_FONTS = "fonts";
     public static final String DIR_GUI = "gui";
