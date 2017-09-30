@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "../../lml.dtd">
+
+<window title="JFénix13" titlealign="center" movable="false" onecolumn="true" defaultpadtop="2" defaultpadbottom="2">
+    <textfield message="nombre..." focusborderenabled="false"></textfield>
+    <textfield message="contraseña.." passwordcharacter="*" passwordmode="true" focusborderenabled="false"></textfield>
+    <textbutton id="first">Entrar</textbutton>
+</window>

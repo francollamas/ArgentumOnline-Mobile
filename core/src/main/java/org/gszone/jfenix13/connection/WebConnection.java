@@ -9,7 +9,7 @@ import com.sksamuel.gwt.websockets.*;
  * socket: conexión con el servidor
  */
 public class WebConnection implements Connection {
-    public static final String IP = "192.168.1.27";
+    public static final String IP = "192.168.1.2";
     public static final int PORT = 7678;
 
     private ClientPackages clPack;

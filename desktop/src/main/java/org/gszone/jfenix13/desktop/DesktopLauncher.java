@@ -19,8 +19,8 @@ public class DesktopLauncher {
 
     private static LwjglApplicationConfiguration getDefaultConfiguration() {
         LwjglApplicationConfiguration configuration = new LwjglApplicationConfiguration();
-        configuration.width = 800;
-        configuration.height = 600;
+        configuration.width = Main.WIDTH[0];
+        configuration.height = Main.HEIGHT[0];
         configuration.resizable = false;
         //configuration.fullscreen = true;
         for (int size : new int[] { 128, 64, 32, 16 }) {

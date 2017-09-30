@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Queue;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import org.gszone.jfenix13.Main;
-import org.gszone.jfenix13.screens.Screen;
 
 import java.io.*;
 
@@ -94,7 +93,7 @@ public class GnConnection implements Connection {
             }
         }
         catch (GdxRuntimeException ex) {
-            Dialogs.showOKDialog(((Screen)Main.getInstance().getScreen()).getStage(), "Error", "No se pudo establecer la conexión con el servidor.");
+            // Dialogs.showOKDialog(((Screen)Main.getInstance().getScreen()).getStage(), "Error", "No se pudo establecer la conexión con el servidor.");
             socket = null;
             return;
         }

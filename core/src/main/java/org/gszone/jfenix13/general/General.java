@@ -1,6 +1,7 @@
 package org.gszone.jfenix13.general;
 
 import com.badlogic.gdx.Gdx;
+import org.gszone.jfenix13.Main;
 
 import static com.badlogic.gdx.Application.ApplicationType.*;
 
@@ -31,8 +32,8 @@ public class General {
 
         // Configuraciones específicas para escritorio
         if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL) {
-            scrWidth = 800;
-            scrHeight = 600;
+            scrWidth = Main.WIDTH[0];
+            scrHeight = Main.HEIGHT[0];
             windowsTileWidth = 17;
             windowsTileHeight = 13;
             tileBufferSizeX = 9;
@@ -42,8 +43,8 @@ public class General {
         // Configuraciones específicas para Android e iOS
         else {
             // Escala 16:9
-            scrWidth = 512; // 576
-            scrHeight = 288; // 296
+            scrWidth = Main.WIDTH[1];
+            scrHeight = Main.HEIGHT[1];
 
             windowsTileWidth = 11;
             windowsTileHeight = 9;

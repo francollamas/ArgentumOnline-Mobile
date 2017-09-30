@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.kotcrab.vis.ui.VisUI;
 import org.gszone.jfenix13.actors.Controller;
 import org.gszone.jfenix13.objects.Map;
@@ -49,7 +50,6 @@ public class Assets {
         gdxAssets = new AssetManager();
         audio = new Audio();
 
-        VisUI.load();
         preloadGdxAssets();
 
         // Cargar todos los elementos necesarios para poder visualizar la pantalla de carga.
@@ -63,6 +63,9 @@ public class Assets {
      * Precarga los assets (indica cuáles y de que tipo son los assets a cargar)
      */
     private void preloadGdxAssets() {
+        // Skin del juego
+        gdxAssets.load(getSkinDir(), Skin.class);
+
         // Atlas de las fuentes
         gdxAssets.load(getAtlasFontTexDir(), TextureAtlas.class);
 
@@ -130,7 +133,6 @@ public class Assets {
     public void dispose() {
         gdxAssets.dispose();
         textures.dispose();
-        VisUI.dispose();
         Controller.dispose();
         audio.dispose();
     }

@@ -4,6 +4,7 @@ package org.gszone.jfenix13.general;
  * Clase que permite obtener la dirección de cada fichero del juego.
  */
 public class FileNames {
+    public static final String DIR_VIEWS = "views";
     public static final String DIR_FONTS = "fonts";
     public static final String DIR_GUI = "gui";
     public static final String DIR_TEXTURAS = "textures";
@@ -12,6 +13,14 @@ public class FileNames {
     public static final String DIR_MAPS = "maps";
     public static final String DIR_MUSICS = "musics";
     public static final String DIR_SOUNDS = "sounds";
+
+    public static String getSkinDir() {
+        return "skin/tixel.json";
+    }
+
+    public static String getViewDir(String name) {
+        return DIR_VIEWS + "/" + name + ".lml";
+    }
 
     public static String getIconDir() {
         return DIR_ICON + "/ic_launcher.png";

@@ -12,9 +12,6 @@ import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.objects.*;
-import org.gszone.jfenix13.screens.Screen;
-import org.gszone.jfenix13.screens.DtPrincipal;
-import org.gszone.jfenix13.screens.MbPrincipal;
 import org.gszone.jfenix13.general.General.Direccion;
 import org.gszone.jfenix13.utils.BytesReader;
 import org.gszone.jfenix13.utils.Position;
@@ -149,7 +146,7 @@ public class ServerPackages {
 
     public GameData getGD() { return Main.getInstance().getGameData(); }
     public Assets getAssets() { return Main.getInstance().getAssets(); }
-    private Stage getActStage() { return ((Screen)Main.getInstance().getScreen()).getStage(); }
+    private Stage getActStage() { /*return ((Screen)Main.getInstance().getScreen()).getStage();*/ return new Stage();}
 
     /**
      * Lee los paquetes almacenados en la cola.
@@ -595,10 +592,10 @@ public class ServerPackages {
      * Carga la pantalla principal
      */
     private void handleLogged() {
-        if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL)
+        /*if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL)
             Main.getInstance().setScreen(new DtPrincipal());
         else
-            Main.getInstance().setScreen(new MbPrincipal());
+            Main.getInstance().setScreen(new MbPrincipal());*/
     }
 
     /**
@@ -687,7 +684,7 @@ public class ServerPackages {
     private void handleDisconnect() {
         Main.getInstance().getConnection().dispose();
         // TODO: parar lluvia
-        Main.getInstance().setScreen(Screen.Scr.MENU);
+        //Main.getInstance().setScreen(Screen.Scr.MENU);
         getGD().resetGameData();
         getAssets().getAudio().playMusic(6);
     }
