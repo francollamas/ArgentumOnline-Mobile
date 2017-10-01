@@ -1,8 +1,23 @@
 <?xml version="1.0"?>
 <!DOCTYPE window SYSTEM "../../lml.dtd">
 
-<window title="JFénix13" titlealign="center" movable="false" onecolumn="true" defaultpadtop="2" defaultpadbottom="2">
-    <textfield message="nombre..." focusborderenabled="false"></textfield>
-    <textfield message="contraseña.." passwordcharacter="*" passwordmode="true" focusborderenabled="false"></textfield>
-    <textbutton id="first">Entrar</textbutton>
+<window title="JFenix13" titlealign="center" movable="false" defaultpadleft="2" defaultpadright="2" defaultpadbottom="2">
+    <table onecolumn="true" defaultpadtop="2" defaultpadbottom="2" tablepadright="8">
+        <label color="t-highlight" align="left">Login</label>
+        <textfield id="log-nombre" message="nombre" focusborderenabled="false"></textfield>
+        <textfield message="contraseña" passwordcharacter="*" passwordmode="true" focusborderenabled="false"></textfield>
+        <textbutton>Entrar</textbutton>
+    </table>
+
+    <table onecolumn="true" defaultpadtop="2" defaultpadbottom="2" tablepadleft="8">
+        <label color="t-highlight" align="left">Administrar</label>
+        <textbutton fill="true">Crear personaje</textbutton>
+        <textbutton fill="true">Recuperar personaje</textbutton>
+        <textbutton fill="true">Borrar personaje</textbutton>
+    </table>
+
+
+
+
+
 </window>

@@ -23,6 +23,7 @@ import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.views.*;
+import org.gszone.jfenix13.views.actions.GlobalActions;
 
 import static org.gszone.jfenix13.general.FileNames.*;
 import static com.badlogic.gdx.Application.ApplicationType.*;
@@ -109,6 +110,7 @@ public class Main extends LmlApplicationListener {
 	@Override
 	protected LmlParser createParser() {
 		return VisLml.parser()
+				.actions("global", GlobalActions.class)
 				.i18nBundle(I18NBundle.createBundle(Gdx.files.internal("i18n/bundle")))
 				.build();
 	}
