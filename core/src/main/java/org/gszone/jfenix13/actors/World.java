@@ -1,9 +1,10 @@
 package org.gszone.jfenix13.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.gszone.jfenix13.connection.ClientPackages;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.Main;
@@ -191,10 +192,15 @@ public class World extends Actor {
     }
 
     /**
-     * Dibuja todos los elementos del World.
-     * (no uso el método draw() de Actor, para poder manejar el uso de scissors (limitar render a un rectángulo específico)
+     * Dibuja todo el mundo!
      */
-    public void render(Stage stage) {
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        Drawer.pushScissors(getStage(), getRect());
+        if (parentAlpha < 1) {
+            Color c = Drawer.getDefColor();
+            Drawer.setDefColor(new Color(c.r * parentAlpha, c.g * parentAlpha, c.b * parentAlpha, c.a));
+        }
         int x, y;
         MapTile tile;
         Position tempPos = new Position();
@@ -277,11 +283,11 @@ public class World extends Actor {
                 }
 
                 // Capa 1
-                Drawer.drawGrh(stage.getBatch(), tile.getCapa(0), tempPos.getX(), tempPos.getY(), dpA);
+                Drawer.drawGrh(batch, tile.getCapa(0), tempPos.getX(), tempPos.getY(), dpA);
 
                 // Capa 2
                 if (tile.getCapa(1) != null)
-                    Drawer.drawGrh(stage.getBatch(), tile.getCapa(1), tempPos.getX(), tempPos.getY(), dpAC);
+                    Drawer.drawGrh(batch, tile.getCapa(1), tempPos.getX(), tempPos.getY(), dpAC);
 
                 screen.addX(1);
             }
@@ -307,15 +313,15 @@ public class World extends Actor {
                 // Objetos
                 if (tile.getObjeto() != null)
                     if (tile.getObjeto() != null)
-                        Drawer.drawGrh(stage.getBatch(), tile.getObjeto(), tempPos.getX(), tempPos.getY(), dpAC);
+                        Drawer.drawGrh(batch, tile.getObjeto(), tempPos.getX(), tempPos.getY(), dpAC);
 
                 // Personajes
                 if (tile.getCharIndex() != 0)
-                    drawChar(stage, tile.getCharIndex(), tempPos.getX(), tempPos.getY(), dpAC);
+                    drawChar(batch, tile.getCharIndex(), tempPos.getX(), tempPos.getY(), dpAC);
 
                 // Capa 3
                 if (tile.getCapa(2) != null)
-                    Drawer.drawGrh(stage.getBatch(), tile.getCapa(2), tempPos.getX(), tempPos.getY(), dpAC);
+                    Drawer.drawGrh(batch, tile.getCapa(2), tempPos.getX(), tempPos.getY(), dpAC);
 
                 screen.addX(1);
             }
@@ -340,7 +346,7 @@ public class World extends Actor {
 
                     // Capa 4
                     if (tile.getCapa(3) != null)
-                        Drawer.drawGrh(stage.getBatch(), tile.getCapa(3), tempPos.getX(), tempPos.getY(), dpAC);
+                        Drawer.drawGrh(batch, tile.getCapa(3), tempPos.getX(), tempPos.getY(), dpAC);
 
                     screen.addX(1);
                 }
@@ -349,12 +355,15 @@ public class World extends Actor {
             }
         }
 
+        Drawer.popScissors(getStage());
+        Drawer.setDefColor(Color.WHITE);
     }
+
 
     /**
      * Dibuja a un char. (es llamado por el método render())
      */
-    private void drawChar(Stage stage, int charIndex, float x, float y, DrawParameter dp) {
+    private void drawChar(Batch batch, int charIndex, float x, float y, DrawParameter dp) {
         Char c = Main.getInstance().getGameData().getChars().getChar(charIndex);
         int heading = c.getHeading().ordinal();
         boolean moved = false;
@@ -427,34 +436,34 @@ public class World extends Actor {
             if (c.getBody() != null) {
                 Body bodyData = Main.getInstance().getAssets().getBodies().getBody(c.getBodyIndex());
                 headOffset = bodyData.getHeadOffset();
-                Drawer.drawGrh(stage.getBatch(), c.getBody()[heading], x, y, dp);
+                Drawer.drawGrh(batch, c.getBody()[heading], x, y, dp);
             } else
                 headOffset = new Position();
 
             if (c.getHead() != null)
-                Drawer.drawGrh(stage.getBatch(), c.getHead()[heading], x + headOffset.getX(), y + headOffset.getY(), dp);
+                Drawer.drawGrh(batch, c.getHead()[heading], x + headOffset.getX(), y + headOffset.getY(), dp);
 
             if (c.getHelmet() != null)
-                Drawer.drawGrh(stage.getBatch(), c.getHelmet()[heading], x + headOffset.getX(), y + headOffset.getY(), dp);
+                Drawer.drawGrh(batch, c.getHelmet()[heading], x + headOffset.getX(), y + headOffset.getY(), dp);
 
             if (c.getWeapon() != null)
-                Drawer.drawGrh(stage.getBatch(), c.getWeapon()[heading], x, y, dp);
+                Drawer.drawGrh(batch, c.getWeapon()[heading], x, y, dp);
 
             if (c.getShield() != null)
-                Drawer.drawGrh(stage.getBatch(), c.getShield()[heading], x, y, dp);
+                Drawer.drawGrh(batch, c.getShield()[heading], x, y, dp);
 
 
             if (c.getNombre().length() > 0) {
                 DrawParameter dpc = new DrawParameter();
                 dpc.setColor(Main.getInstance().getAssets().getColors().getColor(c.getPriv(), c.getBando()));
-                Drawer.drawText(stage.getBatch(), 3, c.getNombre(), x + 16, y + 30, Alignment.CENTER, dpc);
+                Drawer.drawText(batch, 3, c.getNombre(), x + 16, y + 30, Alignment.CENTER, dpc);
             }
 
         }
 
         if (c.getFxIndex() != 0) {
             Fx fxData = Main.getInstance().getAssets().getFxs().getFx(c.getFxIndex());
-            Drawer.drawGrh(stage.getBatch(), c.getFx(), x + fxData.getOffset().getX(), y + fxData.getOffset().getY(), dp);
+            Drawer.drawGrh(batch, c.getFx(), x + fxData.getOffset().getX(), y + fxData.getOffset().getY(), dp);
             if (c.getFx().getStarted() == 0) {
                 c.setFx(0, 0);
             }

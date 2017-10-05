@@ -2,6 +2,7 @@ package org.gszone.jfenix13.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -179,7 +180,7 @@ public final class Drawer {
         else
             sp.setColor(new Color(c[0].r * defColor.r, c[0].g * defColor.g, c[0].b * defColor.b,
                     c[0].a * defColor.a));
-        sp.setAlpha(dp.getAlphas()[0]);
+        sp.setAlpha(dp.getAlphas()[0] * defColor.a);
 
 
         sp.setScale(dp.getScaleX(), dp.getScaleY());

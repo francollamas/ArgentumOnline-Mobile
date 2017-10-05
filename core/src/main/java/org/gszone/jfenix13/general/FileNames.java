@@ -15,7 +15,8 @@ public class FileNames {
     public static final String DIR_SOUNDS = "sounds";
 
     public static String getSkinDir() {
-        return "skin/tixel.json";
+        //return "skin/tixel.json";
+        return "skin/skin.json";
     }
 
     public static String getViewDir(String name) {

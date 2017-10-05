@@ -2,11 +2,8 @@ package org.gszone.jfenix13.containers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.kotcrab.vis.ui.VisUI;
-import org.gszone.jfenix13.actors.Controller;
 import org.gszone.jfenix13.objects.Map;
 import static org.gszone.jfenix13.containers.PartChar.*;
 
@@ -133,7 +130,6 @@ public class Assets {
     public void dispose() {
         gdxAssets.dispose();
         textures.dispose();
-        Controller.dispose();
         audio.dispose();
     }
 }

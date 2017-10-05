@@ -16,6 +16,7 @@ import org.gszone.jfenix13.general.General.Direccion;
 import org.gszone.jfenix13.utils.BytesReader;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
+import org.gszone.jfenix13.views.PrincipalView;
 
 import static com.badlogic.gdx.Application.ApplicationType.*;
 import static org.gszone.jfenix13.containers.GameData.*;
@@ -146,7 +147,7 @@ public class ServerPackages {
 
     public GameData getGD() { return Main.getInstance().getGameData(); }
     public Assets getAssets() { return Main.getInstance().getAssets(); }
-    private Stage getActStage() { /*return ((Screen)Main.getInstance().getScreen()).getStage();*/ return new Stage();}
+    private Stage getActStage() { return Main.getInstance().getCurrentView().getStage();}
 
     /**
      * Lee los paquetes almacenados en la cola.
@@ -592,10 +593,12 @@ public class ServerPackages {
      * Carga la pantalla principal
      */
     private void handleLogged() {
+        // TODO: revisar esto para mobiles...
         /*if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL)
             Main.getInstance().setScreen(new DtPrincipal());
         else
             Main.getInstance().setScreen(new MbPrincipal());*/
+        Main.getInstance().setView(PrincipalView.class);
     }
 
     /**

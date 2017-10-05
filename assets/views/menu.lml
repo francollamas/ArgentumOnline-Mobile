@@ -1,23 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE window SYSTEM "../../lml.dtd">
 
-<window title="JFenix13" titlealign="center" movable="false" defaultpadleft="2" defaultpadright="2" defaultpadbottom="2">
-    <table onecolumn="true" defaultpadtop="2" defaultpadbottom="2" tablepadright="8">
-        <label color="t-highlight" align="left">Login</label>
-        <textfield id="log-nombre" message="nombre" focusborderenabled="false"></textfield>
-        <textfield message="contraseña" passwordcharacter="*" passwordmode="true" focusborderenabled="false"></textfield>
-        <textbutton>Entrar</textbutton>
+<window title="@mn-title" onecolumn="true" textalign="center" movable="false" defaultpad="2">
+
+    <table onecolumn="true" defaultpad="2" tablepadbottom="4">
+        <label style="small" align="left">@mn-manage</label>
+        <textbutton onclick="setView" id="crear_pj" style="default" fill="true">@mn-createchar</textbutton>
+        <textbutton fill="true">@mn-recoverchar</textbutton>
+        <textbutton fill="true">@mn-deletechar</textbutton>
     </table>
 
-    <table onecolumn="true" defaultpadtop="2" defaultpadbottom="2" tablepadleft="8">
-        <label color="t-highlight" align="left">Administrar</label>
-        <textbutton fill="true">Crear personaje</textbutton>
-        <textbutton fill="true">Recuperar personaje</textbutton>
-        <textbutton fill="true">Borrar personaje</textbutton>
+    <table onecolumn="true" defaultpad="2" tablepadtop="4">
+        <label style="small" align="left">@mn-login</label>
+        <textfield id="nombre" message="@mn-name-ms" focusborderenabled="true"></textfield>
+        <textfield id="contraseña" message="@mn-pass-ms" passwordcharacter="*" passwordmode="true" focusborderenabled="true"></textfield>
+        <textbutton onclick="conectar">@mn-enter</textbutton>
     </table>
-
-
-
-
-
 </window>

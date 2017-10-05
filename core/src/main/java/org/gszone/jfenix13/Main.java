@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -72,8 +73,8 @@ public class Main extends LmlApplicationListener {
 		// Asigna alias a todas las clases de las vistas para que sean reconocidas desde los archivos lml
 		addClassAlias(CargaView.ID, CargaView.class);
 		addClassAlias(MenuView.ID, MenuView.class);
-
-
+		addClassAlias(PrincipalView.ID, PrincipalView.class);
+		addClassAlias(CrearPjView.ID, CrearPjView.class);
 		setView(CargaView.class);
 	}
 
@@ -129,15 +130,33 @@ public class Main extends LmlApplicationListener {
 	}
 
 	@Override
-	protected Action getViewHidingAction(AbstractLmlView view) {
-		// Redefino el efecto de ocultar pantala por uno que no hace nada.
-		return Actions.visible(true);
+	public void setView(final AbstractLmlView view, Action doAfterHide) {
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				AbstractLmlView curr = getCurrentView();
+				setCurrentView(view);
+				if (curr != null) clearView(curr);
+
+					getCurrentView().resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), isCenteringCameraOnResize());
+					Gdx.input.setInputProcessor(getCurrentView().getStage());
+					getCurrentView().show();
+					getCurrentView().getStage().addAction(getViewShowingAction(view));
+			}
+		};
+
+		if (doAfterHide == null)
+			r.run();
+		else {
+			Gdx.input.setInputProcessor(null);
+			getCurrentView().hide();
+			getCurrentView().getStage().addAction(Actions.sequence(doAfterHide, Actions.run(r)));
+		}
 	}
 
 	@Override
-	protected Action getViewShowingAction(AbstractLmlView view) {
-		// Redefino el efecto de mostrar pantala por uno que no hace nada.
-		return Actions.visible(true);
+	protected float getViewTransitionDuration() {
+		return 0.25f;
 	}
 
 	public Batch getBatch() { return batch; }

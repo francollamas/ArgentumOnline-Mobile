@@ -35,7 +35,6 @@ public class CargaView extends View {
     @Override
     public void show() {
         setBackground();
-        super.show();
 
         if (Gdx.app.getType() == WebGL)
             loader = new WebLoader();
@@ -47,18 +46,21 @@ public class CargaView extends View {
         // Eventos generales de mouse y teclado
         getStage().addListener(new InputListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                solicitaSalir = true;
-                return super.touchDown(event, x, y, pointer, button);
-            }
-
-            @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE)
                     solicitaSalir = true;
                 return super.keyUp(event, keycode);
             }
         });
+
+        if (background != null)
+            background.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    solicitaSalir = true;
+                    return super.touchDown(event, x, y, pointer, button);
+                }
+            });
 
         Main.getInstance().getAssets().getAudio().playMusic(6);
     }

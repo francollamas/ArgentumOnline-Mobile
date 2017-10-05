@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "../../lml.dtd">
+
+<window onecolumn="true" title="@cp-title" titlealign="center" movable="false">
+
+    <table defaultpadleft="15" defaultpadright="15">
+        <table onecolumn="true" defaultpad="5">
+            <label style="small" align="left">Datos del personaje</label>
+            <textfield id="nombre" message="@cp-name-ms"></textfield>
+            <textfield message="@cp-pass-ms" passcharacter="*" passwordmode="true"></textfield>
+            <textfield message="@cp-rpass-ms" passcharacter="*" passwordmode="true"></textfield>
+            <textfield message="@cp-mail-ms"></textfield>
+            <textfield message="@cp-rmail-ms"></textfield>
+        </table>
+
+        <table onecolumn="true" defaultpad="5">
+            <intspinner min="-50" max="50" value="30" step="10"></intspinner>
+            <table onecolumn="true">
+                <label style="small" align="left">Nacer en:</label>
+                <selectbox>
+                    Ullathorpe
+                    Lindos
+                    Arghal
+                    Banderbill
+                    Nix
+                </selectbox>
+            </table>
+
+            <table onecolumn="true">
+                <label style="small" align="left">Género:</label>
+                <selectbox>
+                    Femenino
+                    Masculino
+                </selectbox>
+            </table>
+
+            <table onecolumn="true">
+                <label style="small" align="left">Raza:</label>
+                <selectbox>
+                    Humano
+                    Elfo
+                    Elfo Oscuro
+                    Enano
+                    Gnomo
+                </selectbox>
+            </table>
+
+        </table>
+
+    </table>
+    <table defaultpadleft="15" defaultpadright="15" tablepad="10">
+        <textbutton onclick="setView" id="menu">@cp-back</textbutton>
+        <textbutton>@cp-create</textbutton>
+    </table>
+</window>

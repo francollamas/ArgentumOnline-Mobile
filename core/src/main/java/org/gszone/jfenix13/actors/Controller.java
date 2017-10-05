@@ -1,10 +1,9 @@
 package org.gszone.jfenix13.actors;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
-import org.gszone.jfenix13.general.FileNames;
-import org.gszone.jfenix13.general.General.Direccion;
+import com.kotcrab.vis.ui.VisUI;
+import org.gszone.jfenix13.Main;
+import org.gszone.jfenix13.general.General;
 
 import static org.gszone.jfenix13.general.General.Direccion.*;
 
@@ -15,33 +14,8 @@ import static org.gszone.jfenix13.general.General.Direccion.*;
  * world: referencia al mundo para poder moverse en él.
  */
 public class Controller extends Touchpad {
-    private static Skin tpSkin;
-    private static TouchpadStyle tpStyle;
-
-    private World world;
-
     public Controller() {
-        super(15, getTouchPadStyle());
-        setSize(108, 108);
-    }
-
-    /**
-     * Obtiene el estilo del touchpad (gráficos que lo representan)
-     */
-    private static TouchpadStyle getTouchPadStyle(){
-
-        tpSkin = new Skin();
-        tpSkin.add("tp_background", new Texture(FileNames.DIR_GUI + "/tp_background.png"));
-        tpSkin.add("tp_knob", new Texture(FileNames.DIR_GUI + "/tp_knob.png"));
-
-        tpStyle = new TouchpadStyle();
-        tpStyle.background = tpSkin.getDrawable("tp_background");
-        tpStyle.knob = tpSkin.getDrawable("tp_knob");
-        return tpStyle;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
+        super(15, VisUI.getSkin());
     }
 
     /**
@@ -51,11 +25,12 @@ public class Controller extends Touchpad {
     public void act(float delta) {
         super.act(delta);
 
+        World w = Main.getInstance().getGameData().getWorld();
         if (isTouched())
-            if (!world.isMoving()) {
+            if (!w.isMoving()) {
                 float despX = getKnobPercentX();
                 float despY = getKnobPercentY();
-                Direccion dir = null;
+                General.Direccion dir = null;
                 if (despX != 0 || despY != 0)
                     if (Math.abs(despX) > Math.abs(despY))
                         if (despX > 0)
@@ -63,22 +38,15 @@ public class Controller extends Touchpad {
                         else
                             dir = OESTE;
                     else
-                        if (despY > 0)
-                            dir = NORTE;
-                        else
-                            dir = SUR;
+                    if (despY > 0)
+                        dir = NORTE;
+                    else
+                        dir = SUR;
 
                 if (dir != null)
-                    world.moveChar(dir);
+                    w.moveChar(dir);
             }
     }
-
-    /**
-     * Destruye el skin del estilo del controlador
-     */
-    public static void dispose() {
-        if (tpSkin != null)
-            tpSkin.dispose();
-        tpStyle = null;
-    }
 }
+
+
