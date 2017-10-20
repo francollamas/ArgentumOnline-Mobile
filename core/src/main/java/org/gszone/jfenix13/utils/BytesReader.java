@@ -70,12 +70,14 @@ public class BytesReader {
         return b;
     }
 
-    public byte readByte() {
-        return bytes[pos++];
+    public int readByte() {
+        int num = bytes[pos++];
+        if (num < 0) num += 256;
+        return num;
     }
 
     public boolean readBoolean() {
-        return bytes[pos++] > 0;
+        return bytes[pos++] != 0;
     }
 
     public short readShort() {
@@ -110,8 +112,12 @@ public class BytesReader {
         int length = readShort();
 
         StringBuilder texto = new StringBuilder(length);
-        for (int i = 0; i < length; i++)
-            texto.append((char)bytes[pos+i]);
+        for (int i = 0; i < length; i++) {
+            int num = bytes[pos + i];
+            if (num < 0) num += 256;
+            texto.append((char)num);
+        }
+
         pos += texto.toString().length();
         return texto.toString();
     }

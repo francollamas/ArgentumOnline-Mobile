@@ -3,7 +3,7 @@ atlasData: {
 	atlasCurrent: true
 	drawables: [
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/default.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/default.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -16,7 +16,7 @@ atlasData: {
 			name: default
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/font-small.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/font-small.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -29,7 +29,7 @@ atlasData: {
 			name: font-small
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/panel2.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/panel2.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -42,7 +42,7 @@ atlasData: {
 			name: panel2
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/progress-bar-horizontal.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/progress-bar-horizontal.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -55,7 +55,7 @@ atlasData: {
 			name: progress-bar-horizontal
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/progress-bar-knob-horizontal.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/progress-bar-knob-horizontal.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -68,7 +68,7 @@ atlasData: {
 			name: progress-bar-knob-horizontal
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/progress-bar-knob-vertical.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/progress-bar-knob-vertical.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -81,7 +81,7 @@ atlasData: {
 			name: progress-bar-knob-vertical
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/progress-bar-vertical.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/progress-bar-vertical.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -94,7 +94,7 @@ atlasData: {
 			name: progress-bar-vertical
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/radio.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/radio.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -107,7 +107,7 @@ atlasData: {
 			name: radio
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/radio-checked.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/radio-checked.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -120,7 +120,7 @@ atlasData: {
 			name: radio-checked
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/radio-checked-pressed.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/radio-checked-pressed.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -133,7 +133,7 @@ atlasData: {
 			name: radio-checked-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/radio-pressed.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/radio-pressed.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -146,7 +146,7 @@ atlasData: {
 			name: radio-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/scrollbar-horizontal.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/scrollbar-horizontal.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -159,7 +159,7 @@ atlasData: {
 			name: scrollbar-horizontal
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/scrollbar-vertical.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/scrollbar-vertical.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -172,7 +172,7 @@ atlasData: {
 			name: scrollbar-vertical
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/select-box.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/select-box.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -185,7 +185,7 @@ atlasData: {
 			name: select-box
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/select-box-pressed.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/select-box-pressed.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -198,7 +198,7 @@ atlasData: {
 			name: select-box-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/selection.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/selection.9.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -211,7 +211,7 @@ atlasData: {
 			name: selection
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/slider-knob-horizontal.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/slider-knob-horizontal.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -224,7 +224,7 @@ atlasData: {
 			name: slider-knob-horizontal
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/slider-knob-pressed-horizontal.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/slider-knob-pressed-horizontal.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -237,7 +237,7 @@ atlasData: {
 			name: slider-knob-pressed-horizontal
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/slider-knob-pressed-vertical.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/slider-knob-pressed-vertical.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -250,7 +250,7 @@ atlasData: {
 			name: slider-knob-pressed-vertical
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/slider-knob-vertical.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/slider-knob-vertical.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -263,7 +263,7 @@ atlasData: {
 			name: slider-knob-vertical
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/splitpane-horizontal.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/splitpane-horizontal.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -276,7 +276,7 @@ atlasData: {
 			name: splitpane-horizontal
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/splitpane-vertical.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/splitpane-vertical.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -289,7 +289,7 @@ atlasData: {
 			name: splitpane-vertical
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/tab.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/tab.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -302,7 +302,7 @@ atlasData: {
 			name: tab
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/tab-pressed.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/tab-pressed.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -315,7 +315,7 @@ atlasData: {
 			name: tab-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/textfield.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/textfield.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -328,7 +328,7 @@ atlasData: {
 			name: textfield
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/textfield-pressed.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/textfield-pressed.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -341,7 +341,7 @@ atlasData: {
 			name: textfield-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/title-bg.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/title-bg.9.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -354,7 +354,7 @@ atlasData: {
 			name: title-bg
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/white.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/white.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -367,7 +367,7 @@ atlasData: {
 			name: white
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/window.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/window.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -380,7 +380,7 @@ atlasData: {
 			name: window
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/button.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/button.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -393,7 +393,7 @@ atlasData: {
 			name: button
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/button-down.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/button-down.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -406,7 +406,7 @@ atlasData: {
 			name: button-down
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/button-down-pressed.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/button-down-pressed.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -419,7 +419,7 @@ atlasData: {
 			name: button-down-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/button-pressed.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/button-pressed.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -432,7 +432,7 @@ atlasData: {
 			name: button-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/button-up.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/button-up.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -445,7 +445,7 @@ atlasData: {
 			name: button-up
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/button-up-pressed.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/button-up-pressed.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -458,7 +458,7 @@ atlasData: {
 			name: button-up-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/checkbox.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/checkbox.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -471,7 +471,7 @@ atlasData: {
 			name: checkbox
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/checkbox-checked.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/checkbox-checked.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -484,7 +484,7 @@ atlasData: {
 			name: checkbox-checked
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/checkbox-checked-pressed.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/checkbox-checked-pressed.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -497,7 +497,7 @@ atlasData: {
 			name: checkbox-checked-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/checkbox-pressed.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/checkbox-pressed.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -510,7 +510,7 @@ atlasData: {
 			name: checkbox-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/list.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/list.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -523,7 +523,7 @@ atlasData: {
 			name: list
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/panel.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/panel.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -536,7 +536,7 @@ atlasData: {
 			name: panel
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/font-export.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/font-export.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -549,7 +549,7 @@ atlasData: {
 			name: font-export
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/check-radio.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/check-radio.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -562,7 +562,7 @@ atlasData: {
 			name: check-radio
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/check.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/check.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -575,7 +575,7 @@ atlasData: {
 			name: check
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/splitpane-vertical-pressed.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/splitpane-vertical-pressed.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -588,7 +588,7 @@ atlasData: {
 			name: splitpane-vertical-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/splitpane-horizontal-pressed.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/splitpane-horizontal-pressed.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -601,7 +601,7 @@ atlasData: {
 			name: splitpane-horizontal-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/white.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/white.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -614,7 +614,7 @@ atlasData: {
 			name: black
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/white.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/white.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -627,7 +627,7 @@ atlasData: {
 			name: gray
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/tree-plus.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/tree-plus.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -640,7 +640,7 @@ atlasData: {
 			name: tree-plus
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/tree-minus.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/tree-minus.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -653,7 +653,7 @@ atlasData: {
 			name: tree-minus
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/touchpad-knob.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/touchpad-knob.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -666,7 +666,7 @@ atlasData: {
 			name: touchpad-knob
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/touchpad.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/touchpad.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -679,7 +679,7 @@ atlasData: {
 			name: touchpad
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/spinner-down.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/spinner-down.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -692,7 +692,7 @@ atlasData: {
 			name: spinner-down
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/spinner-up.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/spinner-up.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -705,7 +705,7 @@ atlasData: {
 			name: spinner-up
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/menu-bar.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/menu-bar.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -718,7 +718,7 @@ atlasData: {
 			name: menu-bar
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/menu-button-down.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/menu-button-down.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -731,7 +731,7 @@ atlasData: {
 			name: menu-button-down
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/menu-button.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/menu-button.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -744,7 +744,7 @@ atlasData: {
 			name: menu-button
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/textfield-pressed.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/textfield-pressed.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -757,7 +757,7 @@ atlasData: {
 			name: test
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-right.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-right.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -770,7 +770,7 @@ atlasData: {
 			name: icon-right
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-left.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-left.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -783,7 +783,7 @@ atlasData: {
 			name: icon-left
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-close.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-close.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -796,7 +796,7 @@ atlasData: {
 			name: icon-close
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-star.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-star.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -809,7 +809,7 @@ atlasData: {
 			name: icon-star
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-star-outline.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-star-outline.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -822,7 +822,7 @@ atlasData: {
 			name: icon-star-outline
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-folder-star.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-folder-star.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -835,7 +835,7 @@ atlasData: {
 			name: icon-folder-star
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-folder-parent.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-folder-parent.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -848,7 +848,7 @@ atlasData: {
 			name: icon-folder-parent
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-folder-new.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-folder-new.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -861,7 +861,7 @@ atlasData: {
 			name: icon-folder-new
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-drive.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-drive.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -874,7 +874,7 @@ atlasData: {
 			name: icon-drive
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-trash.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-trash.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -887,7 +887,7 @@ atlasData: {
 			name: icon-trash
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-refresh.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-refresh.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -900,7 +900,7 @@ atlasData: {
 			name: icon-refresh
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-file-text.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-file-text.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -913,7 +913,7 @@ atlasData: {
 			name: icon-file-text
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-file-pdf.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-file-pdf.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -926,7 +926,7 @@ atlasData: {
 			name: icon-file-pdf
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-file-image.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-file-image.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -939,7 +939,7 @@ atlasData: {
 			name: icon-file-image
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-file-audio.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-file-audio.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -952,7 +952,7 @@ atlasData: {
 			name: icon-file-audio
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-settings.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-settings.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -965,7 +965,7 @@ atlasData: {
 			name: icon-settings
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/menu.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/menu.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -978,7 +978,7 @@ atlasData: {
 			name: menu
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/expand-drop-down.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/expand-drop-down.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -991,7 +991,7 @@ atlasData: {
 			name: expand-drop-down
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-folder.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-folder.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1004,7 +1004,7 @@ atlasData: {
 			name: icon-folder
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/white.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/white.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -1017,7 +1017,7 @@ atlasData: {
 			name: color-picker-bg
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/bar-selector.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/bar-selector.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -1030,7 +1030,7 @@ atlasData: {
 			name: bar-selector
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/white.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/white.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1043,7 +1043,7 @@ atlasData: {
 			name: clear
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-rect.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-rect.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1056,7 +1056,7 @@ atlasData: {
 			name: icon-rect
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-pencil.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-pencil.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1069,7 +1069,7 @@ atlasData: {
 			name: icon-pencil
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-brush.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-brush.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1082,7 +1082,7 @@ atlasData: {
 			name: icon-brush
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-arrow-2.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-arrow-2.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1095,7 +1095,7 @@ atlasData: {
 			name: icon-arrow-2
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-arrow-1.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-arrow-1.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1108,7 +1108,7 @@ atlasData: {
 			name: icon-arrow-1
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/menu-button-over.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/menu-button-over.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -1121,7 +1121,7 @@ atlasData: {
 			name: menu-button-over
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/white.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/white.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1134,7 +1134,7 @@ atlasData: {
 			name: link-underline
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/Verdana11.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Verdana11.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1147,20 +1147,7 @@ atlasData: {
 			name: Verdana11
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/Tahoma11.png
-			bgColor: {
-				r: 0
-				g: 0
-				b: 0
-				a: 1
-			}
-			visible: false
-			tint: null
-			tintName: null
-			name: Tahoma11
-		}
-		{
-			file: D:/Desktop/skins/fenix/fenix_data/MalgunGothic13Gra.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/MalgunGothic13Gra.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1173,7 +1160,7 @@ atlasData: {
 			name: MalgunGothic13Gra
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/button-over.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/button-over.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -1186,7 +1173,7 @@ atlasData: {
 			name: button-over
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/MalgunGothic9Gra.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/MalgunGothic9Gra.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1199,7 +1186,7 @@ atlasData: {
 			name: MalgunGothic9Gra
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/buttonsmall.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/buttonsmall.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -1212,7 +1199,7 @@ atlasData: {
 			name: buttonsmall
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/buttonsmall-over.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/buttonsmall-over.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -1225,7 +1212,7 @@ atlasData: {
 			name: buttonsmall-over
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/buttonsmall-pressed.9.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/buttonsmall-pressed.9.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1238,7 +1225,7 @@ atlasData: {
 			name: buttonsmall-pressed
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/grey-cursor.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/grey-cursor.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1251,7 +1238,7 @@ atlasData: {
 			name: grey-cursor
 		}
 		{
-			file: D:/Desktop/skins/fenix/fenix_data/icon-close.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-close.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1267,6 +1254,166 @@ atlasData: {
 			}
 			tintName: null
 			name: icon-close-gray
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/progress-bar-knob-horizontal.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: {
+				r: 1
+				g: 0.12666667
+				b: 0.12666667
+				a: 1
+			}
+			tintName: null
+			name: progress-bar-knob-horizontal-red
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/progress-bar-knob-horizontal.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: {
+				r: 0.20999998
+				g: 0.6914611
+				b: 1
+				a: 1
+			}
+			tintName: null
+			name: progress-bar-knob-horizontal-celeste
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/progress-bar-knob-horizontal.png
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			visible: true
+			tint: {
+				r: 0.21860926
+				g: 1
+				b: 0.12666667
+				a: 1
+			}
+			tintName: null
+			name: progress-bar-knob-horizontal-green
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/progress-bar-knob-horizontal.png
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			visible: true
+			tint: {
+				r: 1
+				g: 0.9975741
+				b: 0.12666667
+				a: 1
+			}
+			tintName: null
+			name: progress-bar-knob-horizontal-yellow
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/progress-bar-knob-horizontal.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: {
+				r: 0.13696429
+				g: 0.07333338
+				b: 1
+				a: 1
+			}
+			tintName: null
+			name: progress-bar-knob-horizontal-blue
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/select-box-over.9.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: null
+			tintName: null
+			name: select-box-over
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/list-item.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: null
+			tintName: null
+			name: list-item
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/dices.png
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			visible: true
+			tint: null
+			tintName: null
+			name: dices
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/textfield.9.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: {
+				r: 0.60333335
+				g: 0.60333335
+				b: 0.60333335
+				a: 1
+			}
+			tintName: null
+			name: textfield-disabled
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Britannic11.png
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			visible: false
+			tint: null
+			tintName: null
+			name: Britannic11
 		}
 	]
 }
@@ -1386,28 +1533,28 @@ jsonData: {
 	fonts: [
 		{
 			class: com.ray3k.skincomposer.data.FontData
+			name: boldfont
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Verdana11.fnt
+		}
+		{
+			class: com.ray3k.skincomposer.data.FontData
 			name: font
-			file: D:/Desktop/skins/fenix/fenix_data/font-export.fnt
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/font-export.fnt
 		}
 		{
 			class: com.ray3k.skincomposer.data.FontData
 			name: malgun-gothic13gra
-			file: D:/Desktop/skins/fenix/fenix_data/MalgunGothic13Gra.fnt
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/MalgunGothic13Gra.fnt
 		}
 		{
 			class: com.ray3k.skincomposer.data.FontData
 			name: malgun-gothic9Gra
-			file: D:/Desktop/skins/fenix/fenix_data/MalgunGothic9Gra.fnt
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/MalgunGothic9Gra.fnt
 		}
 		{
 			class: com.ray3k.skincomposer.data.FontData
-			name: tahoma11
-			file: D:/Desktop/skins/fenix/fenix_data/Tahoma11.fnt
-		}
-		{
-			class: com.ray3k.skincomposer.data.FontData
-			name: verdana11
-			file: D:/Desktop/skins/fenix/fenix_data/Verdana11.fnt
+			name: normalfont
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Britannic11.fnt
 		}
 	]
 	classStyleMap: {
@@ -2348,7 +2495,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.Color
 						name: fontColor
 						optional: true
-						value: null
+						value: white
 					}
 					background: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -2389,6 +2536,64 @@ jsonData: {
 				}
 				deletable: true
 			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: bold
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.Label
+				properties: {
+					font: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.graphics.g2d.BitmapFont
+						name: font
+						optional: false
+						value: boldfont
+					}
+					fontColor: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.graphics.Color
+						name: fontColor
+						optional: true
+						value: white
+					}
+					background: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: normal
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.Label
+				properties: {
+					font: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.graphics.g2d.BitmapFont
+						name: font
+						optional: false
+						value: normalfont
+					}
+					fontColor: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.graphics.Color
+						name: fontColor
+						optional: true
+						value: white
+					}
+					background: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
+			}
 		]
 		com.badlogic.gdx.scenes.scene2d.ui.List: [
 			{
@@ -2401,7 +2606,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: verdana11
+						value: boldfont
 					}
 					fontColorSelected: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -2422,14 +2627,14 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: selection
 						optional: false
-						value: buttonsmall
+						value: list-item
 					}
 					background: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: background
 						optional: true
-						value: null
+						value: textfield
 					}
 				}
 				deletable: false
@@ -2563,6 +2768,326 @@ jsonData: {
 					}
 				}
 				deletable: false
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: amarillo
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
+				properties: {
+					background: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: false
+						value: progress-bar-horizontal
+					}
+					disabledBackground: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledBackground
+						optional: true
+						value: null
+					}
+					knob: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knob
+						optional: true
+						value: null
+					}
+					disabledKnob: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnob
+						optional: true
+						value: null
+					}
+					knobBefore: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knobBefore
+						optional: true
+						value: progress-bar-knob-horizontal-yellow
+					}
+					knobAfter: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knobAfter
+						optional: true
+						value: null
+					}
+					disabledKnobBefore: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnobBefore
+						optional: true
+						value: null
+					}
+					disabledKnobAfter: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnobAfter
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: rojo
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
+				properties: {
+					background: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: false
+						value: progress-bar-horizontal
+					}
+					disabledBackground: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledBackground
+						optional: true
+						value: null
+					}
+					knob: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knob
+						optional: true
+						value: null
+					}
+					disabledKnob: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnob
+						optional: true
+						value: null
+					}
+					knobBefore: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knobBefore
+						optional: true
+						value: progress-bar-knob-horizontal-red
+					}
+					knobAfter: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knobAfter
+						optional: true
+						value: null
+					}
+					disabledKnobBefore: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnobBefore
+						optional: true
+						value: null
+					}
+					disabledKnobAfter: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnobAfter
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: celeste
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
+				properties: {
+					background: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: false
+						value: progress-bar-horizontal
+					}
+					disabledBackground: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledBackground
+						optional: true
+						value: null
+					}
+					knob: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knob
+						optional: true
+						value: null
+					}
+					disabledKnob: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnob
+						optional: true
+						value: null
+					}
+					knobBefore: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knobBefore
+						optional: true
+						value: progress-bar-knob-horizontal-celeste
+					}
+					knobAfter: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knobAfter
+						optional: true
+						value: null
+					}
+					disabledKnobBefore: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnobBefore
+						optional: true
+						value: null
+					}
+					disabledKnobAfter: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnobAfter
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: verde
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
+				properties: {
+					background: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: false
+						value: progress-bar-horizontal
+					}
+					disabledBackground: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledBackground
+						optional: true
+						value: null
+					}
+					knob: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knob
+						optional: true
+						value: null
+					}
+					disabledKnob: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnob
+						optional: true
+						value: null
+					}
+					knobBefore: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knobBefore
+						optional: true
+						value: progress-bar-knob-horizontal-green
+					}
+					knobAfter: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knobAfter
+						optional: true
+						value: null
+					}
+					disabledKnobBefore: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnobBefore
+						optional: true
+						value: null
+					}
+					disabledKnobAfter: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnobAfter
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: azul
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.ProgressBar
+				properties: {
+					background: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: false
+						value: progress-bar-horizontal
+					}
+					disabledBackground: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledBackground
+						optional: true
+						value: null
+					}
+					knob: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knob
+						optional: true
+						value: null
+					}
+					disabledKnob: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnob
+						optional: true
+						value: null
+					}
+					knobBefore: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knobBefore
+						optional: true
+						value: progress-bar-knob-horizontal-blue
+					}
+					knobAfter: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: knobAfter
+						optional: true
+						value: null
+					}
+					disabledKnobBefore: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnobBefore
+						optional: true
+						value: null
+					}
+					disabledKnobAfter: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabledKnobAfter
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
 			}
 		]
 		com.badlogic.gdx.scenes.scene2d.ui.ScrollPane: [
@@ -2728,14 +3253,14 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: tahoma11
+						value: malgun-gothic13gra
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.graphics.Color
 						name: fontColor
 						optional: false
-						value: white
+						value: light-gray
 					}
 					disabledFontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -2756,7 +3281,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle
 						name: scrollStyle
 						optional: false
-						value: select-box
+						value: list
 					}
 					listStyle: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -2770,7 +3295,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: backgroundOver
 						optional: true
-						value: null
+						value: select-box-over
 					}
 					backgroundOpen: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -3275,7 +3800,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: verdana11
+						value: normalfont
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -3317,7 +3842,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: disabledBackground
 						optional: true
-						value: null
+						value: textfield-disabled
 					}
 					cursor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -3649,7 +4174,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: verdana11
+							value: normalfont
 						}
 						{
 							name: fontColor
@@ -3694,7 +4219,7 @@ jsonData: {
 						{
 							name: disabledBackground
 							type: DRAWABLE
-							value: null
+							value: textfield-disabled
 						}
 						{
 							name: messageFont
@@ -3708,6 +4233,82 @@ jsonData: {
 						}
 					]
 					deletable: false
+				}
+				{
+					name: bold
+					properties: [
+						{
+							name: focusBorder
+							type: DRAWABLE
+							value: null
+						}
+						{
+							name: errorBorder
+							type: DRAWABLE
+							value: null
+						}
+						{
+							name: font
+							type: FONT
+							value: boldfont
+						}
+						{
+							name: fontColor
+							type: COLOR
+							value: light-gray
+						}
+						{
+							name: disabledFontColor
+							type: COLOR
+							value: null
+						}
+						{
+							name: selection
+							type: DRAWABLE
+							value: gray
+						}
+						{
+							name: background
+							type: DRAWABLE
+							value: textfield
+						}
+						{
+							name: backgroundOver
+							type: DRAWABLE
+							value: null
+						}
+						{
+							name: cursor
+							type: DRAWABLE
+							value: grey-cursor
+						}
+						{
+							name: focusedFontColor
+							type: COLOR
+							value: light-gray
+						}
+						{
+							name: focusedBackground
+							type: DRAWABLE
+							value: null
+						}
+						{
+							name: disabledBackground
+							type: DRAWABLE
+							value: textfield-disabled
+						}
+						{
+							name: messageFont
+							type: FONT
+							value: null
+						}
+						{
+							name: messageFontColor
+							type: COLOR
+							value: null
+						}
+					]
+					deletable: true
 				}
 			]
 			templateStyle: {
@@ -7160,5 +7761,5 @@ preferences: {
 		value: true
 	}
 }
-saveFile: D:/Desktop/skins/fenix/fenix.scmp
+saveFile: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix.scmp
 }

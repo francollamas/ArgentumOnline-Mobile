@@ -23,7 +23,7 @@ public class GrhData {
     private TextureRegion tr;
 
     public GrhData() {
-        frames = new Array();
+        frames = new Array<Short>();
         rect = new Rect();
         tr = null;
     }

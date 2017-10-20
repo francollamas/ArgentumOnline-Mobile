@@ -1,6 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE table SYSTEM "../../lml.dtd">
 
-<table fillparent="true">
-    <container id="world"></container>
+<table id="fondo" fillparent="true">
+    <table defaultpad="1">
+        <container id="consola" width="544" height="100" colspan="2" row="true"/>
+        <selectbox align="left">
+            @pp-t-normal
+            @pp-t-whisper
+            @pp-t-clan
+            @pp-t-shout
+            @pp-t-role
+            @pp-t-team
+        </selectbox>
+        <textfield id="send" align="left" fill="true" row="true" expand="true" disabled="true"></textfield>
+        <container id="world" colspan="2"></container>
+    </table>
 </table>

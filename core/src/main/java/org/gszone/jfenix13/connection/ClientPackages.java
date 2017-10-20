@@ -1,6 +1,7 @@
 package org.gszone.jfenix13.connection;
 
 import com.badlogic.gdx.utils.Queue;
+import com.badlogic.gdx.utils.TimeUtils;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.utils.BytesWritter;
 
@@ -9,6 +10,7 @@ import org.gszone.jfenix13.utils.BytesWritter;
  *
  * bytes: corresponde a la secuencia de paquetes que se está armando antes de ser enviada al servidor
  * cola: colección con las secuencais obtenidas en 'bytes' (el socket va leyendo esta cola constantemente)
+ * pingTime: usado para medir el tiempo de respuesta del servidor
  */
 public class ClientPackages {
 
@@ -112,13 +114,48 @@ public class ClientPackages {
     private BytesWritter w;
     private Queue<byte[]> cola;
 
+    private long pingTime;
+
     public Queue<byte[]> getCola() {
         return cola;
     }
 
+    /**
+     * Arma un gran array de bytes, con cada array de la cola y lo devuelve
+     */
+    public byte[] removeAll() {
+        /* Guardo el tamaño para asegurarme que voy a extraer solo lo que hay hasta éste punto, y evitar procesar algo
+        que el thread principal me agregue */
+        int size = cola.size;
+
+        // Cantidad total de bytes
+        int cant = 0;
+        for (int i = 0; i < size; i++) {
+            cant += cola.get(i).length;
+        }
+
+        byte[] totales = new byte[cant];
+        int pos = 0;
+        for (int i = 0; i < size; i++) {
+            byte[] bytes = cola.removeFirst();
+            System.arraycopy(bytes, 0, totales, pos, bytes.length);
+            pos += bytes.length;
+        }
+
+        return totales;
+    }
+
+    public long getPingTime() {
+        return pingTime;
+    }
+
+    public void setPingTime(long pingTime) {
+        this.pingTime = pingTime;
+    }
+
     public ClientPackages() {
         w = new BytesWritter();
-        cola = new Queue();
+        cola = new Queue<byte[]>();
     }
 
     /**
@@ -141,6 +178,34 @@ public class ClientPackages {
         w.writeByte((byte) 0);
         w.writeByte((byte) 13);
         w.writeByte((byte) 0);
+        write();
+    }
+
+    public void writeThrowDices() {
+        w.writeByte((byte)ID.ThrowDices.ordinal());
+        write();
+    }
+
+    public void writeLoginNewChar(String name, String password, String mail, int raza, int sexo, int ciudad) {
+        w.writeByte((byte)ID.LoginNewChar.ordinal());
+        w.writeString(name);
+        w.writeString(password);
+        w.writeByte((byte) 0);
+        w.writeByte((byte) 13);
+        w.writeByte((byte) 0);
+        w.writeByte((byte) raza);
+        w.writeByte((byte) sexo);
+        w.writeShort((byte) 5); //TODO: cabeza hardcodeada, no se deberia mandar esto, tiene que hacerse random desde el sv.
+        w.writeString(mail);
+        w.writeByte((byte) ciudad);
+
+        for (int i = 0; i < 22; i++) {
+            if (i == 0)
+                w.writeByte((byte) 10);
+            else
+                w.writeByte((byte) 0);
+        }
+        write();
     }
 
     /**
@@ -149,6 +214,14 @@ public class ClientPackages {
     public void writeWalk(General.Direccion dir) {
         w.writeByte((byte)ID.Walk.ordinal());
         w.writeByte((byte)(dir.ordinal() + 1));
+        w.writeByte((byte)ID.Ping.ordinal());
+        writePing();
+    }
+
+    public void writePing() {
+        if (getPingTime() != 0) return;
+        setPingTime(TimeUtils.millis());
+        write();
     }
 
     /**
@@ -157,6 +230,7 @@ public class ClientPackages {
     public void writeChangeHeading(General.Direccion dir) {
         w.writeByte((byte)ID.ChangeHeading.ordinal());
         w.writeByte((byte)(dir.ordinal() + 1));
+        write();
     }
 
     /**
@@ -164,5 +238,7 @@ public class ClientPackages {
      */
     public void writeRequestPositionUpdate() {
         w.writeByte((byte)ID.RequestPositionUpdate.ordinal());
+        write();
     }
+
 }

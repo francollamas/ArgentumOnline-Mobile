@@ -72,6 +72,7 @@ public class Audio {
      * Reproduce una música
      */
     public void playMusic(int num) {
+        // TODO: descomentar todo esto, es para que no moleste nada más
         if (currentMusic == num) return;
         if (music != null) music.dispose();
 
@@ -81,7 +82,7 @@ public class Audio {
         music = Gdx.audio.newMusic(fh);
         music.setLooping(true);
         music.setVolume(musicVolume);
-        music.play(); //TODO: descomentar esta línea
+        music.play();
         currentMusic = num;
     }
 

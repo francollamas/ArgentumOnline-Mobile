@@ -455,7 +455,7 @@ public class World extends Actor {
 
             if (c.getNombre().length() > 0) {
                 DrawParameter dpc = new DrawParameter();
-                dpc.setColor(Main.getInstance().getAssets().getColors().getColor(c.getPriv(), c.getBando()));
+                dpc.setColor(Main.getInstance().getGameData().getColors().getColor(c.getPriv(), c.getBando()));
                 Drawer.drawText(batch, 3, c.getNombre(), x + 16, y + 30, Alignment.CENTER, dpc);
             }
 

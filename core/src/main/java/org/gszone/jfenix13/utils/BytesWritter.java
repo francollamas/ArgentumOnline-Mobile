@@ -53,9 +53,10 @@ public class BytesWritter {
         bytes = bytes2;
     }
 
-    public void writeByte(byte val) {
+    public void writeByte(int val) {
         byte[] b = new byte[1];
-        b[0] = val;
+        if (val > 127) val -= 256;
+        b[0] = (byte)val;
         add(b);
     }
 

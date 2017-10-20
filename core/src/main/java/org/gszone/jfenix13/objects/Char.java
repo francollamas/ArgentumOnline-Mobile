@@ -21,7 +21,7 @@ public class Char {
     private boolean active;
     private String nombre;
     private String guildName;
-    private byte bando;
+    private int bando;
     private boolean muerto;
     private boolean invisible;
     private int priv;
@@ -73,11 +73,11 @@ public class Char {
         this.guildName = guildName;
     }
 
-    public byte getBando() {
+    public int getBando() {
         return bando;
     }
 
-    public void setBando(byte bando) {
+    public void setBando(int bando) {
         this.bando = bando;
     }
 

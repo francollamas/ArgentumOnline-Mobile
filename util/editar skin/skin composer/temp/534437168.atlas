@@ -1,5 +1,5 @@
 
-skin.png
+534437168.png
 size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
@@ -12,7 +12,7 @@ Verdana11
   offset: 0, 0
   index: -1
 
-skin2.png
+5344371682.png
 size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
@@ -25,7 +25,7 @@ MalgunGothic13Gra
   offset: 0, 0
   index: -1
 
-skin3.png
+5344371683.png
 size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
@@ -38,7 +38,7 @@ MalgunGothic9Gra
   offset: 0, 0
   index: -1
 
-skin4.png
+5344371684.png
 size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear

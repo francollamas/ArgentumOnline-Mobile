@@ -27,7 +27,7 @@ public class Textures {
 
         // Si es la primera textura en esa posición del Hash, creo el array y la textura solicitada
         if (hash[hashIndex] == null) {
-            hash[hashIndex] = new Array();
+            hash[hashIndex] = new Array<TextureData>();
             return createTexture(num);
         }
 

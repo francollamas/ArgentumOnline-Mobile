@@ -1,55 +1,74 @@
 <?xml version="1.0"?>
 <!DOCTYPE window SYSTEM "../../lml.dtd">
 
-<window onecolumn="true" title="@cp-title" titlealign="center" movable="false">
+<window id="fondo" onecolumn="true" title="@cp-title" titlealign="center" movable="true" resizable="true">
 
     <table defaultpadleft="15" defaultpadright="15">
-        <table onecolumn="true" defaultpad="5">
-            <label style="small" align="left">Datos del personaje</label>
-            <textfield id="nombre" message="@cp-name-ms"></textfield>
-            <textfield message="@cp-pass-ms" passcharacter="*" passwordmode="true"></textfield>
-            <textfield message="@cp-rpass-ms" passcharacter="*" passwordmode="true"></textfield>
-            <textfield message="@cp-mail-ms"></textfield>
-            <textfield message="@cp-rmail-ms"></textfield>
+        <table onecolumn="true" align="top">
+            <label style="small" color="col-title" align="left">@cp-pjdata</label>
+            <table defaultpad="5" onecolumn="true">
+                <textfield id="nombre" style="bold" message="@cp-name-ms"></textfield>
+                <textfield id="contraseña" style="bold" message="@cp-pass-ms" passcharacter="*" passwordmode="true"></textfield>
+                <textfield style="bold" message="@cp-rpass-ms" passcharacter="*" passwordmode="true"></textfield>
+                <textfield style="bold" id="mail" message="@cp-mail-ms"></textfield>
+                <textfield style="bold" message="@cp-rmail-ms"></textfield>
+            </table>
         </table>
 
-        <table onecolumn="true" defaultpad="5">
-            <intspinner min="-50" max="50" value="30" step="10"></intspinner>
+        <table onecolumn="true" defaultpad="5" expand="true" align="top">
             <table onecolumn="true">
-                <label style="small" align="left">Nacer en:</label>
-                <selectbox>
+                <label style="small" color="col-title" align="left">@cp-born</label>
+                <selectbox id="ciudad" width="130">
                     Ullathorpe
-                    Lindos
-                    Arghal
-                    Banderbill
                     Nix
+                    Banderbill
+                    Lindos
+                    Arghâl
                 </selectbox>
             </table>
 
             <table onecolumn="true">
-                <label style="small" align="left">Género:</label>
-                <selectbox>
-                    Femenino
-                    Masculino
+                <label style="small" color="col-title" align="left">@cp-gender</label>
+                <selectbox id="genero" width="130">
+                    @male
+                    @female
                 </selectbox>
             </table>
 
             <table onecolumn="true">
-                <label style="small" align="left">Raza:</label>
-                <selectbox>
-                    Humano
-                    Elfo
-                    Elfo Oscuro
-                    Enano
-                    Gnomo
+                <label style="small" color="col-title" align="left">@cp-race</label>
+                <selectbox id="raza" width="130">
+                    @human
+                    @elf
+                    @dark-elf
+                    @gnome
+                    @dwarf
                 </selectbox>
             </table>
+        </table>
 
+        <table defaultpad="5" expand="true" align="top">
+            <label style="small" color="col-title" align="left" row="true" colspan="2">@attrib</label>
+            <imagebutton onclick="tirar-dados" image="dices" row="true" colspan="2"></imagebutton>
+            <table onecolumn="true">
+                <label align="left">@strength</label>
+                <label align="left">@agility</label>
+                <label align="left">@intelligence</label>
+                <label align="left">@constitution</label>
+                <label align="left">@charisma</label>
+            </table>
+            <table onecolumn="true">
+                <label id="fuerza"></label>
+                <label id="agilidad"></label>
+                <label id="inteligencia"></label>
+                <label id="constitucion"></label>
+                <label id="carisma"></label>
+            </table>
         </table>
 
     </table>
     <table defaultpadleft="15" defaultpadright="15" tablepad="10">
         <textbutton onclick="setView" id="menu">@cp-back</textbutton>
-        <textbutton>@cp-create</textbutton>
+        <textbutton onclick="crear-pj">@cp-create</textbutton>
     </table>
 </window>

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.github.czyzby.lml.annotation.LmlAction;
 import com.github.czyzby.lml.annotation.LmlActor;
 import com.kotcrab.vis.ui.widget.VisTextField;
+import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.utils.Dialogs;
 
 import static org.gszone.jfenix13.general.FileNames.getViewDir;
@@ -52,6 +53,8 @@ public class MenuView extends View {
 
         // Hago foco en el nombre del loggin
         setTfFocus(tfNombre);
+
+        Main.getInstance().getAssets().getAudio().playMusic(6);
     }
 
     @LmlAction("conectar")
@@ -61,8 +64,16 @@ public class MenuView extends View {
         else if (tfContraseña.getText().length() == 0)
             Dialogs.showOKDialog("Error", "La contraseña no puede estar vacía");
         else {
-            getConnection().connect();
-            getClPack().writeLoginExistingChar(tfNombre.getText(), tfContraseña.getText());
+            if (getConnection().connect())
+                getClPack().writeLoginExistingChar(tfNombre.getText(), tfContraseña.getText());
+        }
+    }
+
+    @LmlAction("crear-pj")
+    private void crearPj() {
+        if (getConnection().connect()) {
+            setView(CrearPjView.class);
+            getClPack().writeThrowDices();
         }
     }
 

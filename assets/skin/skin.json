@@ -1,5 +1,8 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	boldfont: {
+		file: Verdana11.fnt
+	}
 	font: {
 		file: font-export.fnt
 	}
@@ -9,11 +12,8 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	malgun-gothic9Gra: {
 		file: MalgunGothic9Gra.fnt
 	}
-	tahoma11: {
-		file: Tahoma11.fnt
-	}
-	verdana11: {
-		file: Verdana11.fnt
+	normalfont: {
+		file: Britannic11.fnt
 	}
 }
 com.badlogic.gdx.graphics.Color: {
@@ -118,6 +118,60 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 			a: 1
 		}
 	}
+	progress-bar-knob-horizontal-red: {
+		name: progress-bar-knob-horizontal
+		color: {
+			r: 1
+			g: 0.12666667
+			b: 0.12666667
+			a: 1
+		}
+	}
+	progress-bar-knob-horizontal-celeste: {
+		name: progress-bar-knob-horizontal
+		color: {
+			r: 0.20999998
+			g: 0.6914611
+			b: 1
+			a: 1
+		}
+	}
+	progress-bar-knob-horizontal-green: {
+		name: progress-bar-knob-horizontal
+		color: {
+			r: 0.21860926
+			g: 1
+			b: 0.12666667
+			a: 1
+		}
+	}
+	progress-bar-knob-horizontal-yellow: {
+		name: progress-bar-knob-horizontal
+		color: {
+			r: 1
+			g: 0.9975741
+			b: 0.12666667
+			a: 1
+		}
+	}
+	progress-bar-knob-horizontal-blue: {
+		name: progress-bar-knob-horizontal
+		color: {
+			r: 0.13696429
+			g: 0.07333338
+			b: 1
+			a: 1
+		}
+	}
+	textfield-disabled: {
+		name: textfield
+		color: {
+			r: 0.60333335
+			g: 0.60333335
+			b: 0.60333335
+			a: 1
+		}
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
@@ -167,17 +221,27 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	}
 	small: {
 		font: malgun-gothic9Gra
+		fontColor: white
 	}
 	title: {
 		font: malgun-gothic13gra
 	}
+	bold: {
+		font: boldfont
+		fontColor: white
+	}
+	normal: {
+		font: normalfont
+		fontColor: white
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
-		font: verdana11
+		font: boldfont
 		fontColorSelected: white
 		fontColorUnselected: light-gray
-		selection: buttonsmall
+		selection: list-item
+		background: textfield
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
@@ -188,6 +252,26 @@ com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	default-vertical: {
 		background: progress-bar-vertical
 		knobBefore: progress-bar-knob-vertical
+	}
+	amarillo: {
+		background: progress-bar-horizontal
+		knobBefore: progress-bar-knob-horizontal-yellow
+	}
+	rojo: {
+		background: progress-bar-horizontal
+		knobBefore: progress-bar-knob-horizontal-red
+	}
+	celeste: {
+		background: progress-bar-horizontal
+		knobBefore: progress-bar-knob-horizontal-celeste
+	}
+	verde: {
+		background: progress-bar-horizontal
+		knobBefore: progress-bar-knob-horizontal-green
+	}
+	azul: {
+		background: progress-bar-horizontal
+		knobBefore: progress-bar-knob-horizontal-blue
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
@@ -207,11 +291,12 @@ com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	default: {
-		font: tahoma11
-		fontColor: white
+		font: malgun-gothic13gra
+		fontColor: light-gray
 		background: select-box
-		scrollStyle: select-box
+		scrollStyle: list
 		listStyle: default
+		backgroundOver: select-box-over
 		backgroundOpen: select-box-pressed
 	}
 }
@@ -257,10 +342,11 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
-		font: verdana11
+		font: normalfont
 		fontColor: light-gray
 		focusedFontColor: light-gray
 		background: textfield
+		disabledBackground: textfield-disabled
 		cursor: grey-cursor
 		selection: gray
 	}
@@ -308,12 +394,22 @@ com.kotcrab.vis.ui.Sizes: {
 }
 com.kotcrab.vis.ui.widget.VisTextField$VisTextFieldStyle: {
 	default: {
-		font: verdana11
+		font: normalfont
 		fontColor: light-gray
 		selection: gray
 		background: textfield
 		cursor: grey-cursor
 		focusedFontColor: light-gray
+		disabledBackground: textfield-disabled
+	}
+	bold: {
+		font: boldfont
+		fontColor: light-gray
+		selection: gray
+		background: textfield
+		cursor: grey-cursor
+		focusedFontColor: light-gray
+		disabledBackground: textfield-disabled
 	}
 }
 com.kotcrab.vis.ui.widget.VisTextButton$VisTextButtonStyle: {

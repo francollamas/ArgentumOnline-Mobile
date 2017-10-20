@@ -5,9 +5,7 @@ import com.badlogic.gdx.Net;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.Queue;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import org.gszone.jfenix13.Main;
 
 import java.io.*;
@@ -80,7 +78,7 @@ public class GnConnection implements Connection {
     }
 
     @Override
-    public void connect() {
+    public boolean connect() {
         try {
             // Si el socket y el thread estaban abiertos, los destruye
             dispose();
@@ -96,26 +94,24 @@ public class GnConnection implements Connection {
         catch (GdxRuntimeException ex) {
             Dialogs.showOKDialog(Main.getInstance().getCurrentView().getStage(), "Error", "No se pudo establecer la conexión con el servidor.");
             socket = null;
-            return;
+            return false;
         }
+        return true;
     }
 
     @Override
     public void write() {
         if (socket == null || !socket.isConnected()) return;
 
-        Queue<byte[]> cola = clPack.getCola();
-        int size = cola.size;
-        for (int i = 0; i < size; i++) {
-            byte[] bytes = cola.removeFirst();
+        byte[] bytes = getClPack().removeAll();
+
+        if (bytes.length > 0)
             try {
                 socket.getOutputStream().write(bytes);
-                //socket.getOutputStream().flush();
             }
             catch (IOException ex){
                 ex.printStackTrace();
             }
-        }
     }
 
     @Override

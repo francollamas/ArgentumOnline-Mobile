@@ -4,16 +4,16 @@
 <window title="@mn-title" onecolumn="true" textalign="center" movable="false" defaultpad="2">
 
     <table onecolumn="true" defaultpad="2" tablepadbottom="4">
-        <label style="small" align="left">@mn-manage</label>
-        <textbutton onclick="setView" id="crear_pj" style="default" fill="true">@mn-createchar</textbutton>
+        <label style="small" color="col-title" align="left">@mn-manage</label>
+        <textbutton onclick="crear-pj" style="default" fill="true">@mn-createchar</textbutton>
         <textbutton fill="true">@mn-recoverchar</textbutton>
         <textbutton fill="true">@mn-deletechar</textbutton>
     </table>
 
     <table onecolumn="true" defaultpad="2" tablepadtop="4">
-        <label style="small" align="left">@mn-login</label>
-        <textfield id="nombre" message="@mn-name-ms" focusborderenabled="true"></textfield>
-        <textfield id="contraseña" message="@mn-pass-ms" passwordcharacter="*" passwordmode="true" focusborderenabled="true"></textfield>
+        <label style="small" color="col-title" align="left">@mn-login</label>
+        <textfield id="nombre" style="bold" message="@mn-name-ms" focusborderenabled="true"></textfield>
+        <textfield id="contraseña" style="bold" message="@mn-pass-ms" passwordcharacter="*" passwordmode="true" focusborderenabled="true"></textfield>
         <textbutton onclick="conectar">@mn-enter</textbutton>
     </table>
 </window>

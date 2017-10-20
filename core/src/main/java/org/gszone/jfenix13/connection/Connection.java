@@ -12,7 +12,7 @@ public interface Connection {
     /**
      * Se conecta con el servidor
      */
-    void connect();
+    boolean connect();
 
     /**
      * Busca en la cola y envía datos al servidor

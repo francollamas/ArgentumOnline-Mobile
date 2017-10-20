@@ -3,9 +3,15 @@ package org.gszone.jfenix13.views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.github.czyzby.lml.annotation.LmlActor;
+import com.kotcrab.vis.ui.widget.VisTable;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.general.GnLoader;
 import org.gszone.jfenix13.general.Loader;
@@ -20,6 +26,7 @@ import static com.badlogic.gdx.Application.ApplicationType.*;
 public class CargaView extends View {
     public static final String ID = "carga";
 
+    @LmlActor("tabla") private VisTable tabla;
     private Loader loader;
     private long tiempoInicio;
     private boolean solicitaSalir;
@@ -34,7 +41,8 @@ public class CargaView extends View {
 
     @Override
     public void show() {
-        setBackground();
+        tabla.setBackground(getBackground());
+        //setBackground();
 
         if (Gdx.app.getType() == WebGL)
             loader = new WebLoader();
@@ -51,16 +59,13 @@ public class CargaView extends View {
                     solicitaSalir = true;
                 return super.keyUp(event, keycode);
             }
-        });
 
-        if (background != null)
-            background.addListener(new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    solicitaSalir = true;
-                    return super.touchDown(event, x, y, pointer, button);
-                }
-            });
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                solicitaSalir = true;
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
 
         Main.getInstance().getAssets().getAudio().playMusic(6);
     }

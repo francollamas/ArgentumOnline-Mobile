@@ -4,7 +4,6 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -56,12 +55,17 @@ public class Main extends LmlApplicationListener {
 		Gdx.graphics.setTitle("JFenix13");
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
+		// TODO: ver el tema del cursor
+		/*Pixmap pm = new Pixmap(Gdx.files.internal(getCursorDir()));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+		pm.dispose();*/
+
 		// Config de LML y propia del juego
 		batch = new SpriteBatch();
 		general = new General();
 		assets = new Assets();
-		gameData = new GameData();
 		VisUI.load(assets.getGDXAssets().get(getSkinDir(), Skin.class));
+		gameData = new GameData();
 		super.create();
 
 		// Conexión
@@ -80,17 +84,16 @@ public class Main extends LmlApplicationListener {
 
 	@Override
 	public void render() {
-		// Realiza las acciones recibidas del servidor, y registra las nuevas acciones.
+		// Procesamos los paquetes recibidos al socket
 		connection.getSvPack().doActions();
-		connection.getClPack().write();
+
+		// Uso esta llamada para que se siga renderizando la pantalla actual normalmente
+		super.render();
 
 		// Si es Web, le avisa al socket que envíe las acciones registradas anteriormente
 		// (ya que no hay un thread en la conexión que se encargue de ésto)
 		if (Gdx.app.getType() == WebGL)
 			connection.write();
-
-		// Uso esta llamada para que se siga renderizando la pantalla actual normalmente
-		super.render();
 	}
 
 	/**

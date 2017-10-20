@@ -1,12 +1,12 @@
 package org.gszone.jfenix13.connection;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.ByteArray;
 import com.badlogic.gdx.utils.Queue;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import org.gszone.jfenix13.containers.Assets;
+import org.gszone.jfenix13.containers.FontTypes;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.Main;
@@ -16,6 +16,7 @@ import org.gszone.jfenix13.general.General.Direccion;
 import org.gszone.jfenix13.utils.BytesReader;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
+import org.gszone.jfenix13.views.MenuView;
 import org.gszone.jfenix13.views.PrincipalView;
 
 import static com.badlogic.gdx.Application.ApplicationType.*;
@@ -142,7 +143,7 @@ public class ServerPackages {
     public ServerPackages() {
         r = new BytesReader();
         r.setLittleEndian(true);
-        cola = new Queue();
+        cola = new Queue<byte[]>();
     }
 
     public GameData getGD() { return Main.getInstance().getGameData(); }
@@ -285,10 +286,17 @@ public class ServerPackages {
                 case UpdateExp:
                     handleUpdateExp();
                     break;
+                case DiceRoll:
+                    handleDiceRoll();
+                    break;
+                case Pong:
+                    handlePong();
+                    break;
                 case Disconnect:
                     handleDisconnect();
                     break;
                 default:
+                    // Si llega un paquete que no está implementado...
                     Dialogs.showOKDialog(getActStage(), "Error", "No se reconoce el paquete " + id.ordinal() + "'" + id.toString() + "'. Posiblemente se perdieron más paquetes");
                     broken = true;
                     break;
@@ -425,7 +433,7 @@ public class ServerPackages {
         c.setBando(r.readByte());
 
         // Privilegios
-        byte privs = r.readByte();
+        int privs = r.readByte();
         if (privs != 0) {
             // Si es del concejo del caos y tiene privilegios
             if ((privs & 64) != 0 && (privs & 1) == 0)
@@ -645,9 +653,9 @@ public class ServerPackages {
     private void handleChatOverHead() {
         String texto = r.readString().trim();
         int index = r.readShort();
-        byte r = this.r.readByte();
-        byte g = this.r.readByte();
-        byte b = this.r.readByte();
+        int r = this.r.readByte();
+        int g = this.r.readByte();
+        int b = this.r.readByte();
 
         // TODO: crear diálogo arriba del pj
     }
@@ -656,8 +664,8 @@ public class ServerPackages {
      * Agrega un mensaje en consola
      */
     private void handleConsoleMsg() {
-        r.readString(); //TODO: << agregar este mensaje en la consola
-        r.readByte(); // TODO: << con esta ID de fuente...
+        getGD().getConsola().addMessage(r.readString(), FontTypes.FontTypeName.values()[r.readByte()]);
+        // TODO: si surge algún error, manejar también las fonts con formato viejo (ej ~255~255~255~1~0~)
     }
 
     private void handleRemoveDialogs() {
@@ -687,36 +695,50 @@ public class ServerPackages {
     private void handleDisconnect() {
         Main.getInstance().getConnection().dispose();
         // TODO: parar lluvia
-        //Main.getInstance().setScreen(Screen.Scr.MENU);
+        Main.getInstance().setView(MenuView.class);
         getGD().resetGameData();
         getAssets().getAudio().playMusic(6);
     }
 
     public void handleUpdateSta() {
-        User u = getGD().getCurrentUser();
-        u.setMinSta(r.readShort());
+        UserStats s = getGD().getCurrentUser().getStats();
+        s.setMinEnergia(r.readShort());
     }
 
     public void handleUpdateMana() {
-        User u = getGD().getCurrentUser();
-        u.setMinMana(r.readShort());
+        UserStats s = getGD().getCurrentUser().getStats();
+        s.setMinMana(r.readShort());
     }
 
     public void handleUpdateHP() {
-        User u = getGD().getCurrentUser();
-        u.setMinHP(r.readShort());
+        UserStats s = getGD().getCurrentUser().getStats();
+        s.setMinVida(r.readShort());
     }
 
     public void handleUpdateGold() {
-        User u = getGD().getCurrentUser();
-        u.setOro(r.readInt());
+        UserStats s = getGD().getCurrentUser().getStats();
+        s.setOro(r.readInt());
     }
 
     public void handleUpdateExp() {
-        User u = getGD().getCurrentUser();
-        u.setMinExp(r.readInt());
+        UserStats s = getGD().getCurrentUser().getStats();
+        s.setMinExp(r.readInt());
     }
 
+    public void handleDiceRoll() {
+        UserAtributos a = getGD().getCurrentUser().getAtributos();
+        a.setFuerza(r.readByte());
+        a.setAgilidad(r.readByte());
+        a.setInteligencia(r.readByte());
+        a.setCarisma(r.readByte());
+        a.setConstitucion(r.readByte());
+    }
 
+    public void handlePong() {
+        ClientPackages c = Main.getInstance().getConnection().getClPack();
+        int ping = (int)(TimeUtils.millis() - c.getPingTime() - (Gdx.graphics.getDeltaTime() * 1000));
+        // TODO: mostrar ping en consola.
+        c.setPingTime(0);
+    }
 
 }

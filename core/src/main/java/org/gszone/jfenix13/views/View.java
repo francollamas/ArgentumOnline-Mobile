@@ -1,9 +1,13 @@
 package org.gszone.jfenix13.views;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.lml.parser.impl.AbstractLmlView;
-import com.kotcrab.vis.ui.widget.VisImage;
 import com.kotcrab.vis.ui.widget.VisTextField;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.connection.ClientPackages;
@@ -15,55 +19,66 @@ import org.gszone.jfenix13.containers.GameData;
 
 import static com.badlogic.gdx.Application.ApplicationType.Desktop;
 import static com.badlogic.gdx.Application.ApplicationType.WebGL;
-import static org.gszone.jfenix13.general.FileNames.getAtlasDtGuiDir;
-import static org.gszone.jfenix13.general.FileNames.getAtlasMbGuiDir;
+import static org.gszone.jfenix13.general.FileNames.getDtGuiDir;
+import static org.gszone.jfenix13.general.FileNames.getMbGuiDir;
 
 /**
  * Clase general para una Vista
  *
- * background: imagen de fondo (opcional)
+ * texs: conjunto de texturas que se van cargando (generalmente usadas para el fondo de pantalla)
+ *       se guarda su referencia para poder liberarlas de la memoria al cerrar la pantalla (método dispose() )
  */
 public abstract class View extends AbstractLmlView {
-    protected VisImage background;
+
+    Array<Texture> texs;
 
     public View() {
         super(Main.newStage());
+        texs = new Array<Texture>();
+    }
+
+    public Drawable getBackground() {
+        return getBackground(getViewId());
     }
 
     /**
-     * Define activa la imagen de fondo de la pantalla
-     * Debe estar guardada como: 'scr_ID.png', en el atlas correspondiente
+     * Devuelve un fondo
      */
-    protected void setBackground() {
-        TextureAtlas atlas;
-        if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL)
-            atlas = getAssets().getGDXAssets().get(getAtlasDtGuiDir(), TextureAtlas.class);
-        else
-            atlas = getAssets().getGDXAssets().get(getAtlasMbGuiDir(), TextureAtlas.class);
+    public Drawable getBackground(String name) {
 
-        this.background = new VisImage(atlas.findRegion("scr_" + getViewId()));
+        name = "scr_" + name;
+        Application.ApplicationType t = Gdx.app.getType();
+        Texture tex = new Texture(t == Desktop || t == WebGL ? getDtGuiDir(name) : getMbGuiDir(name));
+        texs.add(tex);
 
-        background.setPosition((getStage().getWidth() - background.getWidth()) / 2,
-                (getStage().getHeight() - background.getHeight()) / 2);
-        getStage().addActor(background);
-        background.toBack();
+        /* Toma una imagen y la convierte en NinePatch, para poder definirle bordes y así permitir mover ventanas
+         (si fuera éste el caso) */
+        NinePatch n = new NinePatch(tex);
+        n.setPadding(10, 10, 20, 20); // TODO: poner valores convenientes para que funcione bien el resizado y mover.
+        return new NinePatchDrawable(n);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        for (Texture tex : texs)
+            tex.dispose();
     }
 
     /**
-     * Renderiza el fondo
-     */
-    private void renderBackground() {
-        getStage().getBatch().begin();
-        if (background != null) background.draw(getStage().getBatch(), 1);
-        getStage().getBatch().end();
-    }
-
-    /**
-     * Hace foco en un textfield
+     * Hace foco en un textfield (excepto en móbiles)
+     * @param tf
      */
     protected void setTfFocus(VisTextField tf) {
+        setTfFocus(tf, false);
+    }
+
+    /**
+     * Hace foco en un textfield (se puede o no excluir móbiles)
+     */
+    protected void setTfFocus(VisTextField tf, boolean forceInMobile) {
         // Si se está en dispositivos móviles, no hacemos foco (para que no salga el teclado de repente)
-        if (Gdx.app.getType() != Desktop && Gdx.app.getType() != WebGL) return;
+        if (Gdx.app.getType() != Desktop && Gdx.app.getType() != WebGL && !forceInMobile) return;
         tf.focusField();
         getStage().setKeyboardFocus(tf);
     }

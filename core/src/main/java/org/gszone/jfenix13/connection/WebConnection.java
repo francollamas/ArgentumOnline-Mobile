@@ -1,6 +1,5 @@
 package org.gszone.jfenix13.connection;
 
-import com.badlogic.gdx.utils.Queue;
 import com.sksamuel.gwt.websockets.*;
 
 /**
@@ -9,7 +8,7 @@ import com.sksamuel.gwt.websockets.*;
  * socket: conexión con el servidor
  */
 public class WebConnection implements Connection {
-    public static final String IP = "192.168.1.13";
+    public static final String IP = "192.168.1.15";
     public static final int PORT = 7678;
 
     private ClientPackages clPack;
@@ -29,7 +28,7 @@ public class WebConnection implements Connection {
     public ServerPackages getSvPack() { return svPack; }
 
     @Override
-    public void connect() {
+    public boolean connect() {
 
         if (socket == null || socket.getState() != 1) {
             socket = new Websocket("ws://" + IP + ":" + PORT);
@@ -54,19 +53,18 @@ public class WebConnection implements Connection {
             });
 
             socket.open();
+            // TODO: controlar si no se pudo conectar, y retornar falso.
         }
+        return true;
     }
 
     @Override
     public void write() {
         if (socket == null || socket.getState() != 1) return;
 
-        Queue<byte[]> cola = clPack.getCola();
-        int size = cola.size;
-        for (int i = 0; i < size; i++) {
-            byte[] bytes = cola.removeFirst();
+        byte[] bytes = getClPack().removeAll();
+        if (bytes.length > 0)
             socket.send(bytes);
-        }
     }
 
     @Override

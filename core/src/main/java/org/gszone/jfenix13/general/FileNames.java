@@ -14,8 +14,11 @@ public class FileNames {
     public static final String DIR_MUSICS = "musics";
     public static final String DIR_SOUNDS = "sounds";
 
+    public static String getCursorDir() {
+        return DIR_GUI + "/cursor.png";
+    }
+
     public static String getSkinDir() {
-        //return "skin/tixel.json";
         return "skin/skin.json";
     }
 
@@ -67,18 +70,13 @@ public class FileNames {
         return DIR_FONTS + "/fuentes.atlas";
     }
 
-    public static String getAtlasDtGuiDir() {
-        return DIR_GUI + "/dt_gui.atlas";
+    public static String getDtGuiDir(String name) {
+        return DIR_GUI + "/desktop/" + name + ".png";
     }
 
-    public static String getAtlasMbGuiDir() {
-        return DIR_GUI + "/mb_gui.atlas";
+    public static String getMbGuiDir(String name) {
+        return DIR_GUI + "/mobile/" + name + ".png";
     }
-
-    public static String getAtlasGralGuiDir() {
-        return DIR_GUI + "/gral_gui.atlas";
-    }
-
 
     public static String getMusicDir(int num) {
         return getMusicDir("" + num);

@@ -25,7 +25,6 @@ import static com.badlogic.gdx.Application.ApplicationType.*;
  * shields: manejador de escudos
  * fxs: manejador de fxs
  * mapa: mapa actual
- * colors: conjunto de colores de personajes
  */
 
 public class Assets {
@@ -41,7 +40,6 @@ public class Assets {
     private PartChar shields;
     private Fxs fxs;
     private Map mapa;
-    private Colors colors;
 
     public Assets() {
         gdxAssets = new AssetManager();
@@ -65,15 +63,6 @@ public class Assets {
 
         // Atlas de las fuentes
         gdxAssets.load(getAtlasFontTexDir(), TextureAtlas.class);
-
-        // Atlas de la GUI del juego (ya sea para MOBILE o DESKTOP)
-        if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL)
-            gdxAssets.load(getAtlasDtGuiDir(), TextureAtlas.class);
-        else
-            gdxAssets.load(getAtlasMbGuiDir(), TextureAtlas.class);
-
-        // Atlas de la GUI general para cualquier plataforma
-        //gdxAssets.load(getAtlasGralGuiDir(), TextureAtlas.class); // TODO: descomentar esto cuando tenga algun GUI general
 
         // Sonidos
         // TODO: cargarlos sobre la marcha y liberarlos al terminar c/u.
@@ -106,7 +95,6 @@ public class Assets {
         weapons = new PartChar(Tipo.WEAPON);
         shields = new PartChar(Tipo.SHIELD);
         fxs = new Fxs();
-        colors = new Colors();
     }
 
     public Textures getTextures() { return textures; }
@@ -120,7 +108,6 @@ public class Assets {
     public PartChar getShields() { return shields; }
     public Fxs getFxs() { return fxs; }
     public Map getMapa() {  return mapa; }
-    public Colors getColors() { return colors; }
 
     public void changeMap(int num) { this.mapa = new Map(num); }
 
