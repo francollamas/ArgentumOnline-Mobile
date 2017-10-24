@@ -1,5 +1,6 @@
 package org.gszone.jfenix13.containers;
 
+import com.badlogic.gdx.graphics.Color;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.objects.Char;
@@ -14,11 +15,13 @@ import org.gszone.jfenix13.general.General.Direccion;
  * chars: array de chars
  * numChars: cantidad de chars
  * lastChar: index del último char
+ * npcDialog: index del último Npc que habló.
  */
 public class Chars {
     private Char[] chars;
     private int numChars;
     private int lastChar;
+    private Char npcDialog;
 
     public Chars() {
         chars = new Char[10000];
@@ -90,20 +93,18 @@ public class Chars {
      */
     public void deleteChar(int index) {
         Char c = chars[index];
+        if (c == null) return;
+
         c.setActive(false);
 
-        // TODO: lastChar no está actualizándose correctamente!!!
         // Actualizo el valor que indica el index del último char.
-        if (index == lastChar) {
+        if (index == lastChar)
             while (lastChar > 0 && ((chars[lastChar] != null && !chars[lastChar].isActive()) || chars[lastChar] == null))
                 lastChar--;
-        }
 
         // Lo saco del mapa
         MapTile tile = Main.getInstance().getAssets().getMapa().getTile((int)c.getPos().getX(), (int)c.getPos().getY());
         tile.setCharIndex(0);
-
-        // TODO: borrar diálogos del pj en cuestión...
 
         chars[index] = null;
         numChars--;
@@ -170,5 +171,16 @@ public class Chars {
 
     public void setLastChar(int lastChar) {
         this.lastChar = lastChar;
+    }
+
+    public void setDialog(int index, String text, Color color) {
+        Char c = getChar(index);
+        c.setDialog(text, color);
+        if (c.getNombre().length() == 0)
+            npcDialog = c;
+    }
+
+    public Char getNpcDialog() {
+        return npcDialog;
     }
 }

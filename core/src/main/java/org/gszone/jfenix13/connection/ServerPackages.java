@@ -1,15 +1,20 @@
 package org.gszone.jfenix13.connection;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
+import org.gszone.jfenix13.actors.Consola;
 import org.gszone.jfenix13.containers.Assets;
+import org.gszone.jfenix13.containers.Colors;
 import org.gszone.jfenix13.containers.FontTypes;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.Main;
+import org.gszone.jfenix13.general.Messages;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.objects.*;
 import org.gszone.jfenix13.general.General.Direccion;
@@ -18,9 +23,11 @@ import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
 import org.gszone.jfenix13.views.MenuView;
 import org.gszone.jfenix13.views.PrincipalView;
+import org.gszone.jfenix13.general.Messages.Message;
+import org.gszone.jfenix13.containers.FontTypes.FontTypeName;
 
-import static com.badlogic.gdx.Application.ApplicationType.*;
 import static org.gszone.jfenix13.containers.GameData.*;
+
 
 
 /**
@@ -295,9 +302,18 @@ public class ServerPackages {
                 case Disconnect:
                     handleDisconnect();
                     break;
+                case NavigateToggle:
+                    handleNavigateToggle();
+                    break;
+                case PauseToggle:
+                    handlePauseToggle();
+                    break;
+                case MultiMessage:
+                    handleMultiMessage();
+                    break;
                 default:
                     // Si llega un paquete que no está implementado...
-                    Dialogs.showOKDialog(getActStage(), "Error", "No se reconoce el paquete " + id.ordinal() + "'" + id.toString() + "'. Posiblemente se perdieron más paquetes");
+                    Dialogs.showOKDialog(getActStage(), "Error", "No se reconoce el paquete " + id.ordinal() + " '" + id.toString() + "'.");
                     broken = true;
                     break;
             }
@@ -553,9 +569,12 @@ public class ServerPackages {
         int index = r.readShort();
         getGD().getCurrentUser().setIndexInServer(index);
 
-        Position p = getGD().getChars().getChar(index).getPos();
-        getGD().getWorld().getPos().set(p.getX(), p.getY());
-        getGD().getWorld().setTecho();
+        Char c = getGD().getChars().getChar(index);
+        if (c != null) {
+            Position p = c.getPos();
+            getGD().getWorld().getPos().set(p.getX(), p.getY());
+            getGD().getWorld().setTecho();
+        }
     }
 
     private void handleUpdateUserStats() {
@@ -653,11 +672,9 @@ public class ServerPackages {
     private void handleChatOverHead() {
         String texto = r.readString().trim();
         int index = r.readShort();
-        int r = this.r.readByte();
-        int g = this.r.readByte();
-        int b = this.r.readByte();
+        Color c = Colors.newColor(r.readByte(), r.readByte(), r.readByte());
 
-        // TODO: crear diálogo arriba del pj
+        getGD().getChars().setDialog(index, texto, c);
     }
 
     /**
@@ -737,8 +754,32 @@ public class ServerPackages {
     public void handlePong() {
         ClientPackages c = Main.getInstance().getConnection().getClPack();
         int ping = (int)(TimeUtils.millis() - c.getPingTime() - (Gdx.graphics.getDeltaTime() * 1000));
-        // TODO: mostrar ping en consola.
         c.setPingTime(0);
+
+        getGD().getConsola().addMessage("El ping es de " + ping + " ms.", FontTypes.FontTypeName.Warning);
+    }
+
+    public void handleNavigateToggle() {
+        getGD().getCurrentUser().setNavegando(!getGD().getCurrentUser().isNavegando());
+    }
+
+    public void handlePauseToggle() {
+        getGD().setPausa(!getGD().isPausa());
+    }
+
+    public void handleMultiMessage() {
+
+        Message msg = Messages.Message.values()[r.readByte()];
+        Consola c = getGD().getConsola();
+        I18NBundle b = Main.getInstance().getParser().getData().getDefaultI18nBundle();
+
+        switch (msg) {
+            case DontSeeAnything:
+                c.addMessage(b.get("msg-dont-see-anything"), FontTypeName.Info);
+                break;
+
+            // TODO: completar con todos los mensajes!!!
+        }
     }
 
 }

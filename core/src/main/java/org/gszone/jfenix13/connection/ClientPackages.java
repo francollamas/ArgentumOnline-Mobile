@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.TimeUtils;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.utils.BytesWritter;
+import org.gszone.jfenix13.utils.Position;
 
 /**
  * Clase con los paquetes que se envían al servidor
@@ -111,6 +112,136 @@ public class ClientPackages {
         GuildRequest,
     }
 
+    /* Las ID de los comandos de GM empiezan en 0, pero deberían empezar en 1!!
+       por eso cada vez que se mande la ID por el socket, hay que sumarle 1. */
+    enum GmID {
+        GMMessage,              // /GMSG
+        showName,               // /SHOWNAME
+        OnlineRoyalArmy,        // /ONLINEREAL
+        OnlineChaosLegion,      // /ONLINECAOS
+        GoNearby,               // /IRCERCA
+        comment,                // /REM
+        serverTime,             // /HORA
+        Where,                  // /DONDE
+        CreaturesInMap,         // /NENE
+        WarpMeToTarget,         // /TELEPLOC
+        WarpChar,               // /TELEP
+        Silence,                // /SILENCIAR
+        SOSShowList,            // /SHOW SOS
+        SOSRemove,              // SOSDONE
+        GoToChar,               // /IRA
+        invisible,              // /INVISIBLE
+        GMPanel,                // /PANELGM
+        RequestUserList,        // LISTUSU
+        Working,                // /TRABAJANDO
+        Hiding,                 // /OCULTANDO
+        Jail,                   // /CARCEL
+        KillNPC,                // /RMATA
+        WarnUser,               // /ADVERTENCIA
+        EditChar,               // /MOD
+        RequestCharInfo,        // /INFO
+        RequestCharStats,       // /STAT
+        RequestCharGold,        // /BAL
+        RequestCharInventory,   // /INV
+        RequestCharBank,        // /BOV
+        RequestCharSkills,      // /SKILLS
+        ReviveChar,             // /REVIVIR
+        OnlineGM,               // /ONLINEGM
+        OnlineMap,              // /ONLINEMAP
+        Kick,                   // /ECHAR
+        Execute,                // /EJECUTAR
+        BanChar,                // /BAN
+        UnbanChar,              // /UNBAN
+        NPCFollow,              // /SEGUIR
+        SummonChar,             // /SUM
+        SpawnListRequest,       // /CC
+        SpawnCreature,          // SPA
+        ResetNPCInventory,      // /RESETINV
+        CleanWorld,             // /LIMPIAR
+        ServerMessage,          // /RMSG
+        NickToIP,               // /NICK2IP
+        IPToNick,               // /IP2NICK
+        TeleportCreate,         // /CT
+        TeleportDestroy,        // /DT
+        RainToggle,             // /LLUVIA
+        SetCharDescription,     // /SETDESC
+        ForceMIDIToMap,         // /FORCEMIDIMAP
+        ForceWAVEToMap,         // /FORCEWAVMAP
+        RoyalArmyMessage,       // /REALMSG
+        ChaosLegionMessage,     // /CAOSMSG
+        CitizenMessage,         // /CIUMSG
+        CriminalMessage,        // /CRIMSG
+        TalkAsNPC,              // /TALKAS
+        DestroyAllItemsInArea,  // /MASSDEST
+        AcceptRoyalCouncilMember,// /ACEPTCONSE
+        AcceptChaosCouncilMember,// /ACEPTCONSECAOS
+        ItemsInTheFloor,        // /PISO
+        MakeDumb,               // /ESTUPIDO
+        MakeDumbNoMore,         // /NOESTUPIDO
+        DumpIPTables,           // /DUMPSECURITY
+        CouncilKick,            // /KICKCONSE
+        SetTrigger,             // /TRIGGER
+        AskTrigger,             // /TRIGGER with no args
+        BannedIPList,           // /BANIPLIST
+        BannedIPReload,         // /BANIPRELOAD
+        BanIP,                  // /BANIP
+        UnbanIP,                // /UNBANIP
+        CreateItem,             // /ITEM
+        DestroyItems,           // /DEST
+        ChaosLegionKick,        // /NOCAOS
+        RoyalArmyKick,          // /NOREAL
+        ForceMIDIAll,           // /FORCEMIDI
+        ForceWAVEAll,           // /FORCEWAV
+        RemovePunishment,       // /BORRARPENA
+        TileBlockedToggle,      // /BLOQ
+        KillNPCNoRespawn,       // /MATA
+        KillAllNearbyNPCs,      // /MASSKILL
+        LastIP,                 // /LASTIP
+        ChangeMOTD,             // /MOTDCAMBIA
+        SetMOTD,                // ZMOTD
+        SystemMessage,          // /SMSG
+        CreateNPC,              // /ACC
+        CreateNPCWithRespawn,   // /RACC
+        NavigateToggle,         // /NAVE
+        ServerOpenToUsersToggle,// /RESTRINGIR
+        TurnOffServer,          // /APAGAR
+        ResetFactions,          // /RAJAR
+        RequestCharMail,        // /LASTEMAIL
+        AlterPassword,          // /APASS
+        AlterMail,              // /AEMAIL
+        AlterName,              // /ANAME
+        ToggleCentinelActivated,// /CENTINELAACTIVADO
+        DoBackUp,               // /DOBACKUP
+        SaveMap,                // /GUARDAMAPA
+        ChangeMapInfoPK,        // /MODMAPINFO PK
+        ChangeMapInfoBackup,    // /MODMAPINFO BACKUP
+        ChangeMapInfoRestricted,// /MODMAPINFO RESTRINGIR
+        ChangeMapInfoNoMagic,   // /MODMAPINFO MAGIASINEFECTO
+        ChangeMapInfoLand,      // /MODMAPINFO TERRENO
+        ChangeMapInfoZone,      // /MODMAPINFO ZONA
+        SaveChars,              // /GRABAR
+        CleanSOS,               // /BORRAR SOS
+        ShowServerForm,         // /SHOW INT
+        night,                  // /NOCHE
+        KickAllChars,           // /ECHARTODOSPJS
+        ReloadNPCs,             // /RELOADNPCS
+        ReloadServerIni,        // /RELOADSINI
+        ReloadSpells,           // /RELOADHECHIZOS
+        ReloadObjects,          // /RELOADOBJ
+        ChatColor,              // /CHATCOLOR
+        Ignored,                // /IGNORADO
+        CheckSlot,              // /SLOT
+        SetIniVar,              // /SETINIVAR LLAVE CLAVE VALOR
+        WarpToMap,              // /GO
+        StaffMessage,           // /STAFF
+        SearchObjs,             // /BUSCAR
+        Countdown,              // /CUENTA
+        WinTournament,          // /GANOTORNEO
+        LoseTournament,         // /PERDIOTORNEO
+        WinQuest,               // /GANOQUEST
+        LoseQuest,              // /PERDIOQUEST
+    }
+
     private BytesWritter w;
     private Queue<byte[]> cola;
 
@@ -126,6 +257,7 @@ public class ClientPackages {
     public byte[] removeAll() {
         /* Guardo el tamaño para asegurarme que voy a extraer solo lo que hay hasta éste punto, y evitar procesar algo
         que el thread principal me agregue */
+
         int size = cola.size;
 
         // Cantidad total de bytes
@@ -214,13 +346,13 @@ public class ClientPackages {
     public void writeWalk(General.Direccion dir) {
         w.writeByte((byte)ID.Walk.ordinal());
         w.writeByte((byte)(dir.ordinal() + 1));
-        w.writeByte((byte)ID.Ping.ordinal());
-        writePing();
+        write();
     }
 
     public void writePing() {
         if (getPingTime() != 0) return;
         setPingTime(TimeUtils.millis());
+        w.writeByte((byte)ID.Ping.ordinal());
         write();
     }
 
@@ -240,5 +372,46 @@ public class ClientPackages {
         w.writeByte((byte)ID.RequestPositionUpdate.ordinal());
         write();
     }
+
+    public void writeWarpChar(String name, int map, Position pos) {
+        w.writeByte((byte)ID.GMCommands.ordinal());
+        w.writeByte((byte)GmID.WarpChar.ordinal() + 1);
+        w.writeString(name);
+        w.writeShort((short) map);
+        w.writeByte((byte) pos.getX());
+        w.writeByte((byte) pos.getY());
+        write();
+    }
+
+    public void writeLeftClick(Position pos) {
+        w.writeByte((byte)ID.LeftClick.ordinal());
+        w.writeByte((byte) pos.getX());
+        w.writeByte((byte) pos.getY());
+        write();
+    }
+
+    public void writeDoubleClick(Position pos) {
+        w.writeByte((byte)ID.DoubleClick.ordinal());
+        w.writeByte((byte) pos.getX());
+        w.writeByte((byte) pos.getY());
+        write();
+    }
+
+    public void writeOnline() {
+        w.writeByte((byte)ID.Online.ordinal());
+        write();
+    }
+
+    public void writeQuit() {
+        w.writeByte((byte)ID.Quit.ordinal());
+        write();
+    }
+
+    public void writeTalk(String texto) {
+        w.writeByte((byte)ID.Talk.ordinal());
+        w.writeString(texto);
+        write();
+    }
+
 
 }

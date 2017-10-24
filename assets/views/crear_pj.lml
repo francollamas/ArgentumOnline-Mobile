@@ -5,7 +5,7 @@
 
     <table defaultpadleft="15" defaultpadright="15">
         <table onecolumn="true" align="top">
-            <label style="small" color="col-title" align="left">@cp-pjdata</label>
+            <label style="smallgradient" color="col-title" align="left">@cp-pjdata</label>
             <table defaultpad="5" onecolumn="true">
                 <textfield id="nombre" style="bold" message="@cp-name-ms"></textfield>
                 <textfield id="contraseña" style="bold" message="@cp-pass-ms" passcharacter="*" passwordmode="true"></textfield>
@@ -17,7 +17,7 @@
 
         <table onecolumn="true" defaultpad="5" expand="true" align="top">
             <table onecolumn="true">
-                <label style="small" color="col-title" align="left">@cp-born</label>
+                <label style="smallgradient" color="col-title" align="left">@cp-born</label>
                 <selectbox id="ciudad" width="130">
                     Ullathorpe
                     Nix
@@ -28,7 +28,7 @@
             </table>
 
             <table onecolumn="true">
-                <label style="small" color="col-title" align="left">@cp-gender</label>
+                <label style="smallgradient" color="col-title" align="left">@cp-gender</label>
                 <selectbox id="genero" width="130">
                     @male
                     @female
@@ -36,7 +36,7 @@
             </table>
 
             <table onecolumn="true">
-                <label style="small" color="col-title" align="left">@cp-race</label>
+                <label style="smallgradient" color="col-title" align="left">@cp-race</label>
                 <selectbox id="raza" width="130">
                     @human
                     @elf
@@ -48,7 +48,7 @@
         </table>
 
         <table defaultpad="5" expand="true" align="top">
-            <label style="small" color="col-title" align="left" row="true" colspan="2">@attrib</label>
+            <label style="smallgradient" color="col-title" align="left" row="true" colspan="2">@attrib</label>
             <imagebutton onclick="tirar-dados" image="dices" row="true" colspan="2"></imagebutton>
             <table onecolumn="true">
                 <label align="left">@strength</label>

@@ -1,6 +1,11 @@
 package org.gszone.jfenix13.objects;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import org.gszone.jfenix13.Main;
+import org.gszone.jfenix13.graphics.DrawParameter;
+import org.gszone.jfenix13.graphics.Drawer;
+import org.gszone.jfenix13.graphics.FontParameter;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.utils.Position;
 
@@ -37,6 +42,7 @@ public class Char {
     private Grh[] helmet;
     private Grh[] weapon;
     private Grh[] shield;
+    private Dialog dialog;
 
     private Position pos;
     private Position moveDir;
@@ -48,6 +54,130 @@ public class Char {
         moveDir = new Position();
         moveOffset = new Position();
     }
+
+    /**
+     * Dibuja al PJ o NPC
+     */
+    public void draw(Batch batch, float x, float y, DrawParameter dp) {
+        int heading = getHeading().ordinal();
+        boolean moved = false;
+
+        // Movimiento del char
+        if (isMoving()) {
+
+            if (getMoveDir().getX() != 0 || getMoveDir().getY() != 0) {
+                // Arranco las animaciones
+                if (getBody() != null && getBody()[heading].getSpeed() > 0) getBody()[heading].setStarted((byte)1);
+                if (getWeapon() != null) getWeapon()[heading].setStarted((byte)1);
+                if (getShield() != null) getShield()[heading].setStarted((byte)1);
+                moved = true;
+
+
+                // Muevo en X
+                if (getMoveDir().getX() != 0) {
+                    getMoveOffset().setX(getMoveOffset().getX()
+                            + Main.getInstance().getGeneral().getScrollPixelsPerFrame() * getMoveDir().getX() * Drawer.getDelta());
+
+                    if ((getMoveDir().getX() == 1 && getMoveOffset().getX() >= 0)
+                            || getMoveDir().getX() == -1 && getMoveOffset().getX() <= 0) {
+                        getMoveOffset().setX(0);
+                        getMoveDir().setX(0);
+                    }
+                }
+
+                // Muevo en Y
+                if (getMoveDir().getY() != 0) {
+                    getMoveOffset().setY(getMoveOffset().getY()
+                            + Main.getInstance().getGeneral().getScrollPixelsPerFrame() * getMoveDir().getY() * Drawer.getDelta());
+
+                    if ((getMoveDir().getY() == 1 && getMoveOffset().getY() >= 0)
+                            || getMoveDir().getY() == -1 && getMoveOffset().getY() <= 0) {
+                        getMoveOffset().setY(0);
+                        getMoveDir().setY(0);
+                    }
+                }
+
+            }
+        }
+
+        // Si no se movió (o sea, si no pasó por el trozo de código de arriba)
+        if (!moved) {
+            if (getBody() != null) {
+                getBody()[heading].setStarted((byte) 0);
+                getBody()[heading].setFrame(1);
+            }
+
+            if (getWeapon() != null) {
+                getWeapon()[heading].setStarted((byte) 0);
+                getWeapon()[heading].setFrame(1);
+            }
+
+            if (getShield() != null) {
+                getShield()[heading].setStarted((byte) 0);
+                getShield()[heading].setFrame(1);
+            }
+
+            setMoving(false);
+        }
+
+        x += getMoveOffset().getX();
+        y += getMoveOffset().getY();
+
+
+        // Defino el offset de la cabeza
+        Position headOffset;
+        if (getBody() != null)
+            headOffset = Main.getInstance().getAssets().getBodies().getBody(getBodyIndex()).getHeadOffset();
+        else
+            headOffset = new Position();
+
+        if (!isInvisible()) {
+            if (getBody() != null)
+                Drawer.drawGrh(batch, getBody()[heading], x, y, dp);
+
+            if (getHead() != null)
+                Drawer.drawGrh(batch, getHead()[heading], x + headOffset.getX(), y + headOffset.getY(), dp);
+
+            if (getHelmet() != null)
+                Drawer.drawGrh(batch, getHelmet()[heading], x + headOffset.getX(), y + headOffset.getY(), dp);
+
+            if (getWeapon() != null)
+                Drawer.drawGrh(batch, getWeapon()[heading], x, y, dp);
+
+            if (getShield() != null)
+                Drawer.drawGrh(batch, getShield()[heading], x, y, dp);
+
+            if (getNombre().length() > 0) {
+                FontParameter fp = new FontParameter("tahoma11boldborder");
+                fp.setColor(Main.getInstance().getGameData().getColors().getColor(getPriv(), getBando()));
+
+                Drawer.drawText(batch, getNombre(), x + 16, y + 35, fp);
+            }
+
+        }
+
+        if (getFxIndex() != 0) {
+            Fx fxData = Main.getInstance().getAssets().getFxs().getFx(getFxIndex());
+            Drawer.drawGrh(batch, getFx(), x + fxData.getOffset().getX(), y + fxData.getOffset().getY(), dp);
+            if (getFx().getStarted() == 0) {
+                setFx(0, 0);
+            }
+        }
+
+
+        if (dialog != null) {
+            if (nombre.length() == 0 && this != Main.getInstance().getGameData().getChars().getNpcDialog())
+                dialog = null;
+            else {
+                if (dialog.isAlive())
+                    dialog.draw(batch, (int) (x + headOffset.getX() + 16), (int) (y + headOffset.getY()));
+                else
+                    dialog = null;
+            }
+        }
+
+    }
+
 
     public boolean isActive() {
         return active;
@@ -208,6 +338,18 @@ public class Char {
             this.shield = shield.getGrhs();
         else
             this.weapon = null;
+    }
+
+    public Dialog getDialog() {
+        return dialog;
+    }
+
+    public void setDialog(String text) {
+        this.dialog = new Dialog(text);
+    }
+
+    public void setDialog(String text, Color c) {
+        this.dialog = new Dialog(text, c);
     }
 
     public Position getPos() {

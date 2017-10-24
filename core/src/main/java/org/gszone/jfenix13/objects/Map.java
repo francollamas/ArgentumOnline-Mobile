@@ -8,6 +8,7 @@ import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.utils.BytesReader;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
+
 import java.io.IOException;
 
 import static org.gszone.jfenix13.general.FileNames.*;
@@ -42,7 +43,7 @@ public class Map {
      * Carga un mapa
      */
     private void load() throws IOException {
-        FileHandle fh = Gdx.files.internal(DIR_MAPS + "/Mapa" + numero + ".mcl");
+        FileHandle fh = Gdx.files.internal(getMapDir(numero));
         BytesReader r = new BytesReader(fh.readBytes(), true);
 
         this.nombre = r.readString();

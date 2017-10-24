@@ -1,19 +1,22 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
-	boldfont: {
-		file: Verdana11.fnt
-	}
-	font: {
-		file: font-export.fnt
-	}
 	malgun-gothic13gra: {
 		file: MalgunGothic13Gra.fnt
 	}
 	malgun-gothic9Gra: {
 		file: MalgunGothic9Gra.fnt
 	}
-	normalfont: {
-		file: Britannic11.fnt
+	tahoma11: {
+		file: Tahoma11.fnt
+	}
+	tahoma11bold: {
+		file: Tahoma11Bold.fnt
+	}
+	tahoma11boldborder: {
+		file: Tahoma11BoldBorder.fnt
+	}
+	tahoma11border: {
+		file: Tahoma11Border.fnt
 	}
 }
 com.badlogic.gdx.graphics.Color: {
@@ -206,20 +209,20 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 	default: {
-		font: font
+		font: malgun-gothic13gra
 		up: button
 		down: button-pressed
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: malgun-gothic13gra
+		font: tahoma11
 		fontColor: white
 	}
 	menuitem-shortcut: {
 		font: malgun-gothic13gra
 	}
-	small: {
+	smallgradient: {
 		font: malgun-gothic9Gra
 		fontColor: white
 	}
@@ -227,17 +230,23 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		font: malgun-gothic13gra
 	}
 	bold: {
-		font: boldfont
+		font: tahoma11bold
 		fontColor: white
 	}
-	normal: {
-		font: normalfont
+	gradient: {
+		font: malgun-gothic13gra
 		fontColor: white
+	}
+	boldborder: {
+		font: tahoma11boldborder
+	}
+	border: {
+		font: tahoma11border
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
-		font: boldfont
+		font: tahoma11
 		fontColorSelected: white
 		fontColorUnselected: light-gray
 		selection: list-item
@@ -291,7 +300,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	default: {
-		font: malgun-gothic13gra
+		font: tahoma11bold
 		fontColor: light-gray
 		background: select-box
 		scrollStyle: list
@@ -342,7 +351,7 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
-		font: normalfont
+		font: tahoma11
 		fontColor: light-gray
 		focusedFontColor: light-gray
 		background: textfield
@@ -394,7 +403,7 @@ com.kotcrab.vis.ui.Sizes: {
 }
 com.kotcrab.vis.ui.widget.VisTextField$VisTextFieldStyle: {
 	default: {
-		font: normalfont
+		font: tahoma11
 		fontColor: light-gray
 		selection: gray
 		background: textfield
@@ -403,7 +412,7 @@ com.kotcrab.vis.ui.widget.VisTextField$VisTextFieldStyle: {
 		disabledBackground: textfield-disabled
 	}
 	bold: {
-		font: boldfont
+		font: tahoma11bold
 		fontColor: light-gray
 		selection: gray
 		background: textfield
@@ -425,14 +434,12 @@ com.kotcrab.vis.ui.widget.VisTextButton$VisTextButtonStyle: {
 		down: menu-button-down
 		up: menu-button
 		over: menu-button-down
-		font: font
 		fontColor: white
 		downFontColor: light-gray
 	}
 	toggle: {
 		down: button-pressed
 		up: button
-		font: font
 		fontColor: white
 		checked: button-pressed
 		downFontColor: light-gray
@@ -440,7 +447,6 @@ com.kotcrab.vis.ui.widget.VisTextButton$VisTextButtonStyle: {
 	tab: {
 		down: tab-pressed
 		up: tab-pressed
-		font: font
 		fontColor: white
 		checked: tab
 	}
@@ -513,14 +519,12 @@ com.kotcrab.vis.ui.widget.VisCheckBox$VisCheckBoxStyle: {
 		checkBackgroundOver: checkbox
 		checkBackgroundDown: checkbox-pressed
 		tick: check
-		font: font
 	}
 	radio: {
 		checkBackground: radio
 		checkBackgroundOver: radio
 		checkBackgroundDown: radio-pressed
 		tick: check-radio
-		font: font
 	}
 }
 com.kotcrab.vis.ui.widget.PopupMenu$PopupMenuStyle: {
@@ -575,7 +579,6 @@ com.kotcrab.vis.ui.widget.MenuItem$MenuItemStyle: {
 		down: menu-button-down
 		up: menu-button
 		over: menu-button-over
-		font: font
 		fontColor: white
 	}
 }
@@ -588,7 +591,6 @@ com.kotcrab.vis.ui.widget.LinkLabel$LinkLabelStyle: {
 	default: {
 		fontColor: link
 		underline: link-underline
-		font: font
 	}
 }
 com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane$TabbedPaneStyle: {
@@ -639,7 +641,6 @@ com.kotcrab.vis.ui.widget.color.ColorPickerWidgetStyle: {
 }
 com.kotcrab.vis.ui.widget.color.ColorPickerStyle: {
 	default: {
-		titleFont: font
 		background: window
 		titleFontColor: white
 		pickerStyle: default

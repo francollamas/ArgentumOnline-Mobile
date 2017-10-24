@@ -23,7 +23,7 @@ public class GrhData {
     private TextureRegion tr;
 
     public GrhData() {
-        frames = new Array<Short>();
+        frames = new Array<>();
         rect = new Rect();
         tr = null;
     }
@@ -67,7 +67,7 @@ public class GrhData {
 
     public TextureRegion getTR() {
         if (tr == null)
-            tr = Drawer.getTextureRegion(Drawer.TipoTex.PRINCIPAL, fileNum, rect);
+            tr = Drawer.getTextureRegion(fileNum, rect);
         return tr;
     }
 

@@ -2,44 +2,42 @@ package org.gszone.jfenix13.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.Main;
-import org.gszone.jfenix13.objects.CharFont;
-import org.gszone.jfenix13.objects.Font;
 import org.gszone.jfenix13.objects.GrhData;
 import org.gszone.jfenix13.utils.Rect;
 import java.util.Stack;
 
 import static com.badlogic.gdx.graphics.GL20.GL_ONE_MINUS_SRC_ALPHA;
 import static com.badlogic.gdx.graphics.GL20.GL_SRC_ALPHA;
-import static org.gszone.jfenix13.general.FileNames.*;
 
 /**
  * Contiene lo referido a la manipulacion de texturas
  *
- * dp: es un objeto que contiene los parametros por defecto para dibujar.
+ * dp: es un objeto que contiene los parametros por defecto para dibujar un gráfico.
+ * fp: es un objeto que contiene los parametros por defecto para mostrar un texto
  * containerRect: pila con datos del rectángulo del contenedor actual, para dibujar pasando una posición relativa.
  * defColor: color del mundo por defecto
  */
 public final class Drawer {
-    public enum TipoTex {PRINCIPAL, FUENTE}
     public enum Alignment {LEFT, CENTER, RIGHT}
 
 
     public static Stack<Rectangle> containerRect;
     private static DrawParameter dp;
+    private static FontParameter fp;
     private static Color defColor;
 
     static {
         dp = new DrawParameter();
+        fp = new FontParameter();
         setDefColor(Color.WHITE);
         containerRect = new Stack();
         containerRect.push(new Rectangle(0, 0, getGeneral().getScrWidth(),
@@ -199,23 +197,12 @@ public final class Drawer {
     /**
      * Devuelve una TextureRegion según el número de gráfico
      */
-    public static TextureRegion getTextureRegion(TipoTex tipoGrafico, int numGrafico, Rect r) {
-        TextureRegion reg = null;
-
-        switch (tipoGrafico) {
-            case PRINCIPAL:
-                reg = new TextureRegion(Main.getInstance().getAssets().getTextures().getTexture(numGrafico));
-                break;
-            case FUENTE:
-                TextureAtlas atlas = Main.getInstance().getAssets().getGDXAssets().get(getAtlasFontTexDir(), TextureAtlas.class);
-                reg = atlas.findRegion("" + numGrafico);
-                break;
-        }
+    public static TextureRegion getTextureRegion(int numGrafico, Rect r) {
+        TextureRegion reg = new TextureRegion(Main.getInstance().getAssets().getTextures().getTexture(numGrafico));
 
         // Hardcode: arranco a partir del pixel (16,16), ya que los gráficos tienen bordes blancos (para evitar problemas gráficos)
-        int padding = 0;
-        if (tipoGrafico == TipoTex.PRINCIPAL)
-            padding = 16;
+        int padding = 16;
+
         // Verificamos si hay que buscar una región específica de la textura.
         if (r != null)
             if (reg != null)
@@ -224,55 +211,57 @@ public final class Drawer {
         return reg;
     }
 
-    public static void drawText(Batch batch, int numFont, String text, float x, float y, Alignment a) {
-        drawText(batch, numFont, text, x, y, a, dp);
+    public static void drawText(Batch batch, String text, float x, float y) {
+        drawText(batch, text, x, y, fp);
     }
 
     /**
-     * Dibuja texto en pantalla
+     * Dibuja texto de una sola línea
      */
-    public static void drawText(Batch batch, int numFont, String text, float x, float y, Alignment a, DrawParameter dp) {
-        Font[] fonts = Main.getInstance().getAssets().getFonts().getFonts();
-        if (text.length() == 0) {
-            return;
-        }
+    public static void drawText(Batch batch, String text, float x, float y, FontParameter fp) {
+        Array<String> arr = new Array<>();
+        arr.add(text);
+        drawText(batch, arr, x, y, fp);
+    }
 
-        if (numFont < 1 || numFont > fonts.length) {
-            return;
-        }
+    public static void drawText(Batch batch, Array<String> text, float x, float y) {
+        drawText(batch, text, x, y, fp);
+    }
 
-        Font font = fonts[numFont - 1];
-        CharFont[] chars = new CharFont[text.length()];
-        int[] charOffset = new int[text.length() + 1];
-        charOffset[0] = 0;
+    /**
+     * Dibuja texto de una o varias líneas
+     */
+    public static void drawText(Batch batch, Array<String> text, float x, float y, FontParameter fp) {
 
-        int width = 0;
-        for (int i = 0; i < text.length(); i++) {
-            // Si el caracter no existe lo reemplaza por '?'
-            try {
-                chars[i] = font.getChars()[text.charAt(i)];
-            } catch (ArrayIndexOutOfBoundsException ex){
-                chars[i] = font.getChars()[63];
+        // Transforma el Y tomando el origen arriba, por un Y tomando el origen abajo
+        y = (int)containerRect.peek().getHeight() - y;
+
+        // Lleva los puntos al sis. de coordenadas de la Pantalla
+        x += containerRect.peek().getX();
+        y += containerRect.peek().getY();
+
+        BitmapFont font = fp.getFont();
+        font.setColor(fp.getColor());
+
+
+        int offset = 0;
+        if (text.size == 1)
+            font.draw(batch, text.get(0), x, y, 0, fp.getAlign(), false);
+        else {
+            // Calculo el ancho más grande
+            BitmapFontCache fontCache = new BitmapFontCache(font);
+            float maxWidth = 0;
+            for (String t : text) {
+                float tempWidth = fontCache.addText(t, x, y).width;
+                fontCache.clear();
+                if (tempWidth > maxWidth) maxWidth = tempWidth;
             }
 
-            width += (chars[i].getWidth() + font.getOffset()) * dp.getScaleX();
-            charOffset[i + 1] = width;
+            for (String t : text) {
+                GlyphLayout layout = font.draw(batch, t, x - maxWidth / 2, y + offset, 0, Align.left, false);
+                offset -= layout.height + 3;
+            }
         }
-
-        int start = 0;
-        switch (a) {
-            case CENTER:
-                start = - (width / 2);
-                break;
-            case RIGHT:
-                start = -width;
-                break;
-        }
-
-        for (int i = 0; i < chars.length; i++) {
-            draw(batch, chars[i].getTR(), x + start + charOffset[i], y, dp);
-        }
-
     }
 
     /**

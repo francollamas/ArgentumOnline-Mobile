@@ -1,14 +1,11 @@
 package org.gszone.jfenix13.containers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.gszone.jfenix13.objects.Map;
 import static org.gszone.jfenix13.containers.PartChar.*;
 
 import static org.gszone.jfenix13.general.FileNames.*;
-import static com.badlogic.gdx.Application.ApplicationType.*;
 
 /**
  * Contiene todos los objetos cargados desde los assets
@@ -32,7 +29,6 @@ public class Assets {
     private Textures textures;
     private Audio audio;
     private Grhs grhs;
-    private Fonts fonts;
     private Bodies bodies;
     private PartChar heads;
     private PartChar helmets;
@@ -60,18 +56,7 @@ public class Assets {
     private void preloadGdxAssets() {
         // Skin del juego
         gdxAssets.load(getSkinDir(), Skin.class);
-
-        // Atlas de las fuentes
-        gdxAssets.load(getAtlasFontTexDir(), TextureAtlas.class);
-
-        // Sonidos
-        // TODO: cargarlos sobre la marcha y liberarlos al terminar c/u.
-        /*String[] soundDirs = Audio.getSoundDirs();
-        for(String dir: soundDirs) {
-            gdxAssets.load(dir, Sound.class);
-        }*/
     }
-
 
     /**
      * Carga al resto de los assets que sabe cargar libGDX
@@ -88,7 +73,6 @@ public class Assets {
     public void loadRemaining() {
         textures = new Textures();
         grhs = new Grhs();
-        fonts = new Fonts();
         bodies = new Bodies();
         heads = new PartChar(Tipo.HEAD);
         helmets = new PartChar(Tipo.HELMET);
@@ -99,7 +83,6 @@ public class Assets {
 
     public Textures getTextures() { return textures; }
     public Grhs getGrhs() { return grhs; }
-    public Fonts getFonts() { return fonts; }
     public Audio getAudio() { return audio; }
     public Bodies getBodies() { return bodies; }
     public PartChar getHeads() { return heads; }

@@ -47,6 +47,7 @@ public class FontTypes {
         // Defino un estilo alternativo
         String s = "bold";
 
+        // Cargo las fuentes. Si no paso parámetro de estilo, asume el estilo por defecto.
         load(Talk, newColor(255, 255, 255));
         load(Fight, newColor(255, 0, 0), s);
         load(Warning, newColor(32, 51, 223), s);

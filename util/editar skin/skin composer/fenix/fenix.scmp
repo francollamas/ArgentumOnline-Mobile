@@ -536,19 +536,6 @@ atlasData: {
 			name: panel
 		}
 		{
-			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/font-export.png
-			bgColor: {
-				r: 0
-				g: 0
-				b: 0
-				a: 1
-			}
-			visible: false
-			tint: null
-			tintName: null
-			name: font-export
-		}
-		{
 			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/check-radio.png
 			bgColor: {
 				r: 0
@@ -1134,19 +1121,6 @@ atlasData: {
 			name: link-underline
 		}
 		{
-			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Verdana11.png
-			bgColor: {
-				r: 0
-				g: 0
-				b: 0
-				a: 1
-			}
-			visible: false
-			tint: null
-			tintName: null
-			name: Verdana11
-		}
-		{
 			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/MalgunGothic13Gra.png
 			bgColor: {
 				r: 0
@@ -1403,7 +1377,7 @@ atlasData: {
 			name: textfield-disabled
 		}
 		{
-			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Britannic11.png
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Tahoma11.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -1413,7 +1387,46 @@ atlasData: {
 			visible: false
 			tint: null
 			tintName: null
-			name: Britannic11
+			name: Tahoma11
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Tahoma11Bold.png
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			visible: false
+			tint: null
+			tintName: null
+			name: Tahoma11Bold
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Tahoma11BoldBorder.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: false
+			tint: null
+			tintName: null
+			name: Tahoma11BoldBorder
+		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Tahoma11Border.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: false
+			tint: null
+			tintName: null
+			name: Tahoma11Border
 		}
 	]
 }
@@ -1533,16 +1546,6 @@ jsonData: {
 	fonts: [
 		{
 			class: com.ray3k.skincomposer.data.FontData
-			name: boldfont
-			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Verdana11.fnt
-		}
-		{
-			class: com.ray3k.skincomposer.data.FontData
-			name: font
-			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/font-export.fnt
-		}
-		{
-			class: com.ray3k.skincomposer.data.FontData
 			name: malgun-gothic13gra
 			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/MalgunGothic13Gra.fnt
 		}
@@ -1553,8 +1556,23 @@ jsonData: {
 		}
 		{
 			class: com.ray3k.skincomposer.data.FontData
-			name: normalfont
-			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Britannic11.fnt
+			name: tahoma11
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Tahoma11.fnt
+		}
+		{
+			class: com.ray3k.skincomposer.data.FontData
+			name: tahoma11bold
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Tahoma11Bold.fnt
+		}
+		{
+			class: com.ray3k.skincomposer.data.FontData
+			name: tahoma11boldborder
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Tahoma11BoldBorder.fnt
+		}
+		{
+			class: com.ray3k.skincomposer.data.FontData
+			name: tahoma11border
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/Tahoma11Border.fnt
 		}
 	]
 	classStyleMap: {
@@ -2287,7 +2305,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: font
+						value: malgun-gothic13gra
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -2430,7 +2448,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: malgun-gothic13gra
+						value: tahoma11
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -2480,7 +2498,7 @@ jsonData: {
 			}
 			{
 				class: com.ray3k.skincomposer.data.StyleData
-				name: small
+				name: smallgradient
 				clazz: com.badlogic.gdx.scenes.scene2d.ui.Label
 				properties: {
 					font: {
@@ -2546,7 +2564,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: boldfont
+						value: tahoma11bold
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -2567,7 +2585,7 @@ jsonData: {
 			}
 			{
 				class: com.ray3k.skincomposer.data.StyleData
-				name: normal
+				name: gradient
 				clazz: com.badlogic.gdx.scenes.scene2d.ui.Label
 				properties: {
 					font: {
@@ -2575,7 +2593,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: normalfont
+						value: malgun-gothic13gra
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -2583,6 +2601,64 @@ jsonData: {
 						name: fontColor
 						optional: true
 						value: white
+					}
+					background: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: boldborder
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.Label
+				properties: {
+					font: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.graphics.g2d.BitmapFont
+						name: font
+						optional: false
+						value: tahoma11boldborder
+					}
+					fontColor: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.graphics.Color
+						name: fontColor
+						optional: true
+						value: null
+					}
+					background: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: border
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.Label
+				properties: {
+					font: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.graphics.g2d.BitmapFont
+						name: font
+						optional: false
+						value: tahoma11border
+					}
+					fontColor: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.graphics.Color
+						name: fontColor
+						optional: true
+						value: null
 					}
 					background: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -2606,7 +2682,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: boldfont
+						value: tahoma11
 					}
 					fontColorSelected: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -3253,7 +3329,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: malgun-gothic13gra
+						value: tahoma11bold
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -3800,7 +3876,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: normalfont
+						value: tahoma11
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -4174,7 +4250,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: normalfont
+							value: tahoma11
 						}
 						{
 							name: fontColor
@@ -4250,7 +4326,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: boldfont
+							value: tahoma11bold
 						}
 						{
 							name: fontColor
@@ -4499,7 +4575,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: font
+							value: null
 						}
 						{
 							name: fontColor
@@ -4575,7 +4651,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: font
+							value: null
 						}
 						{
 							name: fontColor
@@ -4651,7 +4727,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: font
+							value: null
 						}
 						{
 							name: fontColor
@@ -6139,7 +6215,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: font
+							value: null
 						}
 						{
 							name: fontColor
@@ -6275,7 +6351,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: font
+							value: null
 						}
 						{
 							name: fontColor
@@ -6866,7 +6942,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: font
+							value: null
 						}
 						{
 							name: fontColor
@@ -7037,7 +7113,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: font
+							value: null
 						}
 						{
 							name: background
@@ -7477,7 +7553,7 @@ jsonData: {
 						{
 							name: titleFont
 							type: FONT
-							value: font
+							value: null
 						}
 						{
 							name: background

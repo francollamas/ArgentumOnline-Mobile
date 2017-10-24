@@ -19,7 +19,7 @@ public class FontType {
 
     public FontType(Color c) {
         color = c;
-        style = "normal";
+        style = "default";
     }
 
     public FontType(Color c, String style) {

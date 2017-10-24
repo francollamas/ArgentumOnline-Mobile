@@ -9,7 +9,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.containers.FontTypes.FontTypeName;
 import org.gszone.jfenix13.objects.FontType;
-
+import org.gszone.jfenix13.utils.StrUtils;
 
 /**
  * Consola de mensajes
@@ -21,7 +21,7 @@ public class Consola extends VisScrollPane {
     private VisTable tabla;
 
     public Consola() {
-        this(500, 75);
+        this(200, 75);
     }
 
     public Consola(int maxRows, int maxChars) {
@@ -29,7 +29,8 @@ public class Consola extends VisScrollPane {
         tabla = (VisTable)getWidget();
         tabla.align(Align.topLeft);
         tabla.defaults().fill();
-        tabla.setBackground("textfield-disabled");
+        tabla.padLeft(2f).padRight(2f);
+        //tabla.setBackground("textfield-disabled");
         this.maxRows = maxRows;
         this.maxChars = maxChars;
     }
@@ -63,32 +64,20 @@ public class Consola extends VisScrollPane {
         }
 
         // Creo un array con todas las líneas
-        Array<StringBuilder> arr = getLineas(sb.toString());
+        Array<String> arr = StrUtils.getLineas(sb.toString());
 
         // Vacío el constructor de strings para llenarlo con las nuevas líneas
         sb = new StringBuilder(sb.length() + 10);
 
         // Crea más líneas si es necesario para que prácticamente el scroll tenga que ser solo vertical.
         for (int i = 0; i < arr.size; i++) {
-            StringBuilder s = arr.get(i);
-            int pos = 0;
-            while (s.length() - pos > maxChars) {
-                String prov = s.substring(pos, pos + maxChars);
-                int lastSpace = prov.lastIndexOf(" ");
-                if (lastSpace != -1) {
-                    prov = prov.substring(0, lastSpace);
-                    pos++;
-                }
-                sb.append(prov.trim() + '\n');
-                pos += prov.length();
-            }
-            sb.append(s.substring(pos).trim());
+            String s = arr.get(i);
+            sb.append(StrUtils.getFormattedText(s, maxChars));
             if (i != arr.size - 1) sb.append('\n');
         }
 
         // Busco la fontType
         FontType ft = Main.getInstance().getGameData().getFontTypes().getFontType(ftName.ordinal());
-        System.out.println(ft);
 
         // Creo el label
         VisLabel l = new VisLabel(sb.toString(), ft.getColor());
@@ -101,31 +90,6 @@ public class Consola extends VisScrollPane {
         if (newLine) tabla.row();
         layout();
         setScrollPercentY(1f);
-    }
-
-    /**
-     * Obtiene un array de líneas
-     */
-    private Array<StringBuilder> getLineas(String sb) {
-
-        Array<StringBuilder> arr = new Array();
-        int firstIndex = 0;
-        int secondIndex = 0;
-        StringBuilder s;
-        while (secondIndex != -1) {
-            secondIndex = sb.indexOf("\n", firstIndex);
-            if (secondIndex != -1) {
-                s = new StringBuilder();
-                s.append(sb.substring(firstIndex, secondIndex));
-                arr.add(s);
-                firstIndex = secondIndex + 1;
-            }
-        }
-        s = new StringBuilder();
-        s.append(sb.substring(firstIndex));
-        arr.add(s);
-
-        return arr;
     }
 
     @Override

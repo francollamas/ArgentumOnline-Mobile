@@ -5,17 +5,18 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import org.gszone.jfenix13.connection.ClientPackages;
+import org.gszone.jfenix13.controllers.WorldController;
 import org.gszone.jfenix13.general.General;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.graphics.DrawParameter;
 import org.gszone.jfenix13.graphics.Drawer;
-import org.gszone.jfenix13.handlers.WorldHandler;
-import org.gszone.jfenix13.listeners.WorldListener;
 import org.gszone.jfenix13.objects.*;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
-import org.gszone.jfenix13.graphics.Drawer.Alignment;
 
 import static com.badlogic.gdx.Input.Keys.*;
 import static org.gszone.jfenix13.general.General.*;
@@ -32,7 +33,6 @@ import static org.gszone.jfenix13.general.General.*;
  * screenTile: rectángulo con las posiciones del mundo que se visualizan (para capas 1 y 2)
  * screenBigTile: lo mismo que screenTile pero más grande (para dibujar incluso donde no se ve: para capa 3, etc).
  *                Es para evitar que objetos muy grandes aparezcan de repente.
- * h: manejador o conjunto de flags que manejan las acciones que hará el World.
  */
 public class World extends Actor {
     private boolean moving;
@@ -43,15 +43,55 @@ public class World extends Actor {
     private boolean techo;
     private Rect screenTile;
     private Rect screenBigTile;
-
-    private WorldHandler h;
+    private WorldController controller;
 
     public World() {
         setSize(getGeneral().getWindowsTileWidth() * getGeneral().getTilePixelWidth(),
                 getGeneral().getWindowsTileHeight() * getGeneral().getTilePixelHeight());
 
-        h = new WorldHandler();
-        addListener(new WorldListener(h));
+        controller = new WorldController();
+
+        // Agrego los listeners del World.
+        addListener(new DragListener() {
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                controller.setLastMousePos(x, y);
+                return super.mouseMoved(event, x, y);
+            }
+        });
+
+        addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                boolean endLongPress = controller.endLongPress();
+                controller.setLastMousePos(x, y);
+                if (button != 0) return;
+
+                if (getTapCount() == 1) {
+                    if (!endLongPress)
+                        getClPack().writeLeftClick(mouseTile);
+                }
+                else if (getTapCount() == 2)
+                    getClPack().writeDoubleClick(mouseTile);
+
+
+                // Hago esto para que el tercer click consecutivo sea normal, y no siga aumentando
+                if (getTapCount() >= 2) setTapCount(0);
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                controller.setLastMousePos(x, y);
+
+                if (button == 0) controller.startLongPress();
+
+                if (button == 1)
+                    getClPack().writeWarpChar("YO", Main.getInstance().getGameData().getCurrentUser().getMap(), mouseTile);
+                super.touchDown(event, x, y, pointer, button);
+                return true;
+            }
+        });
 
         pos = new Position(50, 50);
         addToPos = new Position();
@@ -60,6 +100,7 @@ public class World extends Actor {
         screenTile = new Rect();
         screenBigTile = new Rect();
     }
+
 
     public boolean isMoving() {
         return moving;
@@ -103,6 +144,12 @@ public class World extends Actor {
     public void act(float delta) {
         super.act(delta);
 
+        if (controller.mousePosChanged())
+            setMouseTile(controller.getLastMousePos());
+
+        if (controller.longPressDone())
+            getClPack().writeWarpChar("YO", Main.getInstance().getGameData().getCurrentUser().getMap(), mouseTile);
+
         if (!isMoving())
             if (Gdx.input.isKeyPressed(UP)) moveChar(Direccion.NORTE);
             else if (Gdx.input.isKeyPressed(RIGHT)) moveChar(Direccion.ESTE);
@@ -112,12 +159,7 @@ public class World extends Actor {
         // Lo vuelvo a chequear, porque al mover el char, se activa el flag 'moving'
         if (isMoving()) {
             move();
-            setMouseTile(h.getPos());
-        }
-
-        if (h.isMoved()) {
-            setMouseTile(h.getPos());
-            h.setMoved(false);
+            setMouseTile(controller.getLastMousePos());
         }
     }
 
@@ -125,6 +167,8 @@ public class World extends Actor {
      * Mueve o cambia la dirección del personaje
      */
     public void moveChar(Direccion dir) {
+        if (Main.getInstance().getGameData().isPausa()) return;
+
         Position relPos = Position.dirToPos(dir);
         Position absPos = pos.getSuma(relPos);
         User u = Main.getInstance().getGameData().getCurrentUser();
@@ -317,7 +361,8 @@ public class World extends Actor {
 
                 // Personajes
                 if (tile.getCharIndex() != 0)
-                    drawChar(batch, tile.getCharIndex(), tempPos.getX(), tempPos.getY(), dpAC);
+                    Main.getInstance().getGameData().getChars().getChar(tile.getCharIndex())
+                    .draw(batch, tempPos.getX(), tempPos.getY(), dpAC);
 
                 // Capa 3
                 if (tile.getCapa(2) != null)
@@ -357,118 +402,6 @@ public class World extends Actor {
 
         Drawer.popScissors(getStage());
         Drawer.setDefColor(Color.WHITE);
-    }
-
-
-    /**
-     * Dibuja a un char. (es llamado por el método render())
-     */
-    private void drawChar(Batch batch, int charIndex, float x, float y, DrawParameter dp) {
-        Char c = Main.getInstance().getGameData().getChars().getChar(charIndex);
-        int heading = c.getHeading().ordinal();
-        boolean moved = false;
-
-        // Movimiento del char
-        if (c.isMoving()) {
-
-            if (c.getMoveDir().getX() != 0 || c.getMoveDir().getY() != 0) {
-                // Arranco las animaciones
-                if (c.getBody() != null && c.getBody()[heading].getSpeed() > 0) c.getBody()[heading].setStarted((byte)1);
-                if (c.getWeapon() != null) c.getWeapon()[heading].setStarted((byte)1);
-                if (c.getShield() != null) c.getShield()[heading].setStarted((byte)1);
-                moved = true;
-
-
-                // Muevo en X
-                if (c.getMoveDir().getX() != 0) {
-                    c.getMoveOffset().setX(c.getMoveOffset().getX()
-                            + Main.getInstance().getGeneral().getScrollPixelsPerFrame() * c.getMoveDir().getX() * Drawer.getDelta());
-
-                    if ((c.getMoveDir().getX() == 1 && c.getMoveOffset().getX() >= 0)
-                            || c.getMoveDir().getX() == -1 && c.getMoveOffset().getX() <= 0) {
-                        c.getMoveOffset().setX(0);
-                        c.getMoveDir().setX(0);
-                    }
-                }
-
-                // Muevo en Y
-                if (c.getMoveDir().getY() != 0) {
-                    c.getMoveOffset().setY(c.getMoveOffset().getY()
-                            + Main.getInstance().getGeneral().getScrollPixelsPerFrame() * c.getMoveDir().getY() * Drawer.getDelta());
-
-                    if ((c.getMoveDir().getY() == 1 && c.getMoveOffset().getY() >= 0)
-                            || c.getMoveDir().getY() == -1 && c.getMoveOffset().getY() <= 0) {
-                        c.getMoveOffset().setY(0);
-                        c.getMoveDir().setY(0);
-                    }
-                }
-
-            }
-        }
-
-        // Si no se movió (o sea, si no pasó por el trozo de código de arriba)
-        if (!moved) {
-            if (c.getBody() != null) {
-                c.getBody()[heading].setStarted((byte) 0);
-                c.getBody()[heading].setFrame(1);
-            }
-
-            if (c.getWeapon() != null) {
-                c.getWeapon()[heading].setStarted((byte) 0);
-                c.getWeapon()[heading].setFrame(1);
-            }
-
-            if (c.getShield() != null) {
-                c.getShield()[heading].setStarted((byte) 0);
-                c.getShield()[heading].setFrame(1);
-            }
-
-            c.setMoving(false);
-        }
-
-        x += c.getMoveOffset().getX();
-        y += c.getMoveOffset().getY();
-
-
-        if (!c.isInvisible()) {
-            Position headOffset;
-
-            if (c.getBody() != null) {
-                Body bodyData = Main.getInstance().getAssets().getBodies().getBody(c.getBodyIndex());
-                headOffset = bodyData.getHeadOffset();
-                Drawer.drawGrh(batch, c.getBody()[heading], x, y, dp);
-            } else
-                headOffset = new Position();
-
-            if (c.getHead() != null)
-                Drawer.drawGrh(batch, c.getHead()[heading], x + headOffset.getX(), y + headOffset.getY(), dp);
-
-            if (c.getHelmet() != null)
-                Drawer.drawGrh(batch, c.getHelmet()[heading], x + headOffset.getX(), y + headOffset.getY(), dp);
-
-            if (c.getWeapon() != null)
-                Drawer.drawGrh(batch, c.getWeapon()[heading], x, y, dp);
-
-            if (c.getShield() != null)
-                Drawer.drawGrh(batch, c.getShield()[heading], x, y, dp);
-
-
-            if (c.getNombre().length() > 0) {
-                DrawParameter dpc = new DrawParameter();
-                dpc.setColor(Main.getInstance().getGameData().getColors().getColor(c.getPriv(), c.getBando()));
-                Drawer.drawText(batch, 3, c.getNombre(), x + 16, y + 30, Alignment.CENTER, dpc);
-            }
-
-        }
-
-        if (c.getFxIndex() != 0) {
-            Fx fxData = Main.getInstance().getAssets().getFxs().getFx(c.getFxIndex());
-            Drawer.drawGrh(batch, c.getFx(), x + fxData.getOffset().getX(), y + fxData.getOffset().getY(), dp);
-            if (c.getFx().getStarted() == 0) {
-                c.setFx(0, 0);
-            }
-        }
-
     }
 
     public General getGeneral() { return Main.getInstance().getGeneral(); }

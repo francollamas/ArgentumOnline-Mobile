@@ -34,7 +34,7 @@ public abstract class View extends AbstractLmlView {
 
     public View() {
         super(Main.newStage());
-        texs = new Array<Texture>();
+        texs = new Array<>();
     }
 
     public Drawable getBackground() {

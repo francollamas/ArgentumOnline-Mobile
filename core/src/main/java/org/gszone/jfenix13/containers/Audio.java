@@ -25,24 +25,10 @@ public class Audio {
     private float musicVolume;
     private float soundVolume;
 
-    /**
-     * Devuelve la lista de sonidos (el Path de cada uno)
-     */
-    public static String[] getSoundDirs() {
-        FileHandle[] files = Gdx.files.internal(DIR_SOUNDS).list();
-
-        String[] names = new String[files.length];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = files[i].path();
-        }
-        return names;
-    }
-
     public Audio() {
         currentMusic = -1;
         musicVolume = 1.0f;
         soundVolume = 1.0f;
-
     }
 
     public void playSound(int num) {
@@ -53,11 +39,9 @@ public class Audio {
      * Reproduce un sonido y devuelve su ID.
      */
     public long playSound(String name, boolean loop) {
-        // TODO: sacar el return 0;, y descomentar este código (una vez que se solucione el BUG de sonidos desde el .jar)
-        /*Sound sound = Main.getInstance().getAssets().getGDXAssets().get(getSoundDir(name), Sound.class);
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal(getSoundDir(name)));
         if (loop) return sound.loop(soundVolume);
-        return sound.play(soundVolume);*/
-        return 0;
+        return sound.play(soundVolume);
     }
 
     /**
