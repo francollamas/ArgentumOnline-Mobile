@@ -1428,6 +1428,19 @@ atlasData: {
 			tintName: null
 			name: Tahoma11Border
 		}
+		{
+			file: D:/Documents/proyectos/JFenix13/util/editar skin/skin composer/fenix/fenix_data/item-fondo.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: null
+			tintName: null
+			name: item-fondo
+		}
 	]
 }
 jsonData: {
@@ -4575,7 +4588,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: tahoma11
 						}
 						{
 							name: fontColor
@@ -4651,7 +4664,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: tahoma11
 						}
 						{
 							name: fontColor
@@ -4707,17 +4720,17 @@ jsonData: {
 						{
 							name: down
 							type: DRAWABLE
-							value: tab-pressed
+							value: buttonsmall-pressed
 						}
 						{
 							name: up
 							type: DRAWABLE
-							value: tab-pressed
+							value: buttonsmall
 						}
 						{
 							name: over
 							type: DRAWABLE
-							value: null
+							value: buttonsmall-over
 						}
 						{
 							name: disabled
@@ -4727,12 +4740,12 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: malgun-gothic13gra
 						}
 						{
 							name: fontColor
 							type: COLOR
-							value: white
+							value: col-button
 						}
 						{
 							name: disabledFontColor
@@ -4742,12 +4755,12 @@ jsonData: {
 						{
 							name: checked
 							type: DRAWABLE
-							value: tab
+							value: buttonsmall-pressed
 						}
 						{
 							name: downFontColor
 							type: COLOR
-							value: null
+							value: col-button-clear
 						}
 						{
 							name: overFontColor
@@ -6215,7 +6228,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: tahoma11
 						}
 						{
 							name: fontColor
@@ -6351,7 +6364,7 @@ jsonData: {
 						{
 							name: font
 							type: FONT
-							value: null
+							value: tahoma11
 						}
 						{
 							name: fontColor
@@ -7161,12 +7174,12 @@ jsonData: {
 						{
 							name: background
 							type: DRAWABLE
-							value: null
+							value: textfield-disabled
 						}
 						{
 							name: separatorBar
 							type: DRAWABLE
-							value: null
+							value: black
 						}
 						{
 							name: buttonStyle

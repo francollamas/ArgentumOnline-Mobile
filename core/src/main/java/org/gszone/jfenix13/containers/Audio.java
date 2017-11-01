@@ -56,7 +56,6 @@ public class Audio {
      * Reproduce una música
      */
     public void playMusic(int num) {
-        // TODO: descomentar todo esto, es para que no moleste nada más
         if (currentMusic == num) return;
         if (music != null) music.dispose();
 

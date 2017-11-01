@@ -21,7 +21,7 @@ import org.gszone.jfenix13.connection.GnConnection;
 import org.gszone.jfenix13.connection.WebConnection;
 import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.GameData;
-import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.views.*;
 import org.gszone.jfenix13.views.actions.GlobalActions;
 
@@ -31,20 +31,53 @@ import static com.badlogic.gdx.Application.ApplicationType.*;
 /**
  * Clase principal del juego
  *
- * general: ajustes iniciales (tamaño de pantalla, del world, etc).
+ * rebootable: contiene un Runnable (código para ejecutar) que se encarga de reiniciar el juego.
+ * config: ajustes iniciales (tamaño de pantalla, del world, etc).
  * assets: manejador de recursos
  * connection: permite la conexión con el servidor y el envío y recepción de paquetes.
  * gameData: contiene toda estructura y estado del juego
  */
 public class Main extends LmlApplicationListener {
-	public static final int[] WIDTH = {800, 512}, HEIGHT = {600, 288};
+
+	/**
+	 * Constructor general
+	 */
+	public Main() {
+
+	}
+
+	/**
+	 * Constructor usado en Desktop
+	 * @param rebootable trozo de código que reinicia el juego
+	 */
+	public Main(Runnable rebootable) {
+		this.rebootable = rebootable;
+	}
+
+
+	private Runnable rebootable;
 
 	private Batch batch;
 
-	private General general;
+	private Config config;
 	private Assets assets;
 	private Connection connection;
 	private GameData gameData;
+
+	/**
+	 * Sale del juego
+	 */
+	public void salir() {
+		Gdx.app.exit();
+	}
+
+	/**
+	 * Reinicia el juego
+	 */
+	public void reiniciar() {
+		// Inserta y ejecuta el runnable en la aplicación
+		Gdx.app.postRunnable(rebootable);
+	}
 
 	/**
 	 * Inicialización del juego
@@ -62,7 +95,7 @@ public class Main extends LmlApplicationListener {
 
 		// Config de LML y propia del juego
 		batch = new SpriteBatch();
-		general = new General();
+		config = new Config();
 		assets = new Assets();
 		VisUI.load(assets.getGDXAssets().get(getSkinDir(), Skin.class));
 		gameData = new GameData();
@@ -77,6 +110,7 @@ public class Main extends LmlApplicationListener {
 		// Asigna alias a todas las clases de las vistas para que sean reconocidas desde los archivos lml
 		addClassAlias(CargaView.ID, CargaView.class);
 		addClassAlias(MenuView.ID, MenuView.class);
+		addClassAlias(ConfigView.ID, ConfigView.class);
 		addClassAlias(PrincipalView.ID, PrincipalView.class);
 		addClassAlias(CrearPjView.ID, CrearPjView.class);
 		setView(CargaView.class);
@@ -89,6 +123,9 @@ public class Main extends LmlApplicationListener {
 
 		// Uso esta llamada para que se siga renderizando la pantalla actual normalmente
 		super.render();
+
+		// Escribe agrega los bytes pendientes a la cola.
+		connection.getClPack().write();
 
 		// Si es Web, le avisa al socket que envíe las acciones registradas anteriormente
 		// (ya que no hay un thread en la conexión que se encargue de ésto)
@@ -128,8 +165,8 @@ public class Main extends LmlApplicationListener {
 	 * Devuelve un nuevo escenario usando el mismo Batch.
 	 */
 	public static Stage newStage() {
-		General g = Main.getInstance().getGeneral();
-		return new Stage(new FitViewport(g.getScrWidth(), g.getScrHeight()), Main.getInstance().getBatch());
+		Config g = Main.getInstance().getConfig();
+		return new Stage(new FitViewport(g.getVirtualWidth(), g.getVirtualHeight()), Main.getInstance().getBatch());
 	}
 
 	@Override
@@ -163,7 +200,7 @@ public class Main extends LmlApplicationListener {
 	}
 
 	public Batch getBatch() { return batch; }
-	public General getGeneral() { return general; }
+	public Config getConfig() { return config; }
 	public Assets getAssets() { return assets; }
 	public Connection getConnection() { return connection; }
 	public GameData getGameData() { return gameData; }

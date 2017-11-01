@@ -434,21 +434,26 @@ com.kotcrab.vis.ui.widget.VisTextButton$VisTextButtonStyle: {
 		down: menu-button-down
 		up: menu-button
 		over: menu-button-down
+		font: tahoma11
 		fontColor: white
 		downFontColor: light-gray
 	}
 	toggle: {
 		down: button-pressed
 		up: button
+		font: tahoma11
 		fontColor: white
 		checked: button-pressed
 		downFontColor: light-gray
 	}
 	tab: {
-		down: tab-pressed
-		up: tab-pressed
-		fontColor: white
-		checked: tab
+		down: buttonsmall-pressed
+		up: buttonsmall
+		over: buttonsmall-over
+		font: malgun-gothic13gra
+		fontColor: col-button
+		checked: buttonsmall-pressed
+		downFontColor: col-button-clear
 	}
 	small: {
 		down: buttonsmall-pressed
@@ -519,12 +524,14 @@ com.kotcrab.vis.ui.widget.VisCheckBox$VisCheckBoxStyle: {
 		checkBackgroundOver: checkbox
 		checkBackgroundDown: checkbox-pressed
 		tick: check
+		font: tahoma11
 	}
 	radio: {
 		checkBackground: radio
 		checkBackgroundOver: radio
 		checkBackgroundDown: radio-pressed
 		tick: check-radio
+		font: tahoma11
 	}
 }
 com.kotcrab.vis.ui.widget.PopupMenu$PopupMenuStyle: {
@@ -595,6 +602,8 @@ com.kotcrab.vis.ui.widget.LinkLabel$LinkLabelStyle: {
 }
 com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane$TabbedPaneStyle: {
 	default: {
+		background: textfield-disabled
+		separatorBar: black
 		buttonStyle: tab
 		vertical: false
 		draggable: false

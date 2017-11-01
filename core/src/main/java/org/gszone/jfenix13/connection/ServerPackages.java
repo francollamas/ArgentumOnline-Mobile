@@ -12,12 +12,12 @@ import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.Colors;
 import org.gszone.jfenix13.containers.FontTypes;
 import org.gszone.jfenix13.containers.GameData;
-import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.general.Messages;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.objects.*;
-import org.gszone.jfenix13.general.General.Direccion;
+import org.gszone.jfenix13.general.Config.Direccion;
 import org.gszone.jfenix13.utils.BytesReader;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
@@ -29,10 +29,9 @@ import org.gszone.jfenix13.containers.FontTypes.FontTypeName;
 import static org.gszone.jfenix13.containers.GameData.*;
 
 
-
 /**
  * Clase con los paquetes que vienen del servidor y el cliente tiene que procesar
- *
+ * <p>
  * cola: conjunto de secuencias de paquetes (el socket va ingresando las secuencias constantemente).
  */
 public class ServerPackages {
@@ -153,9 +152,17 @@ public class ServerPackages {
         cola = new Queue<byte[]>();
     }
 
-    public GameData getGD() { return Main.getInstance().getGameData(); }
-    public Assets getAssets() { return Main.getInstance().getAssets(); }
-    private Stage getActStage() { return Main.getInstance().getCurrentView().getStage();}
+    public GameData getGD() {
+        return Main.getInstance().getGameData();
+    }
+
+    public Assets getAssets() {
+        return Main.getInstance().getAssets();
+    }
+
+    private Stage getActStage() {
+        return Main.getInstance().getCurrentView().getStage();
+    }
 
     /**
      * Lee los paquetes almacenados en la cola.
@@ -194,8 +201,17 @@ public class ServerPackages {
                 case ChangeSpellSlot:
                     handleChangeSpellSlot();
                     break;
+                case Dumb:
+                    handleDumb();
+                    break;
                 case DumbNoMore:
                     handleDumbNoMore();
+                    break;
+                case Blind:
+                    handleBlind();
+                    break;
+                case BlindNoMore:
+                    handleBlindNoMore();
                     break;
                 case UserIndexInServer:
                     handleUserIndexInServer();
@@ -226,6 +242,12 @@ public class ServerPackages {
                     break;
                 case UpdateStrenghtAndDexterity:
                     handleUpdateStrenghtAndDexterity();
+                    break;
+                case UpdateStrenght:
+                    handleUpdateStrenght();
+                    break;
+                case UpdateDexterity:
+                    handleUpdateDexterity();
                     break;
                 case SendSkills:
                     handleSendSkills();
@@ -311,6 +333,9 @@ public class ServerPackages {
                 case MultiMessage:
                     handleMultiMessage();
                     break;
+                case MeditateToggle:
+                    handleMeditateToggle();
+                    break;
                 default:
                     // Si llega un paquete que no está implementado...
                     Dialogs.showOKDialog(getActStage(), "Error", "No se reconoce el paquete " + id.ordinal() + " '" + id.toString() + "'.");
@@ -357,8 +382,20 @@ public class ServerPackages {
         r.readString();
     }
 
+    private void handleDumb() {
+        getGD().getCurrentUser().setEstupido(true);
+    }
+
     private void handleDumbNoMore() {
-        // TODO: sacar estupidez al usuario
+        getGD().getCurrentUser().setEstupido(false);
+    }
+
+    private void handleBlind() {
+        getGD().getCurrentUser().setCiego(true);
+    }
+
+    private void handleBlindNoMore() {
+        getGD().getCurrentUser().setCiego(false);
     }
 
     /**
@@ -398,11 +435,11 @@ public class ServerPackages {
         int x = r.readByte();
         int y = r.readByte();
 
-        area.setX1((x / 9 - 1) * 9);
-        area.setWidth(26);
+        area.setX1((x / 11 - 1) * 11);
+        area.setWidth(32);
 
-        area.setY1((y / 9 - 1) * 9);
-        area.setHeight(26);
+        area.setY1((y / 11 - 1) * 11);
+        area.setHeight(32);
 
         for (int i = 1; i <= 100; i++) {
             for (int j = 1; j <= 100; j++) {
@@ -422,7 +459,6 @@ public class ServerPackages {
         }
 
         getGD().getChars().refresh();
-        // TODO: remover dialogos de los que no están en la PCArea
     }
 
     /**
@@ -434,7 +470,7 @@ public class ServerPackages {
 
         c.setBody(r.readShort());
         c.setHead(r.readShort());
-        c.setHeading(General.Direccion.values()[r.readByte() - 1]);
+        c.setHeading(Config.Direccion.values()[r.readByte() - 1]);
         c.getPos().set(r.readByte(), r.readByte());
         c.setWeapon(r.readShort());
         c.setShield(r.readShort());
@@ -453,20 +489,19 @@ public class ServerPackages {
         if (privs != 0) {
             // Si es del concejo del caos y tiene privilegios
             if ((privs & 64) != 0 && (privs & 1) == 0)
-                privs = (byte)(privs ^ 64);
+                privs = (byte) (privs ^ 64);
 
             // Si es del concejo de banderbill y tiene privilegios
             if ((privs & 128) != 0 && (privs & 1) == 0)
-                privs = (byte)(privs ^ 128);
+                privs = (byte) (privs ^ 128);
 
             // Si es rolmaster
             if ((privs & 32) != 0)
                 privs = 32;
 
             // Con ésta operación se obtiene el número correspondiente al privilegio del usuario y se le asigna.
-            c.setPriv((int)(Math.log(privs) / Math.log(2)));
-        }
-        else
+            c.setPriv((int) (Math.log(privs) / Math.log(2)));
+        } else
             c.setPriv(0);
 
         // Actualizamos el atributo lastChar. (para saber cual es el index del char con nro mas alto)
@@ -548,7 +583,7 @@ public class ServerPackages {
 
         // Si estaba mal:
         // Borro el char de esa pos del mapa
-        getAssets().getMapa().getTile((int)wPos.getX(), (int)wPos.getY()).setCharIndex(0);
+        getAssets().getMapa().getTile((int) wPos.getX(), (int) wPos.getY()).setCharIndex(0);
 
         // Cambio las coordenadas del World
         wPos.set(x, y);
@@ -578,41 +613,51 @@ public class ServerPackages {
     }
 
     private void handleUpdateUserStats() {
-        // TODO: completar
-        r.readShort();
-        r.readShort();
-        r.readShort();
-        r.readShort();
-        r.readShort();
-        r.readShort();
-        r.readInt();
-        r.readByte();
-        r.readInt();
-        r.readInt();
+        UserStats s = getGD().getCurrentUser().getStats();
+        s.setMaxVida(r.readShort());
+        s.setVida(r.readShort());
+        s.setMaxMana(r.readShort());
+        s.setMana(r.readShort());
+        s.setMaxEnergia(r.readShort());
+        s.setEnergia(r.readShort());
+        s.setOro(r.readInt());
+        s.setNivel(r.readByte());
+        s.setMaxExp(r.readInt());
+        s.setExp(r.readInt());
     }
 
     private void handleUpdateHungerAndThirst() {
-        // TODO: completar
-        r.readByte();
-        r.readByte();
-        r.readByte();
-        r.readByte();
+        UserStats s = getGD().getCurrentUser().getStats();
+        s.setMaxSed(r.readByte());
+        s.setSed(r.readByte());
+        s.setMaxHambre(r.readByte());
+        s.setHambre(r.readByte());
     }
 
     private void handleUpdateStrenghtAndDexterity() {
-        // TODO: completar
-        r.readByte();
-        r.readByte();
+        UserStats s = getGD().getCurrentUser().getStats();
+        s.setFuerza(r.readByte());
+        s.setAgilidad(r.readByte());
+    }
+
+    private void handleUpdateStrenght() {
+        getGD().getCurrentUser().getStats().setFuerza(r.readByte());
+    }
+
+    private void handleUpdateDexterity() {
+        getGD().getCurrentUser().getStats().setAgilidad(r.readByte());
     }
 
     private void handleSendSkills() {
-    // TODO: hacerlo.. LEE CLASE, Y LEE CADA SKILL
-    for (int i = 0; i < 23; i++) {
+        // TODO: hacerlo.. LEE CLASE, Y LEE CADA SKILL
         r.readByte();
+        for (int i = 0; i < 22; i++) {
+            r.readByte();
+        }
     }
-}
 
     private void handleLevelUp() {
+        // TODO: revisar
         r.readShort();
     }
 
@@ -685,10 +730,6 @@ public class ServerPackages {
         // TODO: si surge algún error, manejar también las fonts con formato viejo (ej ~255~255~255~1~0~)
     }
 
-    private void handleRemoveDialogs() {
-        // TODO: Borrar diálogos
-    }
-
     /**
      * Reproduce un sonido
      */
@@ -700,13 +741,19 @@ public class ServerPackages {
         r.readByte();
     }
 
+    private void handleRemoveDialogs() {
+        // TODO: Borrar diálogos
+        // y esto borraría todos los diálogos??? (fijarme que hacer)
+    }
+
     /**
      * Borra el dialogo de un PJ
      */
     private void handleRemoveCharDialog() {
         int index = r.readShort();
 
-        //TODO: llamar a RemoveDialog(index)
+        // TODO: llamar a RemoveDialog(index)
+        // esto es realmente necesario? (fijarme).. ya que si se cambia el char, el dialogo se pierde...
     }
 
     private void handleDisconnect() {
@@ -718,28 +765,24 @@ public class ServerPackages {
     }
 
     public void handleUpdateSta() {
-        UserStats s = getGD().getCurrentUser().getStats();
-        s.setMinEnergia(r.readShort());
+        getGD().getCurrentUser().getStats().setEnergia(r.readShort());
     }
 
     public void handleUpdateMana() {
-        UserStats s = getGD().getCurrentUser().getStats();
-        s.setMinMana(r.readShort());
+        getGD().getCurrentUser().getStats().setMana(r.readShort());
     }
 
     public void handleUpdateHP() {
-        UserStats s = getGD().getCurrentUser().getStats();
-        s.setMinVida(r.readShort());
+        User u = getGD().getCurrentUser();
+        u.getStats().setVida(r.readShort());
     }
 
     public void handleUpdateGold() {
-        UserStats s = getGD().getCurrentUser().getStats();
-        s.setOro(r.readInt());
+        getGD().getCurrentUser().getStats().setOro(r.readInt());
     }
 
     public void handleUpdateExp() {
-        UserStats s = getGD().getCurrentUser().getStats();
-        s.setMinExp(r.readInt());
+        getGD().getCurrentUser().getStats().setExp(r.readInt());
     }
 
     public void handleDiceRoll() {
@@ -753,7 +796,7 @@ public class ServerPackages {
 
     public void handlePong() {
         ClientPackages c = Main.getInstance().getConnection().getClPack();
-        int ping = (int)(TimeUtils.millis() - c.getPingTime() - (Gdx.graphics.getDeltaTime() * 1000));
+        int ping = (int) (TimeUtils.millis() - c.getPingTime() - (Gdx.graphics.getDeltaTime() * 1000));
         c.setPingTime(0);
 
         getGD().getConsola().addMessage("El ping es de " + ping + " ms.", FontTypes.FontTypeName.Warning);
@@ -780,6 +823,10 @@ public class ServerPackages {
 
             // TODO: completar con todos los mensajes!!!
         }
+    }
+
+    private void handleMeditateToggle() {
+        getGD().getCurrentUser().setMeditando(!getGD().getCurrentUser().isMeditando());
     }
 
 }

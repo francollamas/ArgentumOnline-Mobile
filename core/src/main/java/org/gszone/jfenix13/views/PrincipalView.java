@@ -10,6 +10,7 @@ import com.github.czyzby.lml.annotation.LmlActor;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextField;
+import org.gszone.jfenix13.actors.Inventario;
 
 import static org.gszone.jfenix13.general.FileNames.getViewDir;
 
@@ -21,6 +22,7 @@ public class PrincipalView extends View {
     @LmlActor("consola") private Container ctConsola;
     @LmlActor("send") private VisTextField tfSend;
     @LmlActor("world") private Container ctWorld;
+    @LmlActor("inventario") private Container ctInventario;
 
     @Override
     public String getViewId() { return ID; }
@@ -32,7 +34,7 @@ public class PrincipalView extends View {
 
     @Override
     public void show() {
-        //fondo.setBackground(getBackground()); // TODO: descomentar y agregar un fondo!
+        fondo.setBackground(getBackground());
 
         // TODO: hacer que el evento del enter funcione solo si no hay otras pantallas encima
         getStage().addListener(new InputListener() {
@@ -69,6 +71,7 @@ public class PrincipalView extends View {
         // Agrego todos los elementos a la pantalla
         ctConsola.setActor(getGD().getConsola());
         ctWorld.setActor(getGD().getWorld());
+        ctInventario.setActor(new Inventario());
     }
 
     @Override

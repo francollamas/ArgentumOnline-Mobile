@@ -1,26 +1,34 @@
 package org.gszone.jfenix13.objects;
 
+import org.gszone.jfenix13.Main;
+
 /**
  * Estado del personaje (vida, mana, energía, etc)
  */
 public class UserStats {
-    private int minEnergia;
+    private int energia;
+    private int mana;
+    private int vida;
+    private int exp;
+    private int hambre;
+    private int sed;
     private int maxEnergia;
-    private int minMana;
     private int maxMana;
-    private int minVida;
     private int maxVida;
-    private int minExp;
     private int maxExp;
+    private int maxHambre;
+    private int maxSed;
     private int nivel;
     private int oro;
+    private int fuerza;
+    private int agilidad;
 
-    public int getMinEnergia() {
-        return minEnergia;
+    public int getEnergia() {
+        return energia;
     }
 
-    public void setMinEnergia(int minEnergia) {
-        this.minEnergia = minEnergia;
+    public void setEnergia(int energia) {
+        this.energia = energia;
     }
 
     public int getMaxEnergia() {
@@ -31,12 +39,12 @@ public class UserStats {
         this.maxEnergia = maxEnergia;
     }
 
-    public int getMinMana() {
-        return minMana;
+    public int getMana() {
+        return mana;
     }
 
-    public void setMinMana(int minMana) {
-        this.minMana = minMana;
+    public void setMana(int mana) {
+        this.mana = mana;
     }
 
     public int getMaxMana() {
@@ -47,12 +55,19 @@ public class UserStats {
         this.maxMana = maxMana;
     }
 
-    public int getMinVida() {
-        return minVida;
+    public int getVida() {
+        return vida;
     }
 
-    public void setMinVida(int minVida) {
-        this.minVida = minVida;
+    public void setVida(int vida) {
+        this.vida = vida;
+
+        // Actualizo el estado del usuario según la vida (vivo o muerto)
+        User u = Main.getInstance().getGameData().getCurrentUser();
+        if (vida == 0)
+            u.setMuerto(true);
+        else
+            u.setMuerto(false);
     }
 
     public int getMaxVida() {
@@ -63,12 +78,12 @@ public class UserStats {
         this.maxVida = maxVida;
     }
 
-    public int getMinExp() {
-        return minExp;
+    public int getExp() {
+        return exp;
     }
 
-    public void setMinExp(int minExp) {
-        this.minExp = minExp;
+    public void setExp(int exp) {
+        this.exp = exp;
     }
 
     public int getMaxExp() {
@@ -77,6 +92,38 @@ public class UserStats {
 
     public void setMaxExp(int maxExp) {
         this.maxExp = maxExp;
+    }
+
+    public int getHambre() {
+        return hambre;
+    }
+
+    public void setHambre(int hambre) {
+        this.hambre = hambre;
+    }
+
+    public int getSed() {
+        return sed;
+    }
+
+    public void setSed(int sed) {
+        this.sed = sed;
+    }
+
+    public int getMaxHambre() {
+        return maxHambre;
+    }
+
+    public void setMaxHambre(int maxHambre) {
+        this.maxHambre = maxHambre;
+    }
+
+    public int getMaxSed() {
+        return maxSed;
+    }
+
+    public void setMaxSed(int maxSed) {
+        this.maxSed = maxSed;
     }
 
     public int getNivel() {
@@ -93,5 +140,21 @@ public class UserStats {
 
     public void setOro(int oro) {
         this.oro = oro;
+    }
+
+    public int getFuerza() {
+        return fuerza;
+    }
+
+    public void setFuerza(int fuerza) {
+        this.fuerza = fuerza;
+    }
+
+    public int getAgilidad() {
+        return agilidad;
+    }
+
+    public void setAgilidad(int agilidad) {
+        this.agilidad = agilidad;
     }
 }

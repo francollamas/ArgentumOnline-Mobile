@@ -1,13 +1,13 @@
 package org.gszone.jfenix13.containers;
 
 import com.badlogic.gdx.graphics.Color;
-import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.objects.Char;
 import org.gszone.jfenix13.objects.MapTile;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
-import org.gszone.jfenix13.general.General.Direccion;
+import org.gszone.jfenix13.general.Config.Direccion;
 
 /**
  * Contiene a los usuarios que el cliente va mostrando
@@ -48,8 +48,8 @@ public class Chars {
         c.getPos().setY(y);
 
         c.setHeading(dir);
-        c.getMoveOffset().setX(-1 * Main.getInstance().getGeneral().getTilePixelWidth() * xDif);
-        c.getMoveOffset().setY(-1 * Main.getInstance().getGeneral().getTilePixelHeight() * yDif);
+        c.getMoveOffset().setX(-1 * Main.getInstance().getConfig().getTilePixelWidth() * xDif);
+        c.getMoveOffset().setY(-1 * Main.getInstance().getConfig().getTilePixelHeight() * yDif);
 
         c.getMoveDir().setX(xDif);
         c.getMoveDir().setY(yDif);
@@ -64,7 +64,7 @@ public class Chars {
     /**
      * Mueve al char actual hacia una dirección
      */
-    public void moveChar(int index, General.Direccion dir) {
+    public void moveChar(int index, Config.Direccion dir) {
         Char c = chars[index];
         Position relPos = Position.dirToPos(dir);
         Position absPos = c.getPos().getSuma(relPos);
@@ -74,8 +74,8 @@ public class Chars {
         c.setPos(absPos);
 
         c.setHeading(dir);
-        c.getMoveOffset().setX(-1 * Main.getInstance().getGeneral().getTilePixelWidth() * relPos.getX());
-        c.getMoveOffset().setY(-1 * Main.getInstance().getGeneral().getTilePixelHeight() * relPos.getY());
+        c.getMoveOffset().setX(-1 * Main.getInstance().getConfig().getTilePixelWidth() * relPos.getX());
+        c.getMoveOffset().setY(-1 * Main.getInstance().getConfig().getTilePixelHeight() * relPos.getY());
 
         c.setMoveDir(relPos);
         c.setMoving(true);

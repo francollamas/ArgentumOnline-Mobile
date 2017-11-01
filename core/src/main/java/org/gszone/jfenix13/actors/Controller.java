@@ -3,9 +3,9 @@ package org.gszone.jfenix13.actors;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.kotcrab.vis.ui.VisUI;
 import org.gszone.jfenix13.Main;
-import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Config;
 
-import static org.gszone.jfenix13.general.General.Direccion.*;
+import static org.gszone.jfenix13.general.Config.Direccion.*;
 
 /**
  * Touchpad que controla el movimiento del personaje (se usa en dispositivos móviles)
@@ -30,7 +30,7 @@ public class Controller extends Touchpad {
             if (!w.isMoving()) {
                 float despX = getKnobPercentX();
                 float despY = getKnobPercentY();
-                General.Direccion dir = null;
+                Config.Direccion dir = null;
                 if (despX != 0 || despY != 0)
                     if (Math.abs(despX) > Math.abs(despY))
                         if (despX > 0)

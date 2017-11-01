@@ -2,7 +2,7 @@ package org.gszone.jfenix13.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.utils.BytesReader;
@@ -31,18 +31,13 @@ public class Map {
 
     public Map(int numero) {
         this.numero = numero;
-
-        try {
-            load();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        load();
     }
 
     /**
      * Carga un mapa
      */
-    private void load() throws IOException {
+    private void load() {
         FileHandle fh = Gdx.files.internal(getMapDir(numero));
         BytesReader r = new BytesReader(fh.readBytes(), true);
 
@@ -167,8 +162,8 @@ public class Map {
      * Esto es para que lo último que se vea del mapa sean los límites, y no bordes negros.
      */
     public Rect getBorderRect() {
-        int halfWindowsTileWidth = Main.getInstance().getGeneral().getWindowsTileWidth() / 2;
-        int halfWindowsTileHeight = Main.getInstance().getGeneral().getWindowsTileHeight() / 2;
+        int halfWindowsTileWidth = Main.getInstance().getConfig().getWindowsTileWidth() / 2;
+        int halfWindowsTileHeight = Main.getInstance().getConfig().getWindowsTileHeight() / 2;
 
         Rect r = new Rect();
         r.setX1(size.getX1() + halfWindowsTileWidth);
@@ -183,7 +178,7 @@ public class Map {
     /**
      * Indica si es posible moverse hacia una dirección estando en una posición determinada.
      */
-    public boolean isLegalPos(Position pos, General.Direccion dir) {
+    public boolean isLegalPos(Position pos, Config.Direccion dir) {
         return isLegalPos(pos.getSuma(Position.dirToPos(dir)));
     }
 

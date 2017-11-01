@@ -17,19 +17,13 @@ public class Fxs {
     private Fx[] fxs;
 
     public Fxs() {
-        try {
-            load();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        load();
     }
 
     /**
      * Carga todos los Fxs
-     * @throws IOException
      */
-    private void load() throws IOException {
+    private void load() {
 
         FileHandle fh = Gdx.files.internal(getFxsIndDir());
         BytesReader r = new BytesReader(fh.readBytes(), true);

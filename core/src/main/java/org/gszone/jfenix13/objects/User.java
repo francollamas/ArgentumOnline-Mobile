@@ -18,10 +18,13 @@ public class User {
     private int indexInServer;
     private String name;
     private int map;
+    private boolean muerto;
     private boolean paralizado;
     private boolean descansando;
     private boolean meditando;
     private boolean navegando;
+    private boolean estupido;
+    private boolean ciego;
     private boolean cambiandoDir;
     private UserStats stats;
     private UserAtributos atributos;
@@ -67,6 +70,14 @@ public class User {
         this.map = map;
     }
 
+    public boolean isMuerto() {
+        return muerto;
+    }
+
+    public void setMuerto(boolean muerto) {
+        this.muerto = muerto;
+    }
+
     public boolean isParalizado() {
         return paralizado;
     }
@@ -97,6 +108,22 @@ public class User {
 
     public void setNavegando(boolean navegando) {
         this.navegando = navegando;
+    }
+
+    public boolean isEstupido() {
+        return estupido;
+    }
+
+    public void setEstupido(boolean estupido) {
+        this.estupido = estupido;
+    }
+
+    public boolean isCiego() {
+        return ciego;
+    }
+
+    public void setCiego(boolean ciego) {
+        this.ciego = ciego;
     }
 
     public boolean isCambiandoDir() {

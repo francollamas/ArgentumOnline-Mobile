@@ -34,7 +34,7 @@ public class MenuView extends View {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE)
-                    Gdx.app.exit();
+                    Main.getInstance().salir();
                 return super.keyUp(event, keycode);
             }
         });
@@ -69,7 +69,7 @@ public class MenuView extends View {
         }
     }
 
-    @LmlAction("crear-pj")
+    @LmlAction("crearPj")
     private void crearPj() {
         if (getConnection().connect()) {
             setView(CrearPjView.class);

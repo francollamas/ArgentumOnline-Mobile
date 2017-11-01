@@ -18,19 +18,13 @@ public class Grhs {
     private GrhData[] grhsData;
 
     public Grhs() {
-        try {
-            load();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        load();
     }
 
     /**
      * Carga todos los GRHs
-     * @throws IOException
      */
-    private void load() throws IOException {
+    private void load() {
         int index;
         int cantFrames;
         short frame;

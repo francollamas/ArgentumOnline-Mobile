@@ -1,37 +1,84 @@
 package org.gszone.jfenix13.desktop;
 
-import com.badlogic.gdx.Files.FileType;
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.gszone.jfenix13.Main;
+import org.gszone.jfenix13.general.DtConfig;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
+
+import static org.gszone.jfenix13.general.DtConfig.*;
 
 /** Launches the desktop (LWJGL) application. */
 public class DesktopLauncher {
     public static void main(String[] args) {
-        createApplication();
+
+        // Se define un trozo de código encargado de reiniciar el juego
+        final Runnable rebootable = new Runnable() {
+            @Override public void run() {
+                if (Gdx.app != null) {
+                    Gdx.app.exit();
+                }
+                start();
+            }
+        };
+
+        // Se crea la aplicación
+        createLwjglApplication(new Main(rebootable));
     }
 
-    private static LwjglApplication createApplication() {
-        System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+    /**
+     * Devuelve la aplicación ya lista, con todas sus configuraciones
+     */
+    private static LwjglApplication createLwjglApplication(Main main) {
+
+        DtConfig.loadConfig();
+
         System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
-        return new LwjglApplication(new Main(), getDefaultConfiguration());
-    }
+        if (!decorated) System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 
-    private static LwjglApplicationConfiguration getDefaultConfiguration() {
-        LwjglApplicationConfiguration configuration = new LwjglApplicationConfiguration();
-        configuration.width = Main.WIDTH[0];
-        configuration.height = Main.HEIGHT[0];
-        configuration.resizable = false;
-        //configuration.fullscreen = true;
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.width = width;
+        config.height = height;
+        config.resizable = resizable;
+        config.fullscreen = fullscreeen;
+
         for (int size : new int[] { 128, 64, 32, 16 }) {
-            configuration.addIcon("icon" + size + ".png", FileType.Internal);
+            config.addIcon("icon" + size + ".png", Files.FileType.Internal);
         }
 
-        // Descomentar para liberar FPS!
-        //configuration.vSyncEnabled = false;
-        //configuration.foregroundFPS = 0;
-        //configuration.backgroundFPS = 0;
+        if (!vSync) {
+            config.vSyncEnabled = false;
+            config.foregroundFPS = 0;
+            config.backgroundFPS = 0;
+        }
 
-        return configuration;
+        return new LwjglApplication(main, config);
     }
+
+    /**
+     * Inicia la aplicación nuevamente
+     *
+     * (inserta un nuevo comando, indicando de abrir el juego)
+     */
+    public static void start() {
+        final StringBuilder cmd = new StringBuilder();
+        cmd.append(System.getProperty("java.home") + File.separator + "bin" + File.separator + "java ");
+        for (final String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
+            cmd.append(jvmArg + " ");
+        }
+        cmd.append("-cp ").append(ManagementFactory.getRuntimeMXBean().getClassPath()).append(" ");
+        cmd.append(DesktopLauncher.class.getName()).append(" ");
+
+        try {
+            Runtime.getRuntime().exec(cmd.toString());
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

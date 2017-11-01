@@ -12,6 +12,11 @@ public class FileNames {
     public static final String DIR_MUSICS = "musics";
     public static final String DIR_SOUNDS = "sounds";
 
+    public static String getDtConfigDir() {
+        // El dir de las configs es un archivo dentro de una carpeta oculta ubicada en el dir del usuario del SO.
+        return System.getProperty("user.home") + "/.jfenix13/jfenix13.properties";
+    }
+
     public static String getCursorDir() {
         return DIR_GUI + "/cursor.png";
     }

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "../../lml.dtd">
+
+<window onecolumn="true" title="@cf-title" titlealign="center" movable="false" resizable="false">
+    <container width="600" height="400">
+        <tabbedpane selectedtab="0">
+            <tab title="General" closeable="false">
+            </tab>
+            <tab title="Video" closeable="false" onecolumn="true" defaultalign="left" defaultpad="8">
+
+                <checkbox id="vsync">Sincronización vertical</checkbox>
+                <buttontable onecolumn="true" defaultalign="left">
+                    <radiobutton onclick="setModoVentanaVisible" id="pant-completa" padbottom="4">Pantalla completa</radiobutton>
+                    <radiobutton onclick="setModoVentanaVisible" id="modo-ventana" padtop="4">Modo ventana</radiobutton>
+                </buttontable>
+
+                <table id="t-modo-ventana" onecolumn="true" defaultpad="5" defaultalign="left">
+                    <table onecolumn="true" defaultalign="left">
+                        <label align="left" color="col-title">@cf-resolucion</label>
+                        <selectbox id="resolucion">
+                            800 x 600
+                            1024 x 768 (recomendado)
+                            1200 x 900
+                        </selectbox>
+                    </table>
+                    <checkbox id="title-bar">Barra de título</checkbox>
+                    <checkbox id="redimensionable">Redimensionable</checkbox>
+                </table>
+            </tab>
+            <tab title="Audio" closeable="false">
+
+            </tab>
+            <tab title="Entrada" closeable="false">
+
+            </tab>
+        </tabbedpane>
+    </container>
+
+    <table defaultpadleft="15" defaultpadright="15" tablepad="10">
+        <textbutton onclick="setView" id="menu">@back</textbutton>
+        <textbutton onclick="guardar">@ok</textbutton>
+    </table>
+</window>

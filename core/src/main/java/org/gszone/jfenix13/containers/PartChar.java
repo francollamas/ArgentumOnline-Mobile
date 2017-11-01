@@ -2,7 +2,7 @@ package org.gszone.jfenix13.containers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.objects.GrhDir;
 import org.gszone.jfenix13.utils.BytesReader;
 import java.io.IOException;
@@ -22,20 +22,14 @@ public class PartChar {
     private Tipo tipo;
 
     public PartChar(Tipo tipo) {
-        try {
-            this.tipo = tipo;
-            load();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        this.tipo = tipo;
+        load();
     }
 
     /**
      * Carga todos los PartChar
-     * @throws IOException
      */
-    private void load() throws IOException {
+    private void load() {
 
         // Defino de donde obtengo el archivo según lo que sea (cabezas o cascos)
         String d = "";
@@ -66,14 +60,14 @@ public class PartChar {
             GrhDir grhdir = new GrhDir();
 
             // Leo los valores de los Grh (índices)
-            short[] grhIndex = new short[General.Direccion.values().length];
+            short[] grhIndex = new short[Config.Direccion.values().length];
             for (int j = 0; j < grhIndex.length; j++) {
                 grhIndex[j] = r.readShort();
             }
 
             // Los seteo en la parte del personaje
             if (grhIndex[0] > 0 || tipo == Tipo.WEAPON || tipo == Tipo.SHIELD) {
-                for (General.Direccion dir : General.Direccion.values())
+                for (Config.Direccion dir : Config.Direccion.values())
                     grhdir.setGrhIndex(dir, grhIndex[dir.ordinal()]);
             }
 

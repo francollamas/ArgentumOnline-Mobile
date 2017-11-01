@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE window SYSTEM "../../lml.dtd">
 
-<window id="fondo" onecolumn="true" title="@cp-title" titlealign="center" movable="true" resizable="true">
+<window onecolumn="true" title="@cp-title" titlealign="center" movable="false" resizable="false">
 
     <table defaultpadleft="15" defaultpadright="15">
         <table onecolumn="true" align="top">
@@ -49,7 +49,7 @@
 
         <table defaultpad="5" expand="true" align="top">
             <label style="smallgradient" color="col-title" align="left" row="true" colspan="2">@attrib</label>
-            <imagebutton onclick="tirar-dados" image="dices" row="true" colspan="2"></imagebutton>
+            <imagebutton onclick="tirarDados" image="dices" row="true" colspan="2"></imagebutton>
             <table onecolumn="true">
                 <label align="left">@strength</label>
                 <label align="left">@agility</label>
@@ -68,7 +68,7 @@
 
     </table>
     <table defaultpadleft="15" defaultpadright="15" tablepad="10">
-        <textbutton onclick="setView" id="menu">@cp-back</textbutton>
-        <textbutton onclick="crear-pj">@cp-create</textbutton>
+        <textbutton onclick="setView" id="menu">@back</textbutton>
+        <textbutton onclick="crearPj">@cp-create</textbutton>
     </table>
 </window>

@@ -2,7 +2,7 @@ package org.gszone.jfenix13.containers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.objects.Body;
 import org.gszone.jfenix13.utils.BytesReader;
 
@@ -19,19 +19,13 @@ public class Bodies {
     private Body[] bodies;
 
     public Bodies() {
-        try {
-            load();
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        load();
     }
 
     /**
      * Carga todos los Bodies
-     * @throws IOException
      */
-    private void load() throws IOException {
+    private void load() {
 
         FileHandle fh = Gdx.files.internal(getBodiesIndDir());
         BytesReader r = new BytesReader(fh.readBytes(), true);
@@ -46,7 +40,7 @@ public class Bodies {
             Body body = new Body();
 
             // Leo los valores de los Grh (índices)
-            short[] grhIndex = new short[General.Direccion.values().length];
+            short[] grhIndex = new short[Config.Direccion.values().length];
             for (int j = 0; j < grhIndex.length; j++) {
                 grhIndex[j] = r.readShort();
             }
@@ -55,7 +49,7 @@ public class Bodies {
 
             // Los seteo en el cuerpo
             if (grhIndex[0] > 0) {
-                for (General.Direccion dir : General.Direccion.values()) {
+                for (Config.Direccion dir : Config.Direccion.values()) {
                     body.setGrhIndex(dir, grhIndex[dir.ordinal()]);
                 }
                 body.setHeadOffsetX(x);

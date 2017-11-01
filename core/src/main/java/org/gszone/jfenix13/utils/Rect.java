@@ -142,10 +142,10 @@ public class Rect {
     }
 
     public float getTileWidth() {
-        return getWidth() / Main.getInstance().getGeneral().getTilePixelWidth();
+        return getWidth() / Main.getInstance().getConfig().getTilePixelWidth();
     }
 
     public float getTileHeight() {
-        return getHeight() / Main.getInstance().getGeneral().getTilePixelHeight();
+        return getHeight() / Main.getInstance().getConfig().getTilePixelHeight();
     }
 }

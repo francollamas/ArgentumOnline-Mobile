@@ -7,7 +7,6 @@ import com.github.czyzby.lml.annotation.LmlActor;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSelectBox;
 import com.kotcrab.vis.ui.widget.VisTextField;
-import com.kotcrab.vis.ui.widget.VisWindow;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.objects.UserAtributos;
 
@@ -16,7 +15,6 @@ import static org.gszone.jfenix13.general.FileNames.getViewDir;
 public class CrearPjView extends View {
     public static final String ID = "crear_pj";
 
-    @LmlActor("fondo") private VisWindow fondo;
     @LmlActor("nombre") private VisTextField tfNombre;
     @LmlActor("contraseña") private VisTextField tfContraseña;
     @LmlActor("mail") private VisTextField tfMail;
@@ -57,12 +55,12 @@ public class CrearPjView extends View {
         lbCarisma.setText("" + a.getCarisma());
     }
 
-    @LmlAction("tirar-dados")
+    @LmlAction("tirarDados")
     public void tirarDados() {
         getClPack().writeThrowDices();
     }
 
-    @LmlAction("crear-pj")
+    @LmlAction("crearPj")
     public void crearPj() {
         // TODO: hacer validaciones del formulario.
 

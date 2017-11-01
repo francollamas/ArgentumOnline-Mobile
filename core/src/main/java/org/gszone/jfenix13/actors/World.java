@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import org.gszone.jfenix13.connection.ClientPackages;
 import org.gszone.jfenix13.controllers.WorldController;
-import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.graphics.DrawParameter;
 import org.gszone.jfenix13.graphics.Drawer;
@@ -19,7 +19,7 @@ import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
 
 import static com.badlogic.gdx.Input.Keys.*;
-import static org.gszone.jfenix13.general.General.*;
+import static org.gszone.jfenix13.general.Config.*;
 
 /**
  * Mundo donde se muestra y se interactúa con una parte del mapa, personajes, npcs, etc.
@@ -46,8 +46,8 @@ public class World extends Actor {
     private WorldController controller;
 
     public World() {
-        setSize(getGeneral().getWindowsTileWidth() * getGeneral().getTilePixelWidth(),
-                getGeneral().getWindowsTileHeight() * getGeneral().getTilePixelHeight());
+        setSize(getConfig().getWindowsTileWidth() * getConfig().getTilePixelWidth(),
+                getConfig().getWindowsTileHeight() * getConfig().getTilePixelHeight());
 
         controller = new WorldController();
 
@@ -133,8 +133,8 @@ public class World extends Actor {
      * Define cuál es el tile en donde está el mouse por encima
      */
     public void setMouseTile(Position pos) {
-        mouseTile.setX((int) (this.pos.getX() + pos.getX() / getGeneral().getTilePixelWidth() - getGeneral().getWindowsTileWidth() / 2));
-        mouseTile.setY((int) (this.pos.getY() + (getHeight() - pos.getY()) / getGeneral().getTilePixelHeight() - getGeneral().getWindowsTileHeight() / 2));
+        mouseTile.setX((int) (this.pos.getX() + pos.getX() / getConfig().getTilePixelWidth() - getConfig().getWindowsTileWidth() / 2));
+        mouseTile.setY((int) (this.pos.getY() + (getHeight() - pos.getY()) / getConfig().getTilePixelHeight() - getConfig().getWindowsTileHeight() / 2));
     }
 
     /**
@@ -173,14 +173,12 @@ public class World extends Actor {
         Position absPos = pos.getSuma(relPos);
         User u = Main.getInstance().getGameData().getCurrentUser();
 
-        if (getMapa().isLegalPos(absPos) && !u.isParalizado()) {
-            getClPack().writeWalk(dir);
-
-            if (!u.isDescansando() && !u.isMeditando()) {
+        if (getMapa().isLegalPos(absPos) && !u.isParalizado() && !u.isDescansando() && !u.isMeditando()) {
+                // TODO: si está DESCANSANDO (y considerar tmb meditando), se debería forzar el movimiento!!!
                 u.setCambiandoDir(false);
+                getClPack().writeWalk(dir);
                 Main.getInstance().getGameData().getChars().moveChar(u.getIndexInServer(), dir);
                 setMove(relPos, absPos);
-            }
         }
         else
             if (Main.getInstance().getGameData().getChars().getChar(u.getIndexInServer()).getHeading().ordinal() != dir.ordinal())
@@ -217,8 +215,8 @@ public class World extends Actor {
      */
     public void move() {
             if (addToPos.getX() != 0) {
-                offset.addX(-getGeneral().getScrollPixelsPerFrame() * addToPos.getX() * Drawer.getDelta());
-                if (Math.abs(offset.getX()) >= Math.abs(getGeneral().getTilePixelWidth() * addToPos.getX())) {
+                offset.addX(-getConfig().getScrollPixelsPerFrame() * addToPos.getX() * Drawer.getDelta());
+                if (Math.abs(offset.getX()) >= Math.abs(getConfig().getTilePixelWidth() * addToPos.getX())) {
                     offset.setX(0);
                     addToPos.setX(0);
                     moving = false;
@@ -226,8 +224,8 @@ public class World extends Actor {
             }
 
             if (addToPos.getY() != 0) {
-                offset.addY(-getGeneral().getScrollPixelsPerFrame() * addToPos.getY() * Drawer.getDelta());
-                if (Math.abs(offset.getY()) >= Math.abs(getGeneral().getTilePixelHeight() * addToPos.getY())) {
+                offset.addY(-getConfig().getScrollPixelsPerFrame() * addToPos.getY() * Drawer.getDelta());
+                if (Math.abs(offset.getY()) >= Math.abs(getConfig().getTilePixelHeight() * addToPos.getY())) {
                     offset.setY(0);
                     addToPos.setY(0);
                     moving = false;
@@ -251,18 +249,18 @@ public class World extends Actor {
         Position minOffset = new Position();
         Position screen = new Position();
 
-        int halfWindowsTileWidth = getGeneral().getWindowsTileWidth() / 2;
-        int halfWindowsTileHeight = getGeneral().getWindowsTileHeight() / 2;
+        int halfWindowsTileWidth = getConfig().getWindowsTileWidth() / 2;
+        int halfWindowsTileHeight = getConfig().getWindowsTileHeight() / 2;
 
         screenTile.setX1(pos.getX() - addToPos.getX() - halfWindowsTileWidth);
         screenTile.setY1(pos.getY() - addToPos.getY() - halfWindowsTileHeight);
         screenTile.setX2(pos.getX() - addToPos.getX() + halfWindowsTileWidth);
         screenTile.setY2(pos.getY() - addToPos.getY() + halfWindowsTileHeight);
 
-        screenBigTile.setX1(screenTile.getX1() - getGeneral().getTileBufferSizeX());
-        screenBigTile.setY1(screenTile.getY1() - getGeneral().getTileBufferSizeY());
-        screenBigTile.setX2(screenTile.getX2() + getGeneral().getTileBufferSizeX());
-        screenBigTile.setY2(screenTile.getY2() + getGeneral().getTileBufferSizeY());
+        screenBigTile.setX1(screenTile.getX1() - getConfig().getTileBufferSizeX());
+        screenBigTile.setY1(screenTile.getY1() - getConfig().getTileBufferSizeY());
+        screenBigTile.setX2(screenTile.getX2() + getConfig().getTileBufferSizeX());
+        screenBigTile.setY2(screenTile.getY2() + getConfig().getTileBufferSizeY());
 
 
         // Asegurarse de que screenBigTile está siempre dentro del mapa
@@ -317,9 +315,9 @@ public class World extends Actor {
         dpAC.setCenter(true);
 
         for (y = (int)screenTile.getY1(); y <= (int)screenTile.getY2(); y++) {
-            tempPos.setY(screen.getY() * getGeneral().getTilePixelHeight() + offset.getY());
+            tempPos.setY(screen.getY() * getConfig().getTilePixelHeight() + offset.getY());
             for (x = (int)screenTile.getX1(); x <= (int)screenTile.getX2(); x++) {
-                tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
+                tempPos.setX(screen.getX() * getConfig().getTilePixelWidth() + offset.getX());
                 tile = getMapa().getTile(x, y);
                 if (tile == null) {
                     screen.addX(1);
@@ -341,13 +339,13 @@ public class World extends Actor {
         }
 
 
-        screen.setX(minOffset.getX() - getGeneral().getTileBufferSizeX());
-        screen.setY(minOffset.getY() - getGeneral().getTileBufferSizeY());
+        screen.setX(minOffset.getX() - getConfig().getTileBufferSizeX());
+        screen.setY(minOffset.getY() - getConfig().getTileBufferSizeY());
 
         for (y = (int)screenBigTile.getY1(); y <= (int)screenBigTile.getY2(); y++) {
-            tempPos.setY(screen.getY() * getGeneral().getTilePixelHeight() + offset.getY());
+            tempPos.setY(screen.getY() * getConfig().getTilePixelHeight() + offset.getY());
             for (x = (int)screenBigTile.getX1(); x <= (int)screenBigTile.getX2(); x++) {
-                tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
+                tempPos.setX(screen.getX() * getConfig().getTilePixelWidth() + offset.getX());
                 tile = getMapa().getTile(x, y);
                 if (tile == null) {
                     screen.addX(1);
@@ -359,10 +357,11 @@ public class World extends Actor {
                     if (tile.getObjeto() != null)
                         Drawer.drawGrh(batch, tile.getObjeto(), tempPos.getX(), tempPos.getY(), dpAC);
 
+
                 // Personajes
                 if (tile.getCharIndex() != 0)
                     Main.getInstance().getGameData().getChars().getChar(tile.getCharIndex())
-                    .draw(batch, tempPos.getX(), tempPos.getY(), dpAC);
+                            .draw(batch, tempPos.getX(), tempPos.getY(), dpAC);
 
                 // Capa 3
                 if (tile.getCapa(2) != null)
@@ -376,13 +375,13 @@ public class World extends Actor {
 
 
         if (!techo) {
-            screen.setX(minOffset.getX() - getGeneral().getTileBufferSizeX());
-            screen.setY(minOffset.getY() - getGeneral().getTileBufferSizeY());
+            screen.setX(minOffset.getX() - getConfig().getTileBufferSizeX());
+            screen.setY(minOffset.getY() - getConfig().getTileBufferSizeY());
 
             for (y = (int) screenBigTile.getY1(); y <= (int) screenBigTile.getY2(); y++) {
-                tempPos.setY(screen.getY() * getGeneral().getTilePixelHeight() + offset.getY());
+                tempPos.setY(screen.getY() * getConfig().getTilePixelHeight() + offset.getY());
                 for (x = (int) screenBigTile.getX1(); x <= (int) screenBigTile.getX2(); x++) {
-                    tempPos.setX(screen.getX() * getGeneral().getTilePixelWidth() + offset.getX());
+                    tempPos.setX(screen.getX() * getConfig().getTilePixelWidth() + offset.getX());
                     tile = getMapa().getTile(x, y);
                     if (tile == null) {
                         screen.addX(1);
@@ -404,6 +403,6 @@ public class World extends Actor {
         Drawer.setDefColor(Color.WHITE);
     }
 
-    public General getGeneral() { return Main.getInstance().getGeneral(); }
+    public Config getConfig() { return Main.getInstance().getConfig(); }
     public ClientPackages getClPack() { return Main.getInstance().getConnection().getClPack(); }
 }

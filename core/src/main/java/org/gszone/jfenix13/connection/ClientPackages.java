@@ -2,7 +2,7 @@ package org.gszone.jfenix13.connection;
 
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.TimeUtils;
-import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.utils.BytesWritter;
 import org.gszone.jfenix13.utils.Position;
 
@@ -287,7 +287,7 @@ public class ClientPackages {
 
     public ClientPackages() {
         w = new BytesWritter();
-        cola = new Queue<byte[]>();
+        cola = new Queue<>();
     }
 
     /**
@@ -310,12 +310,10 @@ public class ClientPackages {
         w.writeByte((byte) 0);
         w.writeByte((byte) 13);
         w.writeByte((byte) 0);
-        write();
     }
 
     public void writeThrowDices() {
         w.writeByte((byte)ID.ThrowDices.ordinal());
-        write();
     }
 
     public void writeLoginNewChar(String name, String password, String mail, int raza, int sexo, int ciudad) {
@@ -337,32 +335,28 @@ public class ClientPackages {
             else
                 w.writeByte((byte) 0);
         }
-        write();
     }
 
     /**
      * Caminar hacia una dirección
      */
-    public void writeWalk(General.Direccion dir) {
+    public void writeWalk(Config.Direccion dir) {
         w.writeByte((byte)ID.Walk.ordinal());
         w.writeByte((byte)(dir.ordinal() + 1));
-        write();
     }
 
     public void writePing() {
         if (getPingTime() != 0) return;
         setPingTime(TimeUtils.millis());
         w.writeByte((byte)ID.Ping.ordinal());
-        write();
     }
 
     /**
      * Cambio de dirección sin cambiar de tile
      */
-    public void writeChangeHeading(General.Direccion dir) {
+    public void writeChangeHeading(Config.Direccion dir) {
         w.writeByte((byte)ID.ChangeHeading.ordinal());
         w.writeByte((byte)(dir.ordinal() + 1));
-        write();
     }
 
     /**
@@ -370,7 +364,6 @@ public class ClientPackages {
      */
     public void writeRequestPositionUpdate() {
         w.writeByte((byte)ID.RequestPositionUpdate.ordinal());
-        write();
     }
 
     public void writeWarpChar(String name, int map, Position pos) {
@@ -380,37 +373,35 @@ public class ClientPackages {
         w.writeShort((short) map);
         w.writeByte((byte) pos.getX());
         w.writeByte((byte) pos.getY());
-        write();
     }
 
     public void writeLeftClick(Position pos) {
         w.writeByte((byte)ID.LeftClick.ordinal());
         w.writeByte((byte) pos.getX());
         w.writeByte((byte) pos.getY());
-        write();
     }
 
     public void writeDoubleClick(Position pos) {
         w.writeByte((byte)ID.DoubleClick.ordinal());
         w.writeByte((byte) pos.getX());
         w.writeByte((byte) pos.getY());
-        write();
     }
 
     public void writeOnline() {
         w.writeByte((byte)ID.Online.ordinal());
-        write();
     }
 
     public void writeQuit() {
         w.writeByte((byte)ID.Quit.ordinal());
-        write();
     }
 
     public void writeTalk(String texto) {
         w.writeByte((byte)ID.Talk.ordinal());
         w.writeString(texto);
-        write();
+    }
+
+    public void writeMeditate() {
+        w.writeByte((byte)ID.Meditate.ordinal());
     }
 
 

@@ -5,9 +5,10 @@
 
     <table onecolumn="true" defaultpad="2" tablepadbottom="4">
         <label style="smallgradient" color="col-title" align="left">@mn-manage</label>
-        <textbutton onclick="crear-pj" style="default" fill="true">@mn-createchar</textbutton>
+        <textbutton onclick="crearPj" style="default" fill="true">@mn-createchar</textbutton>
         <textbutton fill="true">@mn-recoverchar</textbutton>
         <textbutton fill="true">@mn-deletechar</textbutton>
+        <textbutton onclick="setView" id="config" fill="true">@mn-config</textbutton>
     </table>
 
     <table onecolumn="true" defaultpad="2" tablepadtop="4">

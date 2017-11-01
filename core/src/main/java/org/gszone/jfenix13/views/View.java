@@ -38,13 +38,20 @@ public abstract class View extends AbstractLmlView {
     }
 
     public Drawable getBackground() {
-        return getBackground(getViewId());
+        return getBackground(getViewId(), true);
     }
 
+    public Drawable getBackground(boolean borders) {
+        return getBackground(getViewId(), borders);
+    }
+
+    public Drawable getBackground(String name) {
+        return getBackground(name, true);
+    }
     /**
      * Devuelve un fondo
      */
-    public Drawable getBackground(String name) {
+    public Drawable getBackground(String name, boolean borders) {
 
         name = "scr_" + name;
         Application.ApplicationType t = Gdx.app.getType();
@@ -54,7 +61,8 @@ public abstract class View extends AbstractLmlView {
         /* Toma una imagen y la convierte en NinePatch, para poder definirle bordes y así permitir mover ventanas
          (si fuera éste el caso) */
         NinePatch n = new NinePatch(tex);
-        n.setPadding(10, 10, 20, 20); // TODO: poner valores convenientes para que funcione bien el resizado y mover.
+        if (borders)
+            n.setPadding(14, 14, 20, 20); // TODO: poner valores convenientes para que funcione bien el resizado y mover.
         return new NinePatchDrawable(n);
     }
 

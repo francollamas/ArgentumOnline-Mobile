@@ -33,7 +33,7 @@ android {
   }
   defaultConfig {
     applicationId 'org.gszone.jfenix13'
-    minSdkVersion 8
+    minSdkVersion 9
     targetSdkVersion 25
   }
 }
@@ -110,8 +110,8 @@ eclipse {
   }
 
   jdt {
-    sourceCompatibility = 1.6
-    targetCompatibility = 1.6
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
   }
 
   classpath {

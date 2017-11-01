@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import org.gszone.jfenix13.general.General;
+import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.objects.GrhData;
 import org.gszone.jfenix13.utils.Rect;
@@ -40,8 +40,8 @@ public final class Drawer {
         fp = new FontParameter();
         setDefColor(Color.WHITE);
         containerRect = new Stack();
-        containerRect.push(new Rectangle(0, 0, getGeneral().getScrWidth(),
-                getGeneral().getScrHeight()));
+        containerRect.push(new Rectangle(0, 0, getConfig().getVirtualWidth(),
+                getConfig().getVirtualHeight()));
     }
 
     public static void pushScissors(Stage stage, float x, float y, float width, float height) {
@@ -136,14 +136,14 @@ public final class Drawer {
         if (reg == null) return;
 
         if (dp.isCenter()) {
-            float tileWidth = reg.getRegionWidth() / (float)getGeneral().getTilePixelWidth();
-            float tileHeight = reg.getRegionHeight() / (float)getGeneral().getTilePixelHeight();
+            float tileWidth = reg.getRegionWidth() / (float) getConfig().getTilePixelWidth();
+            float tileHeight = reg.getRegionHeight() / (float) getConfig().getTilePixelHeight();
 
             if (tileWidth != 1f)
-                x = x - reg.getRegionWidth() / 2 + getGeneral().getTilePixelWidth() / 2;
+                x = x - reg.getRegionWidth() / 2 + getConfig().getTilePixelWidth() / 2;
 
             if (tileHeight != 1f)
-               y = y - reg.getRegionHeight() + getGeneral().getTilePixelHeight();
+               y = y - reg.getRegionHeight() + getConfig().getTilePixelHeight();
         }
 
         // Transforma el Y tomando el origen arriba, por un Y tomando el origen abajo
@@ -269,7 +269,7 @@ public final class Drawer {
      * Se usa para calcular velocidades sin depender de los FPS.
      */
     public static float getDelta() {
-        return Gdx.graphics.getDeltaTime() * getGeneral().getBaseSpeed();
+        return Gdx.graphics.getDeltaTime() * getConfig().getBaseSpeed();
     }
 
     public static Color getDefColor() {
@@ -290,5 +290,5 @@ public final class Drawer {
         defColor = color;
     }
 
-    public static General getGeneral() { return Main.getInstance().getGeneral(); }
+    public static Config getConfig() { return Main.getInstance().getConfig(); }
 }

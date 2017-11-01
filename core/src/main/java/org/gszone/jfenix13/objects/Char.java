@@ -9,7 +9,7 @@ import org.gszone.jfenix13.graphics.FontParameter;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.utils.Position;
 
-import static org.gszone.jfenix13.general.General.*;
+import static org.gszone.jfenix13.general.Config.*;
 
 /**
  * Representa a un PJ o NPC
@@ -76,7 +76,7 @@ public class Char {
                 // Muevo en X
                 if (getMoveDir().getX() != 0) {
                     getMoveOffset().setX(getMoveOffset().getX()
-                            + Main.getInstance().getGeneral().getScrollPixelsPerFrame() * getMoveDir().getX() * Drawer.getDelta());
+                            + Main.getInstance().getConfig().getScrollPixelsPerFrame() * getMoveDir().getX() * Drawer.getDelta());
 
                     if ((getMoveDir().getX() == 1 && getMoveOffset().getX() >= 0)
                             || getMoveDir().getX() == -1 && getMoveOffset().getX() <= 0) {
@@ -88,7 +88,7 @@ public class Char {
                 // Muevo en Y
                 if (getMoveDir().getY() != 0) {
                     getMoveOffset().setY(getMoveOffset().getY()
-                            + Main.getInstance().getGeneral().getScrollPixelsPerFrame() * getMoveDir().getY() * Drawer.getDelta());
+                            + Main.getInstance().getConfig().getScrollPixelsPerFrame() * getMoveDir().getY() * Drawer.getDelta());
 
                     if ((getMoveDir().getY() == 1 && getMoveOffset().getY() >= 0)
                             || getMoveDir().getY() == -1 && getMoveOffset().getY() <= 0) {
@@ -169,8 +169,9 @@ public class Char {
             if (nombre.length() == 0 && this != Main.getInstance().getGameData().getChars().getNpcDialog())
                 dialog = null;
             else {
-                if (dialog.isAlive())
-                    dialog.draw(batch, (int) (x + headOffset.getX() + 16), (int) (y + headOffset.getY()));
+                if (dialog.isAlive()) {
+                    dialog.draw(batch, Math.round(x + headOffset.getX() + 16), Math.round(y + headOffset.getY()));
+                }
                 else
                     dialog = null;
             }

@@ -18,7 +18,7 @@ import java.io.*;
  * disposed: booleano que indica si va a destruir el socket (para evitar excepciones en el nuevo thread)
  */
 public class GnConnection implements Connection {
-    public static final String IP = "127.0.0.1";
+    public static final String IP = "192.168.1.6";
     public static final int PORT = 7677;
 
     private Thread thread;
