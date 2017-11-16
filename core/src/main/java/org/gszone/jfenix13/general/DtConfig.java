@@ -28,7 +28,7 @@ public class DtConfig {
      * Carga la configuración desde el archivo
      */
     public static void loadConfig() {
-        File configFile = new File(getDtConfigDir());
+        File configFile = new File(System.getProperty("user.home") + getDtConfigDir());
         configFile.getParentFile().mkdir();
 
         try {
@@ -55,7 +55,7 @@ public class DtConfig {
      * Guarda la configuración en el archivo
      */
     public static void saveConfig() {
-        File configFile = new File(getDtConfigDir());
+        File configFile = new File(System.getProperty("user.home") + getDtConfigDir());
         configFile.getParentFile().mkdir();
 
         try {

@@ -170,7 +170,7 @@ public class Char {
                 dialog = null;
             else {
                 if (dialog.isAlive()) {
-                    dialog.draw(batch, Math.round(x + headOffset.getX() + 16), Math.round(y + headOffset.getY()));
+                    dialog.draw(batch, x + headOffset.getX() + 16, y + headOffset.getY());
                 }
                 else
                     dialog = null;

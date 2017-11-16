@@ -1,0 +1,18 @@
+WebSockify es un programa intermedio o puente entre conexiones de tipo Websocket y TCP.
+Es necesario para que el cliente Web se pueda conectar el servidor
+
+1) Instalar Node.js
+
+2) Ejecutar el programa:
+Dos opciones:
+
+///// GENERAL /////
+ Abrir la consola de comandos o terminal e ingresar:
+" node websockify.js WSPuerto IpDelServidor:PuertoDelServidor " 
+
+WSPuerto es el puerto de este programa (elegir el deseado)
+Si se omite IpDelServidor, se toma como 'localhost')
+
+
+///// WINDOWS /////
+Editar websockify.bat segun lo explicado y ejecutarlo.

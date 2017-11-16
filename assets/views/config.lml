@@ -6,7 +6,7 @@
         <tabbedpane selectedtab="0">
             <tab title="General" closeable="false">
             </tab>
-            <tab title="Video" closeable="false" onecolumn="true" defaultalign="left" defaultpad="8">
+            <tab title="Video" closeable="false" onecolumn="true" defaultalign="left" defaultpad="8" id="videotabb">
 
                 <checkbox id="vsync">Sincronización vertical</checkbox>
                 <buttontable onecolumn="true" defaultalign="left">

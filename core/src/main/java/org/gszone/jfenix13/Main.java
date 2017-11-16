@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.AbstractLmlView;
+import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlApplicationListener;
 import com.github.czyzby.lml.vis.util.VisLml;
 import com.kotcrab.vis.ui.VisUI;
@@ -84,6 +85,8 @@ public class Main extends LmlApplicationListener {
 	 */
 	@Override
 	public void create () {
+		//Lml.DISABLE_COMPONENT_ACTORS_ATTRIBUTE_PARSING = true;
+		Lml.EXTRACT_UNANNOTATED_METHODS = true;
 		// Config global
 		Gdx.graphics.setTitle("JFenix13");
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);

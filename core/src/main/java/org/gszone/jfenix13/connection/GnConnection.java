@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import org.gszone.jfenix13.Main;
 
+
 import java.io.*;
 
 /**
@@ -18,8 +19,8 @@ import java.io.*;
  * disposed: booleano que indica si va a destruir el socket (para evitar excepciones en el nuevo thread)
  */
 public class GnConnection implements Connection {
-    public static final String IP = "192.168.1.6";
-    public static final int PORT = 7677;
+    public static final String IP = "localhost";
+    public static final int PORT = 7666;
 
     private Thread thread;
     private Socket socket;
@@ -89,6 +90,7 @@ public class GnConnection implements Connection {
             if (socket.isConnected()) {
                 thread = getThread();
                 thread.start();
+                return true;
             }
         }
         catch (GdxRuntimeException ex) {
@@ -96,7 +98,7 @@ public class GnConnection implements Connection {
             socket = null;
             return false;
         }
-        return true;
+        return false;
     }
 
     @Override

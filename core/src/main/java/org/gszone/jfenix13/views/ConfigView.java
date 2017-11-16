@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.github.czyzby.lml.annotation.LmlAction;
 import com.github.czyzby.lml.annotation.LmlActor;
+import com.github.czyzby.lml.vis.ui.VisTabTable;
 import com.kotcrab.vis.ui.widget.VisCheckBox;
 import com.kotcrab.vis.ui.widget.VisRadioButton;
 import com.kotcrab.vis.ui.widget.VisSelectBox;
@@ -18,6 +19,7 @@ import static org.gszone.jfenix13.general.FileNames.getViewDir;
 public class ConfigView extends View {
     public static final String ID = "config";
 
+    @LmlActor("videotabb") private VisTabTable tabVideo;
     @LmlActor("vsync") private VisCheckBox cbVSync;
     @LmlActor("modo-ventana") private VisRadioButton rbModoVentana;
     @LmlActor("pant-completa") private VisRadioButton rbPantCompleta;
@@ -36,6 +38,13 @@ public class ConfigView extends View {
 
     @Override
     public void show() {
+
+        // Desactivamos las configuraciones de video para Web, ya que son innecesarias.
+        if (Gdx.app.getType() == Application.ApplicationType.WebGL)
+            tabVideo.setDisabled(true);
+
+        // Configuraciones EXCLUSIVAS para Escritorio
+        // GWTIncompatible (comentar el if entero para que compile en GWT)
         if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
             if (DtConfig.vSync) cbVSync.setChecked(true);
 
@@ -60,8 +69,10 @@ public class ConfigView extends View {
 
     @LmlAction("guardar")
     public void guardar() {
-        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
 
+        // Configuraciones EXCLUSIVAS para Escritorio
+        // GWTIncompatible (comentar el if entero para que compile en GWT)
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
             // Guarda los valores actuales para luego verificar si se hizo un cambio en al menos una característica
             boolean oldVSync = DtConfig.vSync;
             boolean oldFullScreen = DtConfig.fullscreeen;

@@ -48,7 +48,7 @@ public class Dialog {
         return TimeUtils.millis() - startTime < lifeTime;
     }
 
-    public void draw(Batch batch, int x, int y) {
+    public void draw(Batch batch, float x, float y) {
         FontParameter fp = new FontParameter("tahoma11border");
         fp.setColor(color);
         Drawer.drawText(batch, text, x, y - 11 * text.size + 12, fp);

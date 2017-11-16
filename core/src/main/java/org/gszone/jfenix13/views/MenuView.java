@@ -69,8 +69,8 @@ public class MenuView extends View {
         }
     }
 
-    @LmlAction("crearPj")
-    private void crearPj() {
+    @LmlAction("cpj")
+    private void cpj() {
         if (getConnection().connect()) {
             setView(CrearPjView.class);
             getClPack().writeThrowDices();

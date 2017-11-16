@@ -5,7 +5,7 @@
 
     <table onecolumn="true" defaultpad="2" tablepadbottom="4">
         <label style="smallgradient" color="col-title" align="left">@mn-manage</label>
-        <textbutton onclick="crearPj" style="default" fill="true">@mn-createchar</textbutton>
+        <textbutton onclick="cpj" fill="true">@mn-createchar</textbutton>
         <textbutton fill="true">@mn-recoverchar</textbutton>
         <textbutton fill="true">@mn-deletechar</textbutton>
         <textbutton onclick="setView" id="config" fill="true">@mn-config</textbutton>
@@ -16,5 +16,6 @@
         <textfield id="nombre" style="bold" message="@mn-name-ms" focusborderenabled="true"></textfield>
         <textfield id="contraseña" style="bold" message="@mn-pass-ms" passwordcharacter="*" passwordmode="true" focusborderenabled="true"></textfield>
         <textbutton onclick="conectar">@mn-enter</textbutton>
+
     </table>
 </window>

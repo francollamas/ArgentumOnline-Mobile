@@ -27,7 +27,9 @@ dependencies {
   compile "com.github.czyzby:gdx-lml:$lmlVersion:sources"
   compile "com.github.czyzby:gdx-kiwi:$kiwiVersion:sources"
   compile "com.kotcrab.vis:vis-ui:$visUiVersion:sources"
-  compile group: 'com.sksamuel.gwt', name: 'gwt-websockets', version: '1.0.4'
+  compile "com.github.czyzby:gdx-websocket:$websocketVersion:sources"
+  compile "com.github.czyzby:gdx-websocket-gwt:$websocketVersion"
+  compile "com.github.czyzby:gdx-websocket-gwt:$websocketVersion:sources"
 }
 
 task draftRun(type: JettyRunWar) {
