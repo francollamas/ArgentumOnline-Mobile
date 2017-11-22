@@ -1,21 +1,18 @@
 package org.gszone.jfenix13;
 
 import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
-import com.github.czyzby.lml.parser.LmlParser;
-import com.github.czyzby.lml.parser.impl.AbstractLmlView;
-import com.github.czyzby.lml.util.Lml;
-import com.github.czyzby.lml.util.LmlApplicationListener;
-import com.github.czyzby.lml.vis.util.VisLml;
 import com.kotcrab.vis.ui.VisUI;
 import org.gszone.jfenix13.connection.Connection;
 import org.gszone.jfenix13.connection.GnConnection;
@@ -23,8 +20,8 @@ import org.gszone.jfenix13.connection.WebConnection;
 import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.Config;
-import org.gszone.jfenix13.views.*;
-import org.gszone.jfenix13.views.actions.GlobalActions;
+import org.gszone.jfenix13.views.CargaView;
+import org.gszone.jfenix13.views.View;
 
 import static org.gszone.jfenix13.general.FileNames.*;
 import static com.badlogic.gdx.Application.ApplicationType.*;
@@ -33,12 +30,13 @@ import static com.badlogic.gdx.Application.ApplicationType.*;
  * Clase principal del juego
  *
  * rebootable: contiene un Runnable (código para ejecutar) que se encarga de reiniciar el juego.
+ * bundle: maneja los textos según el idioma.
  * config: ajustes iniciales (tamaño de pantalla, del world, etc).
  * assets: manejador de recursos
  * connection: permite la conexión con el servidor y el envío y recepción de paquetes.
  * gameData: contiene toda estructura y estado del juego
  */
-public class Main extends LmlApplicationListener {
+public class Main extends Game {
 
 	/**
 	 * Constructor general
@@ -58,6 +56,7 @@ public class Main extends LmlApplicationListener {
 
 	private Runnable rebootable;
 
+	private I18NBundle bundle;
 	private Batch batch;
 
 	private Config config;
@@ -85,8 +84,6 @@ public class Main extends LmlApplicationListener {
 	 */
 	@Override
 	public void create () {
-		//Lml.DISABLE_COMPONENT_ACTORS_ATTRIBUTE_PARSING = true;
-		Lml.EXTRACT_UNANNOTATED_METHODS = true;
 		// Config global
 		Gdx.graphics.setTitle("JFenix13");
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
@@ -96,13 +93,13 @@ public class Main extends LmlApplicationListener {
 		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
 		pm.dispose();*/
 
-		// Config de LML y propia del juego
+		// Config propia del juego
+		bundle = I18NBundle.createBundle(Gdx.files.internal(getBundleDir()));
 		batch = new SpriteBatch();
 		config = new Config();
 		assets = new Assets();
 		VisUI.load(assets.getGDXAssets().get(getSkinDir(), Skin.class));
 		gameData = new GameData();
-		super.create();
 
 		// Conexión
 		if (Gdx.app.getType() == WebGL)
@@ -110,14 +107,9 @@ public class Main extends LmlApplicationListener {
 		else
             connection = new GnConnection();
 
-		// Asigna alias a todas las clases de las vistas para que sean reconocidas desde los archivos lml
-		addClassAlias(CargaView.ID, CargaView.class);
-		addClassAlias(MenuView.ID, MenuView.class);
-		addClassAlias(ConfigView.ID, ConfigView.class);
-		addClassAlias(PrincipalView.ID, PrincipalView.class);
-		addClassAlias(CrearPjView.ID, CrearPjView.class);
-		setView(CargaView.class);
+		setScreen(new CargaView());
 	}
+
 
 	@Override
 	public void render() {
@@ -141,22 +133,10 @@ public class Main extends LmlApplicationListener {
 	 */
 	@Override
 	public void dispose () {
-		super.dispose();
-		Disposables.disposeOf(batch);
 		VisUI.dispose();
+		screen.dispose();
 		assets.dispose();
 		connection.dispose();
-	}
-
-	/**
-	 * Configura Lml
-	 */
-	@Override
-	protected LmlParser createParser() {
-		return VisLml.parser()
-				.actions("global", GlobalActions.class)
-				.i18nBundle(I18NBundle.createBundle(Gdx.files.internal("i18n/bundle")))
-				.build();
 	}
 
 	/**
@@ -168,40 +148,28 @@ public class Main extends LmlApplicationListener {
 	 * Devuelve un nuevo escenario usando el mismo Batch.
 	 */
 	public static Stage newStage() {
-		Config g = Main.getInstance().getConfig();
-		return new Stage(new FitViewport(g.getVirtualWidth(), g.getVirtualHeight()), Main.getInstance().getBatch());
+		Config c = Main.getInstance().getConfig();
+		return new Stage(new FitViewport(c.getVirtualWidth(), c.getVirtualHeight()), Main.getInstance().getBatch());
 	}
 
+	/**
+	 * Cambia de Screen. (desecha la anterior y usa la nueva)
+	 *
+	 * @param screen
+	 */
 	@Override
-	public void setView(final AbstractLmlView view, Action doAfterHide) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				AbstractLmlView curr = getCurrentView();
-				setCurrentView(view);
-				if (curr != null) clearView(curr);
-
-					getCurrentView().resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), isCenteringCameraOnResize());
-					Gdx.input.setInputProcessor(getCurrentView().getStage());
-					getCurrentView().show();
-					getCurrentView().getStage().addAction(getViewShowingAction(view));
-			}
-		};
-
-		if (doAfterHide == null)
-			r.run();
-		else {
-			Gdx.input.setInputProcessor(null);
-			getCurrentView().hide();
-			getCurrentView().getStage().addAction(Actions.sequence(doAfterHide, Actions.run(r)));
+	public void setScreen(Screen screen) {
+		if (this.screen != null) this.screen.dispose();
+		this.screen = screen;
+		if (this.screen != null) {
+			this.screen.show();
+			this.screen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			Action a = Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.25f, Interpolation.fade));
+			((View)this.screen).getStage().addAction(a);
 		}
 	}
 
-	@Override
-	protected float getViewTransitionDuration() {
-		return 0.25f;
-	}
-
+	public I18NBundle getBundle() { return bundle; }
 	public Batch getBatch() { return batch; }
 	public Config getConfig() { return config; }
 	public Assets getAssets() { return assets; }

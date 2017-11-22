@@ -3,6 +3,7 @@ package org.gszone.jfenix13.graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
+import com.kotcrab.vis.ui.VisUI;
 import org.gszone.jfenix13.Main;
 
 /**
@@ -36,7 +37,7 @@ public class FontParameter {
     }
 
     public void setFont(String font) {
-        BitmapFont bmf = Main.getInstance().getParser().getData().getDefaultSkin().getFont(font);
+        BitmapFont bmf = VisUI.getSkin().getFont(font);
         this.font = bmf;
     }
 

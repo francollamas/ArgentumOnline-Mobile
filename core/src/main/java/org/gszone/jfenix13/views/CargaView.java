@@ -2,48 +2,35 @@ package org.gszone.jfenix13.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.github.czyzby.lml.annotation.LmlActor;
-import com.kotcrab.vis.ui.widget.VisTable;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.general.GnLoader;
 import org.gszone.jfenix13.general.Loader;
 import org.gszone.jfenix13.general.WebLoader;
 
-import static org.gszone.jfenix13.general.FileNames.getViewDir;
 import static com.badlogic.gdx.Application.ApplicationType.*;
+
+import static org.gszone.jfenix13.utils.Actors.*;
 
 /**
  * Pantalla de carga
  */
 public class CargaView extends View {
-    public static final String ID = "carga";
 
-    @LmlActor("tabla") private VisTable tabla;
     private Loader loader;
     private long tiempoInicio;
     private boolean solicitaSalir;
 
     @Override
-    public String getViewId() { return ID; }
-
-    @Override
-    public FileHandle getTemplateFile() {
-        return Gdx.files.internal(getViewDir(ID));
-    }
-
-    @Override
     public void show() {
-        tabla.setBackground(getBackground());
-        //setBackground();
+        super.show();
 
+        newFirstTable(getBackground("carga"), false);
+
+
+        // Crea el Loader
         if (Gdx.app.getType() == WebGL)
             loader = new WebLoader();
         else
@@ -52,7 +39,7 @@ public class CargaView extends View {
         tiempoInicio = TimeUtils.millis();
 
         // Eventos generales de mouse y teclado
-        getStage().addListener(new InputListener() {
+        stage.addListener(new InputListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE)
@@ -81,7 +68,7 @@ public class CargaView extends View {
             loader.load();
 
         if (loader.isLoaded() && (TimeUtils.millis() - tiempoInicio > 6000 || solicitaSalir)) {
-            Main.getInstance().setView(MenuView.class);
+            setScreen(new MenuView());
         }
     }
 }

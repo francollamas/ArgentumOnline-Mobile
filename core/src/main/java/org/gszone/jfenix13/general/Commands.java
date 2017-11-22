@@ -3,7 +3,6 @@ package org.gszone.jfenix13.general;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.actors.Consola;
 import org.gszone.jfenix13.connection.ClientPackages;
-import org.gszone.jfenix13.containers.FontTypes;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.objects.User;
 
@@ -46,7 +45,7 @@ public class Commands {
 
     private void cmdQuit() {
         if (getU().isParalizado()) {
-            getC().addMessage(getMsg("msg-paralizado"), Warning);
+            getC().addMessage(bu("msg.paralizado"), Warning);
             return;
         }
         getClPack().writeQuit();
@@ -54,9 +53,7 @@ public class Commands {
 
     private void cmdMeditate() {
         if (isMuerto()) return;
-        System.out.println("pasa1");
         if (getU().getStats().getMana() == getU().getStats().getMaxMana()) return;
-        System.out.println("pasa2");
         getClPack().writeMeditate();
     }
 
@@ -69,16 +66,13 @@ public class Commands {
      */
     private boolean isMuerto() {
         if (getU().isMuerto()) {
-            getC().addMessage(getMsg("msg-muerto"), Info);
+            getC().addMessage(bu("msg.muerto"), Info);
             return true;
         }
         return false;
     }
 
-    public String getMsg(String key) {
-        return Main.getInstance().getParser().getData().getDefaultI18nBundle().get(key);
-    }
-
+    public String bu(String key) { return Main.getInstance().getBundle().get(key); }
     public ClientPackages getClPack() { return Main.getInstance().getConnection().getClPack(); }
     public GameData getGD() { return Main.getInstance().getGameData(); }
     public User getU() { return getGD().getCurrentUser(); }

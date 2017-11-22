@@ -17,16 +17,16 @@ public class FileNames {
         return "/.jfenix13/jfenix13.properties";
     }
 
+    public static String getBundleDir() {
+        return "locale/locale";
+    }
+
     public static String getCursorDir() {
         return DIR_GUI + "/cursor.png";
     }
 
     public static String getSkinDir() {
         return "skin/skin.json";
-    }
-
-    public static String getViewDir(String name) {
-        return DIR_VIEWS + "/" + name + ".lml";
     }
 
     public static String getMapDir(int num) {

@@ -21,10 +21,11 @@ import org.gszone.jfenix13.general.Config.Direccion;
 import org.gszone.jfenix13.utils.BytesReader;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
-import org.gszone.jfenix13.views.MenuView;
-import org.gszone.jfenix13.views.PrincipalView;
 import org.gszone.jfenix13.general.Messages.Message;
 import org.gszone.jfenix13.containers.FontTypes.FontTypeName;
+import org.gszone.jfenix13.views.MenuView;
+import org.gszone.jfenix13.views.PrincipalView;
+import org.gszone.jfenix13.views.View;
 
 import static org.gszone.jfenix13.containers.GameData.*;
 
@@ -161,7 +162,7 @@ public class ServerPackages {
     }
 
     private Stage getActStage() {
-        return Main.getInstance().getCurrentView().getStage();
+        return ((View)Main.getInstance().getScreen()).getStage();
     }
 
     /**
@@ -665,12 +666,12 @@ public class ServerPackages {
      * Carga la pantalla principal
      */
     private void handleLogged() {
-        // TODO: revisar esto para mobiles...
+        // TODO: revisar esto para móviles...
         /*if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL)
             Main.getInstance().setScreen(new DtPrincipal());
         else
             Main.getInstance().setScreen(new MbPrincipal());*/
-        Main.getInstance().setView(PrincipalView.class);
+        Main.getInstance().setScreen(new PrincipalView());
     }
 
     /**
@@ -758,8 +759,8 @@ public class ServerPackages {
 
     private void handleDisconnect() {
         Main.getInstance().getConnection().dispose();
-        // TODO: parar lluvia
-        Main.getInstance().setView(MenuView.class);
+        // TODO: parar lluvia ??
+        Main.getInstance().setScreen(new MenuView());
         getGD().resetGameData();
         getAssets().getAudio().playMusic(6);
     }
@@ -814,11 +815,11 @@ public class ServerPackages {
 
         Message msg = Messages.Message.values()[r.readByte()];
         Consola c = getGD().getConsola();
-        I18NBundle b = Main.getInstance().getParser().getData().getDefaultI18nBundle();
+        I18NBundle b = Main.getInstance().getBundle();
 
         switch (msg) {
             case DontSeeAnything:
-                c.addMessage(b.get("msg-dont-see-anything"), FontTypeName.Info);
+                c.addMessage(b.get("msg.dont-see-anything"), FontTypeName.Info);
                 break;
 
             // TODO: completar con todos los mensajes!!!

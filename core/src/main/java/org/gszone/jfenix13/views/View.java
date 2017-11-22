@@ -1,14 +1,16 @@
 package org.gszone.jfenix13.views;
 
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.github.czyzby.lml.parser.impl.AbstractLmlView;
-import com.kotcrab.vis.ui.widget.VisTextField;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.connection.ClientPackages;
 import org.gszone.jfenix13.connection.Connection;
@@ -17,41 +19,39 @@ import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.Audio;
 import org.gszone.jfenix13.containers.GameData;
 
-import static com.badlogic.gdx.Application.ApplicationType.Desktop;
-import static com.badlogic.gdx.Application.ApplicationType.WebGL;
+import static com.badlogic.gdx.Application.ApplicationType.*;
 import static org.gszone.jfenix13.general.FileNames.getDtGuiDir;
 import static org.gszone.jfenix13.general.FileNames.getMbGuiDir;
 
 /**
  * Clase general para una Vista
  *
+ * stage: escenario de la vista
  * texs: conjunto de texturas que se van cargando (generalmente usadas para el fondo de pantalla)
  *       se guarda su referencia para poder liberarlas de la memoria al cerrar la pantalla (método dispose() )
  */
-public abstract class View extends AbstractLmlView {
+public abstract class View implements Screen {
 
-    Array<Texture> texs;
+    protected Stage stage;
+    private Array<Texture> texs;
 
     public View() {
-        super(Main.newStage());
+        stage = Main.newStage();
         texs = new Array<>();
     }
 
-    public Drawable getBackground() {
-        return getBackground(getViewId(), true);
-    }
-
-    public Drawable getBackground(boolean borders) {
-        return getBackground(getViewId(), borders);
-    }
-
-    public Drawable getBackground(String name) {
+    protected Drawable getBackground(String name) {
         return getBackground(name, true);
     }
+
     /**
      * Devuelve un fondo
+     *
+     * @param name nombre de la imagen (sin el "src_")
+     * @param borders indica si tiene bordes (generalmente para poder redimensionar, mover, etc.)
+     * @return ninepatchDrawable con el fondo
      */
-    public Drawable getBackground(String name, boolean borders) {
+    protected Drawable getBackground(String name, boolean borders) {
 
         name = "scr_" + name;
         Application.ApplicationType t = Gdx.app.getType();
@@ -67,36 +67,59 @@ public abstract class View extends AbstractLmlView {
     }
 
     @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    @Override
+    public void render(float delta) {
+        // Realiza las acciones pendientes de todos los actores agregados al escenario.
+        stage.act();
+
+        // Limpia la pantalla
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.draw();
+    }
+
+    /**
+     * Actualiza el tamaño del viewport según el nuevo tamaño de la pantalla
+     */
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+        Gdx.input.setInputProcessor(null);
+    }
+
+    @Override
     public void dispose() {
-        super.dispose();
+        Gdx.input.setInputProcessor(null);
         for (Texture tex : texs)
             tex.dispose();
     }
 
-    /**
-     * Hace foco en un textfield (excepto en móbiles)
-     * @param tf
-     */
-    protected void setTfFocus(VisTextField tf) {
-        setTfFocus(tf, false);
-    }
-
-    /**
-     * Hace foco en un textfield (se puede o no excluir móbiles)
-     */
-    protected void setTfFocus(VisTextField tf, boolean forceInMobile) {
-        // Si se está en dispositivos móviles, no hacemos foco (para que no salga el teclado de repente)
-        if (Gdx.app.getType() != Desktop && Gdx.app.getType() != WebGL && !forceInMobile) return;
-        tf.focusField();
-        getStage().setKeyboardFocus(tf);
-    }
-
     // Accesos rápidos desde las pantallas...
-    public void setView(final Class<? extends AbstractLmlView> viewClass) { Main.getInstance().setView(viewClass);}
+    public void setScreen(Screen scr) { Main.getInstance().setScreen(scr); }
+    public Stage getStage() { return stage; }
     public Assets getAssets() { return Main.getInstance().getAssets(); }
     public Audio getAudio() { return Main.getInstance().getAssets().getAudio(); }
     public ClientPackages getClPack() { return Main.getInstance().getConnection().getClPack(); }
     public ServerPackages getSvPack() { return Main.getInstance().getConnection().getSvPack(); }
     public Connection getConnection() { return Main.getInstance().getConnection(); }
     public GameData getGD() { return Main.getInstance().getGameData(); }
+    public String bu(String key) { return Main.getInstance().getBundle().get(key); }
 }

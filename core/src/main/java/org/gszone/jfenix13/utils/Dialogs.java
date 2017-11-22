@@ -2,15 +2,14 @@ package org.gszone.jfenix13.utils;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.kotcrab.vis.ui.widget.ButtonBar;
 import com.kotcrab.vis.ui.widget.VisDialog;
 import org.gszone.jfenix13.Main;
+import org.gszone.jfenix13.views.View;
 
 public class Dialogs {
     public static VisDialog showOKDialog (String title, String text) {
-        final Stage s = Main.getInstance().getCurrentView().getStage();
+        final Stage s = ((View)Main.getInstance().getScreen()).getStage();
         final Actor a = s.getKeyboardFocus();
 
         final VisDialog dialog = new VisDialog(title);

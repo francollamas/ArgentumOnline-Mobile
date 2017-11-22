@@ -7,6 +7,4 @@
         <exclude name="**/GnConnection.java"/>
         <exclude name="**/DtConfig.java"/>
     </source>
-
-    <extend-configuration-property name="gdx.reflect.include" value="org.gszone.jfenix13.views" />
 </module>
