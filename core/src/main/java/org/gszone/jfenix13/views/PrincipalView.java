@@ -5,11 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.widget.*;
-import org.gszone.jfenix13.actors.Inventario;
 
 import static org.gszone.jfenix13.utils.Actors.*;
 
@@ -24,20 +21,28 @@ public class PrincipalView extends View {
 
         //stage.setDebugAll(true);
 
-        Table ft = newFirstTable(true);
+        // Definición de los elementos de la pantalla
+        Table first = newFirstTable(true);
             // Titulo, consola, habla y world.
-            Table t1 = newTable(ft).padBottom(4).getActor();
-            t1.align(Align.left);
-                lbFps = newLabel(t1, "FPS: ", Color.WHITE, "bold").align(Align.left).colspan(2).getActor(); t1.row();
-                t1.add(getGD().getConsola()).colspan(2).width(getGD().getWorld().getWidth()).height(100).row();
-                newSelectBox(t1, bu("pp.t-normal"), bu("pp.t-whisper"), bu("pp.t-clan"), bu("pp.t-shout"), bu("pp.t-role"), bu("pp.t-team"));
-                tfSend = newTextField(t1, "", "").fill().expand().getActor(); t1.row();
+            Table izq = newTable(first).padLeft(13).padTop(13).padBottom(13).padRight(4).getActor();
+                Table titulo = newTable(izq).colspan(2).prefHeight(25).left().getActor(); izq.row();
+                    lbFps = newLabel(titulo, "FPS: ", Color.WHITE, "bold").left().getActor();
+                izq.add(getGD().getConsola()).colspan(2).width(572).height(99).left().row();
+                newSelectBox(izq, bu("pp.t-normal"), bu("pp.t-whisper"), bu("pp.t-clan"), bu("pp.t-shout"), bu("pp.t-role"), bu("pp.t-team"));
+                tfSend = newTextField(izq, "", "").fill().expand().getActor(); izq.row();
                 tfSend.setMaxLength(160); tfSend.setDisabled(true);
-                t1.add(getGD().getWorld()).colspan(2).row();
+                izq.add(getGD().getWorld()).colspan(2).row();
+                newTable(izq).colspan(2).prefHeight(40);
+
+            Table der = newTable(first).padLeft(4).padTop(13).padBottom(13).padRight(13).expandX().getActor();
+                newTable(der).width(240).height(130).top().row();
+                newTable(der).width(240).height(285).row();
+                newTable(der).width(240).height(285).row();
 
 
         // TODO: hacer que el evento del enter funcione solo si no hay otras pantallas encima
-        getStage().addListener(new InputListener() {
+        // Eventos generales de la pantalla
+        stage.addListener(new InputListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ENTER) {
@@ -46,7 +51,7 @@ public class PrincipalView extends View {
                         tfSend.setDisabled(false);
                         setTfFocus(tfSend);
                     }
-                    else if (getStage().getKeyboardFocus() != tfSend) {
+                    else if (stage.getKeyboardFocus() != tfSend) {
                         // Si está habilitado pero no en foco, pongo el foco en el tfSend
                         setTfFocus(tfSend);
                         tfSend.setCursorAtTextEnd();
@@ -65,9 +70,6 @@ public class PrincipalView extends View {
             }
 
         });
-
-        // Agrego todos los elementos a la pantalla
-        //ctInventario.setActor(new Inventario());
     }
 
     @Override

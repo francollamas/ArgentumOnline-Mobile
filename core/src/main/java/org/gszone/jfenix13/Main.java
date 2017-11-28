@@ -110,7 +110,6 @@ public class Main extends Game {
 		setScreen(new CargaView());
 	}
 
-
 	@Override
 	public void render() {
 		// Procesamos los paquetes recibidos al socket
@@ -164,7 +163,7 @@ public class Main extends Game {
 		if (this.screen != null) {
 			this.screen.show();
 			this.screen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			Action a = Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.25f, Interpolation.fade));
+			Action a = Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.3f, Interpolation.fade));
 			((View)this.screen).getStage().addAction(a);
 		}
 	}

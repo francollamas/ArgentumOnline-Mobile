@@ -13,7 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
+import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
+import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import org.gszone.jfenix13.Main;
+import org.gszone.jfenix13.actors.Tab;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.views.View;
 
@@ -54,7 +57,7 @@ public class Actors {
     /**
      * Redimensiona la ventana al tamaño que debe ocupar, y la centra.
      */
-    public static void fitWindow(VisWindow w) {
+    public static void fitWindow(final VisWindow w) {
         w.pack();
         w.centerWindow();
     }
@@ -84,7 +87,7 @@ public class Actors {
         if (fillparent)
             t.setFillParent(true);
         else {
-            if (background != null) {
+            if (background != null && background instanceof NinePatchDrawable) {
                 NinePatch np = ((NinePatchDrawable) background).getPatch();
                 t.setWidth(np.getTotalWidth());
                 t.setHeight(np.getTotalHeight());
@@ -99,24 +102,35 @@ public class Actors {
     }
 
     public static Cell<VisTable> newTable(Table table) {
-        return newTable(table, null);
+        return newTable(table, (Drawable)null, true);
+    }
+
+    public static Cell<VisTable> newTable(Table table, boolean setVisDefaults) {
+        return newTable(table, (Drawable)null, setVisDefaults);
+    }
+
+    public static Cell<VisTable> newTable(Table table, String background, boolean setVisDefaults) {
+        return newTable(table, VisUI.getSkin().getDrawable(background), setVisDefaults);
     }
 
     /**
      * Crea una tabla dentro de otra
+     * Cuyas celdas tienen paddings definidos por VisUI.
      *
      * @param table tabla padre
      * @return la Celda, para que sea fácilmente modificable. Se puede obtener la tabla con getActor() ).
      */
-    public static Cell<VisTable> newTable(Table table, Drawable background) {
-        VisTable t = new VisTable(true); // le pasamos true para que use los Paddings por defecto
+    public static Cell<VisTable> newTable(Table table, Drawable background, boolean setVisDefaults) {
+        VisTable t = new VisTable(setVisDefaults); // le pasamos true para que use los Paddings por defecto
         t.setBackground(background);
-        if (background != null){
+        if (background != null && background instanceof NinePatchDrawable) {
             NinePatch np = ((NinePatchDrawable) background).getPatch();
             t.setWidth(np.getTotalWidth());
             t.setHeight(np.getTotalHeight());
         }
-        return table.add(t);
+        if (table != null)
+            return table.add(t);
+        return null;
     }
 
     public static Cell<VisLabel> newLabel(Table table, String text) {
@@ -141,24 +155,42 @@ public class Actors {
         return table.add(l);
     }
 
-    public static Cell<VisTextButton> newTextButton(Table table, String text) {
-        VisTextButton tb = new VisTextButton(text, "default");
-        return table.add(tb);
-    }
-
     public static Cell<VisSelectBox<String>> newSelectBox(Table table, String... items) {
         VisSelectBox<String> sb = new VisSelectBox<>();
         sb.setItems(items);
         return table.add(sb);
     }
 
+    public static Cell<VisTextButton> newTextButton(Table table, String text) {
+        VisTextButton tb = new VisTextButton(text, "default");
+        return table.add(tb);
+    }
+
     /**
-     * Crea un botón
+     * Crea un botón con texto dentro
      */
     public static Cell<VisTextButton> newTextButton(Table table, String text, String style) {
         VisTextButton tb = new VisTextButton(text, style);
         return table.add(tb);
     }
+
+    /**
+     * Crea un botón con una imagen dentro
+     *
+     * @param image tiene que coincidir con el nombre de un drawable guardado en la Skin.
+     */
+    public static Cell<VisImageButton> newImageButton(Table table, String image) {
+        return newImageButton(table, VisUI.getSkin().getDrawable(image));
+    }
+
+    /**
+     * Crea un botón con una imagen dentro
+     */
+    public static Cell<VisImageButton> newImageButton(Table table, Drawable image) {
+        VisImageButton tb = new VisImageButton(image);
+        return table.add(tb);
+    }
+
 
     public static Cell<VisTextField> newTextField(Table table, String text, String message, boolean password) {
         return newTextField(table, text, message, "default", password);
@@ -195,8 +227,58 @@ public class Actors {
      */
     public static Cell<Container> newContainer(Table table, Actor actor) {
         Container c = new Container();
-        if (actor != null)
+        if (actor != null) {
             c.setActor(actor);
+            return table.add(c);
+        }
+        return null;
+    }
+
+    public static Cell<TabbedPane.TabbedPaneTable> newTabbedPane(Table table) {
+        return newTabbedPane(table, -1, -1);
+    }
+
+    /**
+     * Crea un TabbedPane
+     */
+    public static Cell<TabbedPane.TabbedPaneTable> newTabbedPane(Table table, float width, float height) {
+        TabbedPane tp = new TabbedPane();
+        tp.getTable().getTabsPaneCell().row();
+
+        Cell<VisTable> celda = newTable(tp.getTable(), false);
+        if (width >= 0) celda.width(width);
+        if (height >= 0) celda.height(height);
+
+        Table t = celda.getActor();
+
+        tp.addListener(new TabbedPaneAdapter() {
+            @Override
+            public void switchedTab(com.kotcrab.vis.ui.widget.tabbedpane.Tab tab) {
+                t.clearChildren();
+                t.add(tab.getContentTable()).expand().fill();
+            }
+        });
+
+        return table.add(tp.getTable());
+    }
+
+    /**
+     * Agrega un nuevo Tab al TabbedPane y lo devuelve
+     */
+    public static Tab newTab(TabbedPane tp, String title) {
+        Tab t = new Tab(title);
+        tp.add(t);
+        tp.switchTab(0);
+        return t;
+    }
+
+    public static Cell<VisCheckBox> newCheckBox(Table table, String text) {
+        VisCheckBox c = new VisCheckBox(text);
+        return table.add(c);
+    }
+
+    public static Cell<VisRadioButton> newRadioButton(Table table, String text) {
+        VisRadioButton c = new VisRadioButton(text);
         return table.add(c);
     }
 

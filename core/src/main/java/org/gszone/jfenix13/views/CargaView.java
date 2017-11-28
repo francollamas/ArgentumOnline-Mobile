@@ -27,18 +27,10 @@ public class CargaView extends View {
     public void show() {
         super.show();
 
+        // Definición de los elementos de la pantalla
         newFirstTable(getBackground("carga"), false);
 
-
-        // Crea el Loader
-        if (Gdx.app.getType() == WebGL)
-            loader = new WebLoader();
-        else
-            loader = new GnLoader();
-
-        tiempoInicio = TimeUtils.millis();
-
-        // Eventos generales de mouse y teclado
+        // Eventos generales de la pantalla
         stage.addListener(new InputListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
@@ -53,6 +45,14 @@ public class CargaView extends View {
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
+
+        // Crea el Loader
+        if (Gdx.app.getType() == WebGL)
+            loader = new WebLoader();
+        else
+            loader = new GnLoader();
+
+        tiempoInicio = TimeUtils.millis();
 
         Main.getInstance().getAssets().getAudio().playMusic(6);
     }
