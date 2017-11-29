@@ -6,12 +6,16 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.*;
-import org.gszone.jfenix13.Main;
-import org.gszone.jfenix13.utils.Dialogs;
+import org.gszone.jfenix13.managers.MenuManager;
 
 import static org.gszone.jfenix13.utils.Actors.*;
 
 public class MenuView extends View {
+
+    public MenuView() {
+        super(new MenuManager());
+    }
+    public MenuManager getGestor() { return (MenuManager)gestor; }
 
     private VisTextField tfNombre;
     private VisTextField tfContraseña;
@@ -35,6 +39,7 @@ public class MenuView extends View {
             Table t2 = newTable(w).padTop(4).getActor();
                 newLabel(t2, bu("mn.login"), "col-title", "smallgradient").left().row();
                 tfNombre = newTextField(t2, "", bu("mn.name-ms"), "bold").getActor(); t2.row();
+                tfNombre.setMaxLength(30);
                 tfContraseña = newTextField(t2, "", bu("mn.pass-ms"), "bold", true).getActor(); t2.row();
                 tbEntrar = newTextButton(t2, bu("mn.enter")).getActor();
         fitWindow(w);
@@ -45,7 +50,7 @@ public class MenuView extends View {
             public boolean keyUp(InputEvent event, int keycode) {
                 // Salir del juego al presionar Escape
                 if (keycode == Input.Keys.ESCAPE)
-                    Main.getInstance().salir();
+                    getGestor().exitGame();
                 return super.keyUp(event, keycode);
             }
         });
@@ -55,7 +60,7 @@ public class MenuView extends View {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                crearPj();
+                getGestor().crearPj();
             }
         });
 
@@ -74,7 +79,7 @@ public class MenuView extends View {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ENTER)
-                    conectar();
+                    getGestor().conectar(tfNombre.getText(), tfContraseña.getText());
                 return super.keyUp(event, keycode);
             }
         };
@@ -86,31 +91,13 @@ public class MenuView extends View {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                conectar();
+                getGestor().conectar(tfNombre.getText(), tfContraseña.getText());
             }
         });
 
         // Hago foco en el campo de Nombre.
-        setTfFocus(tfNombre);
+        setFocus(tfNombre);
 
-        Main.getInstance().getAssets().getAudio().playMusic(6);
-    }
-
-    private void conectar() {
-        if (tfNombre.getText().length() == 0)
-            Dialogs.showOKDialog("Error", "El nombre no puede estar vacío.");
-        else if (tfContraseña.getText().length() == 0)
-            Dialogs.showOKDialog("Error", "La contraseña no puede estar vacía");
-        else {
-            if (getConnection().connect())
-                getClPack().writeLoginExistingChar(tfNombre.getText(), tfContraseña.getText());
-        }
-    }
-
-    private void crearPj() {
-        if (getConnection().connect()) {
-            setScreen(new CrearPjView());
-            getClPack().writeThrowDices();
-        }
+        getGestor().playMusic(6);
     }
 }

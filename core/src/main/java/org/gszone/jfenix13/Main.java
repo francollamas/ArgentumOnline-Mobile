@@ -20,7 +20,9 @@ import org.gszone.jfenix13.connection.WebConnection;
 import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.Config;
+import org.gszone.jfenix13.utils.Dialogs;
 import org.gszone.jfenix13.views.CargaView;
+import org.gszone.jfenix13.views.MenuView;
 import org.gszone.jfenix13.views.View;
 
 import static org.gszone.jfenix13.general.FileNames.*;
@@ -112,6 +114,12 @@ public class Main extends Game {
 
 	@Override
 	public void render() {
+
+		if (connection.getSvPack().isLostConnection()) {
+			setScreen(new MenuView());
+			Dialogs.showOKDialog(Main.getInstance().getBundle().get("error"), "Conexión perdida");
+		}
+
 		// Procesamos los paquetes recibidos al socket
 		connection.getSvPack().doActions();
 

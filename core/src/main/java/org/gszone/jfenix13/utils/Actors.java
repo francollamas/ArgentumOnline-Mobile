@@ -4,13 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.kotcrab.vis.ui.FocusManager;
+import com.kotcrab.vis.ui.Focusable;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
@@ -282,20 +281,40 @@ public class Actors {
         return table.add(c);
     }
 
+    public static Cell<VisSlider> newSlider(Table table, float min, float max, float stepSize, boolean vertical) {
+        return newSlider(table, min, max, stepSize, vertical, (Slider.SliderStyle)null);
+    }
+
+    public static Cell<VisSlider> newSlider(Table table, float min, float max, float stepSize, boolean vertical, String styleName) {
+        return newSlider(table, min, max, stepSize, vertical, VisUI.getSkin().get(styleName, Slider.SliderStyle.class));
+    }
+
+    /**
+     * Crea un Slider
+     */
+    public static Cell<VisSlider> newSlider(Table table, float min, float max, float stepSize, boolean vertical, Slider.SliderStyle style) {
+        VisSlider s = style == null ? new VisSlider(min, max, stepSize, vertical) : new VisSlider(min, max, stepSize, vertical, style);
+        return table.add(s);
+    }
+
     /**
      * Hace foco en un textfield (excepto en Android/iOS)
      */
-    public static void setTfFocus(VisTextField tf) {
-        setTfFocus(tf, false);
+    public static void setFocus(Focusable actor) {
+        setFocus(actor, false);
     }
 
     /**
      * Hace foco en un textfield (se puede o no excluir móbiles)
      */
-    public static void setTfFocus(VisTextField tf, boolean forceInMobile) {
+    public static void setFocus(Focusable actor, boolean forceInMobile) {
         // Si se está en dispositivos móviles, no hacemos foco (para que no salga el teclado de repente)
         if (!forceInMobile && Gdx.app.getType() != Desktop && Gdx.app.getType() != WebGL) return;
-        tf.focusField();
-        ((View)Main.getInstance().getScreen()).getStage().setKeyboardFocus(tf);
+
+        if (actor instanceof VisTextField) {
+            VisTextField tf = (VisTextField) actor;
+            tf.focusField();
+            tf.setCursorAtTextEnd();
+        }
     }
 }

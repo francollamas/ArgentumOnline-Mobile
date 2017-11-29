@@ -18,6 +18,7 @@ import org.gszone.jfenix13.connection.ServerPackages;
 import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.Audio;
 import org.gszone.jfenix13.containers.GameData;
+import org.gszone.jfenix13.managers.ViewManager;
 
 import static com.badlogic.gdx.Application.ApplicationType.*;
 import static org.gszone.jfenix13.general.FileNames.getDtGuiDir;
@@ -35,9 +36,12 @@ public abstract class View implements Screen {
     protected Stage stage;
     private Array<Texture> texs;
 
-    public View() {
+    protected ViewManager gestor;
+
+    public View(ViewManager gestor) {
         stage = Main.newStage();
         texs = new Array<>();
+        this.gestor = gestor;
     }
 
     protected Drawable getBackground(String name) {
@@ -73,6 +77,9 @@ public abstract class View implements Screen {
 
     @Override
     public void render(float delta) {
+        // Actualia al getGestor
+        gestor.update();
+
         // Realiza las acciones pendientes de todos los actores agregados al escenario.
         stage.act();
 
@@ -115,11 +122,5 @@ public abstract class View implements Screen {
     // Accesos rápidos desde las pantallas...
     public void setScreen(Screen scr) { Main.getInstance().setScreen(scr); }
     public Stage getStage() { return stage; }
-    public Assets getAssets() { return Main.getInstance().getAssets(); }
-    public Audio getAudio() { return Main.getInstance().getAssets().getAudio(); }
-    public ClientPackages getClPack() { return Main.getInstance().getConnection().getClPack(); }
-    public ServerPackages getSvPack() { return Main.getInstance().getConnection().getSvPack(); }
-    public Connection getConnection() { return Main.getInstance().getConnection(); }
-    public GameData getGD() { return Main.getInstance().getGameData(); }
     public String bu(String key) { return Main.getInstance().getBundle().get(key); }
 }

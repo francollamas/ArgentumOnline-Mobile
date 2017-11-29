@@ -8,14 +8,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.*;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
-import org.gszone.jfenix13.Main;
-import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.general.DtConfig;
+import org.gszone.jfenix13.managers.ConfigManager;
 
 import static org.gszone.jfenix13.utils.Actors.*;
 
+
+
 public class ConfigView extends View {
-    //private VisTabTable tabVideo;
+
+    public ConfigView() {
+        super(new ConfigManager());
+    }
+    public ConfigManager getGestor() { return (ConfigManager)gestor; }
+
+    // Pestaña Video
     private VisCheckBox cbVSync;
     private VisRadioButton rbModoVentana;
     private VisRadioButton rbPantCompleta;
@@ -23,6 +30,14 @@ public class ConfigView extends View {
     private VisSelectBox<String> sbRes;
     private VisCheckBox cbTitleBar;
     private VisCheckBox cbRedimensionable;
+
+    // Pestaña Audio
+    private VisCheckBox cbMusica;
+    private VisCheckBox cbSonido;
+
+    private VisSlider slVolMusica;
+    private VisSlider slVolSonido;
+
 
     private VisTextButton tbAtras;
     private VisTextButton tbGuardar;
@@ -59,6 +74,17 @@ public class ConfigView extends View {
                 cbRedimensionable = newCheckBox(tModoVentana, "Redimensionable").left().getActor(); tModoVentana.row();
         }
 
+        // Pestaña 'Audio'
+        t = newTab(panel, "Audio").getContentTable();
+            cbMusica = newCheckBox(t, "Música").left().getActor();
+            slVolMusica = newSlider(t, 0, 1, 0.05f, false).right().getActor();
+
+            t.row();
+
+            cbSonido = newCheckBox(t, "Sonido").left().getActor();
+            slVolSonido = newSlider(t, 0, 1, 0.05f, false).right().getActor();
+
+
         // TODO: Agregar el resto de Tabs
 
         Table t2 = newTable(w).padTop(40).colspan(3).getActor();
@@ -82,7 +108,7 @@ public class ConfigView extends View {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                setScreen(new MenuView());
+                getGestor().back();
             }
         });
 
@@ -90,16 +116,19 @@ public class ConfigView extends View {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                guardar();
+                getGestor().guardar(cbVSync.isChecked(), rbPantCompleta.isChecked(), sbRes.getSelectedIndex(),
+                            cbTitleBar.isChecked(), cbRedimensionable.isChecked());
             }
         });
 
+
+        // Actualizo el panel de Video con la configuración actual
 
         // Configuraciones EXCLUSIVAS para Escritorio
         // GWTIncompatible (comentar el if entero para que compile en GWT)
         if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
 
-            // Actualizo el panel de Video con la configuración actual
+
             if (DtConfig.vSync) cbVSync.setChecked(true);
 
             if (DtConfig.fullscreeen) rbPantCompleta.setChecked(true);
@@ -114,59 +143,15 @@ public class ConfigView extends View {
             if (DtConfig.decorated) cbTitleBar.setChecked(true);
             if (DtConfig.resizable) cbRedimensionable.setChecked(true);
         }
+
+        // Actualizo el panel de Audio con la configuración actual
+        cbMusica.setChecked(getGestor().getConfig().isMusicActive());
+        slVolMusica.setValue(getGestor().getConfig().getMusicVol());
+
+        cbSonido.setChecked(getGestor().getConfig().isSoundActive());
+        slVolSonido.setValue(getGestor().getConfig().getSoundVol());
+
     }
 
-    public void guardar() {
 
-        // Configuraciones EXCLUSIVAS para Escritorio
-        // GWTIncompatible (comentar el if entero para que compile en GWT)
-        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-            // Guarda los valores actuales para luego verificar si se hizo un cambio en al menos una característica
-            boolean oldVSync = DtConfig.vSync;
-            boolean oldFullScreen = DtConfig.fullscreeen;
-            int oldWidth = DtConfig.width;
-            int oldHeight = DtConfig.height;
-            boolean oldDecorated = DtConfig.decorated;
-            boolean oldResizable = DtConfig.resizable;
-
-            DtConfig.vSync = cbVSync.isChecked();
-
-            DtConfig.fullscreeen = rbPantCompleta.isChecked();
-            if (DtConfig.fullscreeen) {
-                DtConfig.width = 1024; DtConfig.height = 768;
-            }
-            else {
-                switch (sbRes.getSelectedIndex()) {
-                    case 0:
-                        DtConfig.width = 800; DtConfig.height = 600;
-                        break;
-                    case 1:
-                        DtConfig.width = 1024; DtConfig.height = 768;
-                        break;
-                    case 2:
-                        DtConfig.width = 1200; DtConfig.height = 900;
-                        break;
-                }
-            }
-
-            DtConfig.decorated = cbTitleBar.isChecked();
-            DtConfig.resizable = cbRedimensionable.isChecked();
-
-            DtConfig.saveConfig();
-
-            // Si se hicieron cambios de video, se reinicia el cliente.
-            if (oldVSync != DtConfig.vSync || oldFullScreen != DtConfig.fullscreeen
-                    || oldWidth != DtConfig.width || oldHeight != DtConfig.height
-                    || oldDecorated != DtConfig.decorated || oldResizable != DtConfig.resizable) {
-
-                Main.getInstance().reiniciar();
-            }
-
-        }
-
-        Config c = Main.getInstance().getConfig();
-        c.saveConfigFile();
-
-        setScreen(new MenuView());
-    }
 }

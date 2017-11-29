@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import org.gszone.jfenix13.actors.Consola;
 import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.Colors;
@@ -19,6 +18,7 @@ import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.objects.*;
 import org.gszone.jfenix13.general.Config.Direccion;
 import org.gszone.jfenix13.utils.BytesReader;
+import org.gszone.jfenix13.utils.Dialogs;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
 import org.gszone.jfenix13.general.Messages.Message;
@@ -140,8 +140,18 @@ public class ServerPackages {
         GuildFoundation
     }
 
+
+    private boolean lostConnection;
     private BytesReader r;
     private Queue<byte[]> cola;
+
+    public boolean isLostConnection() {
+        return lostConnection;
+    }
+
+    public void setLostConnection(boolean lostConnection) {
+        this.lostConnection = lostConnection;
+    }
 
     public Queue<byte[]> getCola() {
         return cola;
@@ -151,6 +161,10 @@ public class ServerPackages {
         r = new BytesReader();
         r.setLittleEndian(true);
         cola = new Queue<byte[]>();
+    }
+
+    public String bu(String key) {
+        return Main.getInstance().getBundle().get(key);
     }
 
     public GameData getGD() {
@@ -339,7 +353,7 @@ public class ServerPackages {
                     break;
                 default:
                     // Si llega un paquete que no está implementado...
-                    Dialogs.showOKDialog(getActStage(), "Error", "No se reconoce el paquete " + id.ordinal() + " '" + id.toString() + "'.");
+                    Dialogs.showOKDialog(bu("error"), "Paquete no implementado: " + id.ordinal() + " '" + id.toString() + "'.");
                     broken = true;
                     break;
             }
@@ -678,14 +692,14 @@ public class ServerPackages {
      * Muestra un mensaje de error
      */
     private void handleErrorMsg() {
-        Dialogs.showOKDialog(getActStage(), "Error", r.readString());
+        Dialogs.showOKDialog(bu("error"), r.readString());
     }
 
     /**
      * Muestra un mensaje del servidor
      */
     private void handleShowMessageBox() {
-        Dialogs.showOKDialog(getActStage(), "Mensaje del Servidor", r.readString());
+        Dialogs.showOKDialog(bu("msg.sv"), r.readString());
     }
 
     /**

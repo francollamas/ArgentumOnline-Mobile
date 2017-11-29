@@ -6,6 +6,7 @@ import org.gszone.jfenix13.objects.TextureData;
 
 /**
  * Manejador de las texturas del juego
+ * TODO: usar la estructura Hash de Java!!!
  * TODO: PONER LÍMITE DE MEMORIA Y BORRAR LAS TEXTURAS MÁS VIEJAS!!!
  *
  * hash: array de array de TextureData. Se usa para agiliar la búsqueda de texturas.

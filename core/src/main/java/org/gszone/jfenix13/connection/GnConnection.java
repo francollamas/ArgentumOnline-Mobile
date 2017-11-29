@@ -5,9 +5,8 @@ import com.badlogic.gdx.Net;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import org.gszone.jfenix13.Main;
-import org.gszone.jfenix13.views.View;
+import org.gszone.jfenix13.utils.Dialogs;
 
 
 import java.io.*;
@@ -53,7 +52,6 @@ public class GnConnection implements Connection {
                 while (!disposed) {
                     try {
                         if (socket == null) return;
-
                         // Si el socket está desconectado o se está por destruir no sigue.
                         if (disposed || !socket.isConnected()) return;
 
@@ -66,8 +64,11 @@ public class GnConnection implements Connection {
                             socket.getInputStream().read(bytes);
                             svPack.getCola().addLast(bytes);
                         }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    } catch (Exception ex) {
+                        svPack.setLostConnection(true);
+                        // TODO: revisar la SocketException y manejarla...
+                        // sacar si es necesario ese trozo de código del main para volver al menu y mostrar
+                        // mensaje de conexion perdida
                     }
                 }
 
@@ -95,7 +96,7 @@ public class GnConnection implements Connection {
             }
         }
         catch (GdxRuntimeException ex) {
-            Dialogs.showOKDialog(((View)Main.getInstance().getScreen()).getStage(), "Error", "No se pudo establecer la conexión con el servidor.");
+            Dialogs.showOKDialog(Main.getInstance().getBundle().get("error"), "No se pudo establecer la conexión con el servidor.");
             socket = null;
             return false;
         }

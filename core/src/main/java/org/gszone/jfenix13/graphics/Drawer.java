@@ -171,7 +171,7 @@ public final class Drawer {
         sp.setAlphas(dp.getAlphas());
         */
 
-        // TODO: si arregle lo de arriba, borrar este trozo:
+        // TODO: si implementé lo que especifiqué arriba, borrar este trozo:
         if (defColor == Color.WHITE || dp.isLight())
             sp.setColor(c[0]);
         else

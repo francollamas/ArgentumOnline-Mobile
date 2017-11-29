@@ -4,12 +4,17 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.*;
-import org.gszone.jfenix13.Main;
+import org.gszone.jfenix13.managers.CrearPjManager;
 import org.gszone.jfenix13.objects.UserAtributos;
 
 import static org.gszone.jfenix13.utils.Actors.*;
 
 public class CrearPjView extends View {
+
+    public CrearPjView() {
+        super(new CrearPjManager());
+    }
+    public CrearPjManager getGestor() { return (CrearPjManager)gestor; }
 
     private VisTextField tfNombre;
     private VisTextField tfContraseña;
@@ -39,21 +44,25 @@ public class CrearPjView extends View {
         // Definición de los elementos de la pantalla
         VisWindow w = newWindow(bu("cp.title"), null, false, false);
             Table t = newTable(w).top().padRight(40).getActor();
-                //newLabel(t, bu("cp.pjdata"), "col-title", "smallgradient").left().row();
                 newLabel(t, bu("cp.name"), "col-title", "smallgradient").left().spaceBottom(0).row();
                 tfNombre = newTextField(t, "", "", "bold").width(180).getActor(); t.row();
+                tfNombre.setMaxLength(30);
 
                 newLabel(t, bu("cp.pass"), "col-title", "smallgradient").left().spaceBottom(0).row();
                 tfContraseña = newTextField(t, "", "", "bold", true).fill().getActor(); t.row();
+                tfContraseña.setMaxLength(100);
 
                 newLabel(t, bu("cp.rpass"), "col-title", "smallgradient").left().spaceBottom(0).row();
                 tfRContraseña = newTextField(t, "", "", "bold", true).fill().getActor(); t.row();
+                tfRContraseña.setMaxLength(100);
 
                 newLabel(t, bu("cp.mail"), "col-title", "smallgradient").left().spaceBottom(0).row();
                 tfMail = newTextField(t, "", "", "bold").fill().getActor(); t.row();
+                tfMail.setMaxLength(100);
 
                 newLabel(t, bu("cp.rmail"), "col-title", "smallgradient").fill().left().spaceBottom(0).row();
                 tfRMail = newTextField(t, "", "", "bold").fill().getActor(); t.row();
+                tfRMail.setMaxLength(100);
 
             Table t2 = newTable(w).top().padRight(40).getActor();
                 newLabel(t2, bu("cp.born"), "col-title", "smallgradient").left().spaceBottom(0).row();
@@ -97,7 +106,7 @@ public class CrearPjView extends View {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                getClPack().writeThrowDices();
+                getGestor().solicTirarDados();
             }
         });
 
@@ -105,7 +114,7 @@ public class CrearPjView extends View {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                setScreen(new MenuView());
+                getGestor().back();
             }
         });
 
@@ -113,32 +122,26 @@ public class CrearPjView extends View {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                crearPj();
+                getGestor().crearPj(tfNombre.getText().trim(), tfContraseña.getText(), tfRContraseña.getText(),
+                        tfMail.getText().trim(), tfRMail.getText().trim(),
+                        sbRaza.getSelectedIndex() + 1, sbGenero.getSelectedIndex() + 1, sbCiudad.getSelectedIndex() + 1);
             }
         });
 
-
-        setTfFocus(tfNombre);
-        Main.getInstance().getAssets().getAudio().playMusic(7);
+        setFocus(tfNombre);
+        getGestor().playMusic(7);
 
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        UserAtributos a = getGD().getCurrentUser().getAtributos();
+        UserAtributos a = getGestor().getAttribActuales();
         lbFuerza.setText("" + a.getFuerza());
         lbAgilidad.setText("" + a.getAgilidad());
         lbInteligencia.setText("" + a.getInteligencia());
         lbConstitucion.setText("" + a.getConstitucion());
         lbCarisma.setText("" + a.getCarisma());
-    }
-
-    private void crearPj() {
-        // TODO: hacer validaciones del formulario.
-
-        getClPack().writeLoginNewChar(tfNombre.getText(), tfContraseña.getText(), tfMail.getText(),
-                sbRaza.getSelectedIndex() + 1, sbGenero.getSelectedIndex() + 1, sbCiudad.getSelectedIndex() + 1);
     }
 
 

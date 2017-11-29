@@ -41,22 +41,12 @@ public class Assets {
         gdxAssets = new AssetManager();
         audio = new Audio();
 
-        preloadGdxAssets();
+        gdxAssets.load(getSkinDir(), Skin.class);
 
-        // Cargar todos los elementos necesarios para poder visualizar la pantalla de carga.
-        //gdxAssets.finishLoadingAsset(getAtlasGralGuiDir());
-        gdxAssets.finishLoading(); // TODO: dejar la linea de arriba cuando pueda
+        gdxAssets.finishLoading();
     }
 
     public AssetManager getGDXAssets() { return gdxAssets; }
-
-    /**
-     * Precarga los assets (indica cuáles y de que tipo son los assets a cargar)
-     */
-    private void preloadGdxAssets() {
-        // Skin del juego
-        gdxAssets.load(getSkinDir(), Skin.class);
-    }
 
     /**
      * Carga al resto de los assets que sabe cargar libGDX
