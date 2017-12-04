@@ -8,6 +8,7 @@ import org.gszone.jfenix13.general.Loader;
 import org.gszone.jfenix13.general.WebLoader;
 import org.gszone.jfenix13.views.MenuView;
 
+import static com.badlogic.gdx.Application.ApplicationType.Desktop;
 import static com.badlogic.gdx.Application.ApplicationType.WebGL;
 
 public class CargaManager extends ViewManager {

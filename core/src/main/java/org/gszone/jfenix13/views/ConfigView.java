@@ -87,9 +87,9 @@ public class ConfigView extends View {
 
         // TODO: Agregar el resto de Tabs
 
-        Table t2 = newTable(w).padTop(40).colspan(3).getActor();
-            tbAtras = newTextButton(t2, bu("back")).getActor();
-            tbGuardar = newTextButton(t2, "Guardar").getActor();
+        Table t2 = newTable(w).fillX().padTop(40).colspan(3).getActor();
+            tbAtras = newTextButton(t2, bu("back")).expandX().left().getActor();
+            tbGuardar = newTextButton(t2, "Guardar").expandX().right().getActor();
 
         fitWindow(w);
 

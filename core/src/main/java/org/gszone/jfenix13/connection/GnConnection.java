@@ -19,7 +19,7 @@ import java.io.*;
  * disposed: booleano que indica si va a destruir el socket (para evitar excepciones en el nuevo thread)
  */
 public class GnConnection implements Connection {
-    public static final String IP = "localhost";
+    public static final String IP = "francollamas.ddns.net";
     public static final int PORT = 7666;
 
     private Thread thread;

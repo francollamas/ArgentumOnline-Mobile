@@ -1,6 +1,8 @@
 package org.gszone.jfenix13.views;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.*;
@@ -66,7 +68,7 @@ public class CrearPjView extends View {
 
             Table t2 = newTable(w).top().padRight(40).getActor();
                 newLabel(t2, bu("cp.born"), "col-title", "smallgradient").left().spaceBottom(0).row();
-                sbCiudad = newSelectBox(t2, "Ullathorpe", "Nix", "Lindos", "Arghâl").width(130).getActor(); t2.row();
+                sbCiudad = newSelectBox(t2, "Ullathorpe", "Nix", "Banderbill", "Lindos", "Arghâl").width(130).getActor(); t2.row();
 
                 newLabel(t2, bu("cp.gender"), "col-title", "smallgradient").left().spaceBottom(0).row();
                 sbGenero = newSelectBox(t2, bu("male"), bu("female")).fill().getActor(); t2.row();
@@ -95,12 +97,21 @@ public class CrearPjView extends View {
                 newLabel(t3, bu("charisma")).padRight(8).left();
                 lbCarisma = newLabel(t3, "0").width(25).getActor(); t3.row();
 
-            Table t4 = newTable(w).padTop(40).colspan(3).getActor();
-                tbAtras = newTextButton(t4, bu("back")).getActor();
-                tbCrearPj = newTextButton(t4, bu("cp.create")).getActor();
+            Table t4 = newTable(w).padTop(40).fillX().colspan(3).getActor();
+                tbAtras = newTextButton(t4, bu("back")).expandX().left().getActor();
+                tbCrearPj = newTextButton(t4, bu("cp.create")).expandX().right().getActor();
 
 
         fitWindow(w);
+
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.BACK)
+                    getGestor().back();
+                return super.keyUp(event, keycode);
+            }
+        });
 
         ibTirarDados.addListener(new ClickListener() {
             @Override

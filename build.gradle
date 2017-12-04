@@ -25,7 +25,7 @@ configure(subprojects - project(':android')) {
 
 subprojects {
   version = '0.0.1-SNAPSHOT'
-  ext.appName = 'JFenix13'
+  ext.appName = 'Fénix XIII'
   repositories {
     mavenLocal()
     mavenCentral()

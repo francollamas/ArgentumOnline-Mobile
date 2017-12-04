@@ -2,6 +2,7 @@ package org.gszone.jfenix13.managers;
 
 import org.gszone.jfenix13.objects.UserAtributos;
 import org.gszone.jfenix13.utils.Dialogs;
+import org.gszone.jfenix13.utils.StrUtils;
 import org.gszone.jfenix13.views.MenuView;
 
 public class CrearPjManager extends ViewManager {
@@ -36,10 +37,18 @@ public class CrearPjManager extends ViewManager {
             return;
         }
 
+        Character c = StrUtils.getInvalidChar(contraseña);
+        if (c != null) {
+            Dialogs.showOKDialog(bu("error"), "Contraseña inválida. No se permite el caractér '" + c + "'.");
+            return;
+        }
+
         if (mail.equals("")) {
             Dialogs.showOKDialog(bu("error"), "El mail no puede estar vacío.");
             return;
         }
+
+        // TODO: Considerar chequear mail no válido (CheckMailString de VB6)
 
         if (!contraseña.equals(rContraseña)) {
             Dialogs.showOKDialog(bu("error"), "Las contraseñas no coinciden.");

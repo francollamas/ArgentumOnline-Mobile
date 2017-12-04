@@ -58,6 +58,36 @@ public class StrUtils {
         return sb.toString();
     }
 
+    /**
+     * Determina si una cadena usa caracteres no válidos
+     *
+     * @return el caractér inválido, o null en caso de ser correcto.
+     */
+    public static Character getInvalidChar(String text, char... exclude) {
+        outerloop:
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
 
+            // Si es alguno de los caractéres permitidos....
+            for (int j = 0; j < exclude.length; j++) {
+                // Si es uno de ellos, el caracter es correcto y se sigue con el siguiente
+                if (c == exclude[j]) continue outerloop;
+            }
+
+            if (!legalCharacter(c)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Chequea si un caracter está permitido (se usa para nombre del pj y contraseña)
+     */
+    private static boolean legalCharacter(char c) {
+        if ((c < 32 && c != 8) || c > 126 || c == 34 || c == 42 || c == 44 || c == 47 ||
+                c == 58 || c == 60 || c == 62 || c == 63 || c == 92 || c == 124) return false;
+        return true;
+    }
 
 }

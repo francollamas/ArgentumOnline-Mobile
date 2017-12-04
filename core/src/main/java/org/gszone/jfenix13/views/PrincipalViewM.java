@@ -6,17 +6,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.kotcrab.vis.ui.FocusManager;
 import com.kotcrab.vis.ui.widget.*;
-import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
-import org.gszone.jfenix13.actors.Tab;
+import org.gszone.jfenix13.actors.Controller;
 import org.gszone.jfenix13.managers.PrincipalManager;
 
 import static org.gszone.jfenix13.utils.Actors.*;
 
-public class PrincipalView extends View {
+public class PrincipalViewM extends View {
 
-    public PrincipalView() {
+    public PrincipalViewM() {
         super(new PrincipalManager());
     }
     public PrincipalManager getGestor() { return (PrincipalManager) gestor; }
@@ -28,36 +26,39 @@ public class PrincipalView extends View {
     public void show() {
         super.show();
 
-        //stage.setDebugAll(true);
+        Table first = newFirstTable(true);
+        Table t = newTable(first, false).fillY().getActor();
+        lbFps = newLabel(t, "FPS: ", Color.WHITE, "bold").expandY().left().top().getActor();
+        t.row();
+        t.add(new Controller()).expandY().left().bottom();
+        first.add(getGestor().getWorld());
+        newTable(first).fillX().expandX();
 
+/*
         // Definición de los elementos de la pantalla
         Table first = newFirstTable(true);
-            // Titulo, consola, habla y world.
-            Table izq = newTable(first).padLeft(13).padTop(13).padBottom(13).padRight(4).getActor();
-                Table titulo = newTable(izq).colspan(2).prefHeight(25).left().getActor(); izq.row();
-                    lbFps = newLabel(titulo, "FPS: ", Color.WHITE, "bold").left().getActor();
-                izq.add(getGestor().getConsola()).colspan(2).width(572).height(99).left().row();
-                newSelectBox(izq, bu("pp.t-normal"), bu("pp.t-whisper"), bu("pp.t-clan"), bu("pp.t-shout"), bu("pp.t-role"), bu("pp.t-team"));
-                tfSend = newTextField(izq, "", "").fill().expand().getActor(); izq.row();
-                tfSend.setMaxLength(160); tfSend.setDisabled(true);
-                izq.add(getGestor().getWorld()).colspan(2).row();
-                newTable(izq).colspan(2).prefHeight(40);
+        // Titulo, consola, habla y world.
+        Table izq = newTable(first).padLeft(13).padTop(13).padBottom(13).padRight(4).getActor();
+        Table titulo = newTable(izq).colspan(2).prefHeight(25).left().getActor(); izq.row();
 
-            Table der = newTable(first).padLeft(4).padTop(13).padBottom(13).padRight(13).expandX().getActor();
-                newTable(der).width(240).height(130).top().row();
-                Table t2 = newTable(der).width(240).height(285).getActor(); der.row();
-                    TabbedPane tabInvHech = newTabbedPane(t2, 230, 230).getActor().getTabbedPane();
-                        Table panelInv = newTab(tabInvHech, "Inventario").getContentTable();
-                            panelInv.add(getGestor().getInv());
-                        Table panelHech = newTab(tabInvHech, "Hechizos").getContentTable();
-                newTable(der).width(240).height(285).row();
+        izq.add(getGestor().getConsola()).colspan(2).width(572).height(99).left().row();
+        newSelectBox(izq, bu("pp.t-normal"), bu("pp.t-whisper"), bu("pp.t-clan"), bu("pp.t-shout"), bu("pp.t-role"), bu("pp.t-team"));
+        tfSend = newTextField(izq, "", "").fill().expand().getActor(); izq.row();
+        tfSend.setMaxLength(160); tfSend.setDisabled(true);
+        izq.add(getGestor().getWorld()).colspan(2).row();
+        newTable(izq).colspan(2).prefHeight(40);
 
+        Table der = newTable(first).padLeft(4).padTop(13).padBottom(13).padRight(13).expandX().getActor();
+        newTable(der).width(240).height(130).top().row();
+        newTable(der).width(240).height(285).row();
+        newTable(der).width(240).height(285).row();
+*/
 
         // Eventos generales de la pantalla
         stage.addListener(new InputListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-                // Si toca ENTER y no hay ninguna ventana por encima...
+                /*// Si toca ENTER y no hay ninguna ventana por encima...
                 if (keycode == Input.Keys.ENTER &&
                         !(stage.getActors().get(stage.getActors().size - 1) instanceof VisWindow)) {
                     if (tfSend.isDisabled()) {
@@ -76,9 +77,15 @@ public class PrincipalView extends View {
                         tfSend.setText("");
                         tfSend.setDisabled(true);
                     }
+                }*/
+
+                // Para desconectar en móviles
+                if (keycode == Input.Keys.BACK) {
+                    getGestor().desconectar();
                 }
                 return super.keyUp(event, keycode);
             }
+
         });
     }
 

@@ -87,8 +87,9 @@ public class Main extends Game {
 	@Override
 	public void create () {
 		// Config global
-		Gdx.graphics.setTitle("JFenix13");
+		Gdx.graphics.setTitle("Fénix XIII");
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		Gdx.input.setCatchBackKey(true);
 
 		// TODO: ver el tema del cursor
 		/*Pixmap pm = new Pixmap(Gdx.files.internal(getCursorDir()));

@@ -49,7 +49,7 @@ public class MenuView extends View {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 // Salir del juego al presionar Escape
-                if (keycode == Input.Keys.ESCAPE)
+                if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK)
                     getGestor().exitGame();
                 return super.keyUp(event, keycode);
             }

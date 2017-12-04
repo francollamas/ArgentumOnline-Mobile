@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.TimeUtils;
 import org.gszone.jfenix13.actors.Consola;
+import org.gszone.jfenix13.actors.Item;
 import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.Colors;
 import org.gszone.jfenix13.containers.FontTypes;
@@ -25,8 +26,11 @@ import org.gszone.jfenix13.general.Messages.Message;
 import org.gszone.jfenix13.containers.FontTypes.FontTypeName;
 import org.gszone.jfenix13.views.MenuView;
 import org.gszone.jfenix13.views.PrincipalView;
+import org.gszone.jfenix13.views.PrincipalViewM;
 import org.gszone.jfenix13.views.View;
 
+import static com.badlogic.gdx.Application.ApplicationType.Desktop;
+import static com.badlogic.gdx.Application.ApplicationType.WebGL;
 import static org.gszone.jfenix13.containers.GameData.*;
 
 
@@ -375,19 +379,14 @@ public class ServerPackages {
 
 
     public void handleChangeInventorySlot() {
-        // TODO: completar
-        r.readByte();
-        r.readShort();
-        r.readString();
-        r.readShort();
-        r.readBoolean();
-        r.readShort();
-        r.readByte();
-        r.readShort();
-        r.readShort();
-        r.readShort();
-        r.readShort();
-        r.readFloat();
+        Item item = new Item();
+        r.readByte(); // TODO: innecesario.. indica el número de slot, pero se supone que los manda en orden
+
+        item.set(r.readShort(), r.readString(), r.readShort(), r.readBoolean(),
+                    r.readShort(), ObjTypes.values()[r.readByte() - 1],
+                    r.readShort(), r.readShort(), r.readShort(), r.readShort(), r.readFloat());
+
+        getGD().getInventario().add(item);
     }
 
     private void handleChangeSpellSlot() {
@@ -680,12 +679,10 @@ public class ServerPackages {
      * Carga la pantalla principal
      */
     private void handleLogged() {
-        // TODO: revisar esto para móviles...
-        /*if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL)
-            Main.getInstance().setScreen(new DtPrincipal());
+        if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL)
+            Main.getInstance().setScreen(new PrincipalView());
         else
-            Main.getInstance().setScreen(new MbPrincipal());*/
-        Main.getInstance().setScreen(new PrincipalView());
+            Main.getInstance().setScreen(new PrincipalViewM());
     }
 
     /**
