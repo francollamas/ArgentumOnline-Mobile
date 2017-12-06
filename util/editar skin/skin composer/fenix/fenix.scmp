@@ -1480,6 +1480,19 @@ atlasData: {
 			tintName: null
 			name: transparente4
 		}
+		{
+			file: D:/Documents/AO/JFenix13/util/editar skin/skin composer/fenix/fenix_data/slot-fondo.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: null
+			tintName: null
+			name: slot-fondo
+		}
 	]
 }
 jsonData: {

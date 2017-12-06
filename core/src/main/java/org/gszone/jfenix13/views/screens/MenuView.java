@@ -1,4 +1,4 @@
-package org.gszone.jfenix13.views;
+package org.gszone.jfenix13.views.screens;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

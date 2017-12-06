@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.kotcrab.vis.ui.FocusManager;
 import com.kotcrab.vis.ui.Focusable;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
@@ -17,7 +16,7 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.actors.Tab;
 import org.gszone.jfenix13.general.Config;
-import org.gszone.jfenix13.views.View;
+import org.gszone.jfenix13.views.screens.View;
 
 import static com.badlogic.gdx.Application.ApplicationType.Desktop;
 import static com.badlogic.gdx.Application.ApplicationType.WebGL;

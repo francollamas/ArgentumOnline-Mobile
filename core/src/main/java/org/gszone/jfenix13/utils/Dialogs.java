@@ -7,7 +7,7 @@ import com.kotcrab.vis.ui.FocusManager;
 import com.kotcrab.vis.ui.Focusable;
 import com.kotcrab.vis.ui.widget.VisDialog;
 import org.gszone.jfenix13.Main;
-import org.gszone.jfenix13.views.View;
+import org.gszone.jfenix13.views.screens.View;
 
 /**
  * Funcionamiento parecido al de la clase Actors.

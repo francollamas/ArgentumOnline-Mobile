@@ -26,6 +26,8 @@ public class User {
     private boolean estupido;
     private boolean ciego;
     private boolean cambiandoDir;
+    private boolean comerciando;
+    private boolean mirandoForo;
     private UserStats stats;
     private UserAtributos atributos;
 
@@ -132,6 +134,22 @@ public class User {
 
     public void setCambiandoDir(boolean cambiandoDir) {
         this.cambiandoDir = cambiandoDir;
+    }
+
+    public boolean isComerciando() {
+        return comerciando;
+    }
+
+    public void setComerciando(boolean comerciando) {
+        this.comerciando = comerciando;
+    }
+
+    public boolean isMirandoForo() {
+        return mirandoForo;
+    }
+
+    public void setMirandoForo(boolean mirandoForo) {
+        this.mirandoForo = mirandoForo;
     }
 
     public UserStats getStats() {

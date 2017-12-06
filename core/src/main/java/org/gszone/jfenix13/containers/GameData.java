@@ -19,6 +19,10 @@ import org.gszone.jfenix13.actors.World;
  */
 public class GameData {
 
+    public static final int MAX_INVENTORY_SLOTS = 30;
+    public static final int MAX_NPC_INVENTORY_SLOTS = 50; // TODO: usar
+    public static final int MAX_HECHIZOS_SLOTS = 35; // TODO: usar
+
     public static final int MUERTO_HEAD = 500;
     public static final int MUERTO_NAV_BODY = 87;
 
@@ -26,7 +30,7 @@ public class GameData {
         UseOnce, Weapon, Armadura, Arboles, Guita, Puertas, Contenedores, Carteles, Llaves, Foros, Pociones, Null1,
         Bebidas, Leña, Fogata, Escudo, Casco, Anillo, Teleport, Null2, Null3, Yacimiento, Minerales, Pergaminos,
         Null4, Instrumentos, Yunque, Fragua, Null5, Null6, Barcos, Flechas, BotellaVacia, BotellaLlena,
-        Manchas, ArbolElfico, Mochilas
+        Manchas, ArbolElfico, Mochilas, Cualquiera
     }
 
     private FontTypes fontTypes;
@@ -49,7 +53,7 @@ public class GameData {
         consola = new Consola();
 
         world = new World();
-        inventario = new Inventory(5);
+        inventario = new Inventory(MAX_INVENTORY_SLOTS, 5);
 
     }
 
@@ -100,7 +104,7 @@ public class GameData {
         currentUser = new User();
         chars = new Chars();
         consola = new Consola();
-        inventario = new Inventory(5);
+        inventario = new Inventory(MAX_INVENTORY_SLOTS, 5);
         setPausa(false);
     }
 }

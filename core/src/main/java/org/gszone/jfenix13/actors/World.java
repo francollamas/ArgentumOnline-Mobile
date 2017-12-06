@@ -133,6 +133,19 @@ public class World extends Actor {
      * Define cuál es el tile en donde está el mouse por encima
      */
     public void setMouseTile(Position pos) {
+        // TODO: elegir la opción más adecuada
+
+        // Elige el tile de forma precisa (teniendo en cuenta el offset de la pantalla)
+        /*
+        float of;
+        of = offset.getX() == 0 ? 0 : (offset.getX() / Math.abs(offset.getX())) * (getConfig().getTilePixelWidth() - Math.abs(offset.getX()));
+        mouseTile.setX((int)(this.pos.getX() + (pos.getX() + of) / getConfig().getTilePixelWidth() - getConfig().getWindowsTileWidth() / 2));
+
+        of = offset.getY() == 0 ? 0 : (offset.getY() / Math.abs(offset.getY())) * (getConfig().getTilePixelHeight() - Math.abs(offset.getY()));
+        mouseTile.setY((int)(this.pos.getY() + (getHeight() - pos.getY() + of) / getConfig().getTilePixelHeight() - getConfig().getWindowsTileHeight() / 2));
+        */
+
+        // Elige el tile como en cualquier AO...
         mouseTile.setX((int) (this.pos.getX() + pos.getX() / getConfig().getTilePixelWidth() - getConfig().getWindowsTileWidth() / 2));
         mouseTile.setY((int) (this.pos.getY() + (getHeight() - pos.getY()) / getConfig().getTilePixelHeight() - getConfig().getWindowsTileHeight() / 2));
     }
@@ -169,9 +182,11 @@ public class World extends Actor {
     public void moveChar(Direccion dir) {
         if (Main.getInstance().getGameData().isPausa()) return;
 
+        User u = Main.getInstance().getGameData().getCurrentUser();
+        if (u.isComerciando() || u.isMirandoForo()) return;
+
         Position relPos = Position.dirToPos(dir);
         Position absPos = pos.getSuma(relPos);
-        User u = Main.getInstance().getGameData().getCurrentUser();
 
         if (getMapa().isLegalPos(absPos) && !u.isParalizado() && !u.isDescansando() && !u.isMeditando()) {
                 // TODO: si está DESCANSANDO (y considerar tmb meditando), se debería forzar el movimiento!!!

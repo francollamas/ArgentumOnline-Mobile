@@ -1,4 +1,4 @@
-package org.gszone.jfenix13.views;
+package org.gszone.jfenix13.views.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.kotcrab.vis.ui.FocusManager;
 import com.kotcrab.vis.ui.widget.*;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
-import org.gszone.jfenix13.actors.Tab;
 import org.gszone.jfenix13.managers.PrincipalManager;
 
 import static org.gszone.jfenix13.utils.Actors.*;
@@ -46,7 +45,7 @@ public class PrincipalView extends View {
             Table der = newTable(first).padLeft(4).padTop(13).padBottom(13).padRight(13).expandX().getActor();
                 newTable(der).width(240).height(130).top().row();
                 Table t2 = newTable(der).width(240).height(285).getActor(); der.row();
-                    TabbedPane tabInvHech = newTabbedPane(t2, 230, 230).getActor().getTabbedPane();
+                    TabbedPane tabInvHech = newTabbedPane(t2, 230, 250).getActor().getTabbedPane();
                         Table panelInv = newTab(tabInvHech, "Inventario").getContentTable();
                             panelInv.add(getGestor().getInv());
                         Table panelHech = newTab(tabInvHech, "Hechizos").getContentTable();

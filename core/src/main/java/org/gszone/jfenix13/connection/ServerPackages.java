@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.TimeUtils;
+import org.gszone.jfenix13.views.windows.ComerciarWindow;
 import org.gszone.jfenix13.actors.Consola;
 import org.gszone.jfenix13.actors.Item;
 import org.gszone.jfenix13.containers.Assets;
@@ -24,10 +25,10 @@ import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
 import org.gszone.jfenix13.general.Messages.Message;
 import org.gszone.jfenix13.containers.FontTypes.FontTypeName;
-import org.gszone.jfenix13.views.MenuView;
-import org.gszone.jfenix13.views.PrincipalView;
-import org.gszone.jfenix13.views.PrincipalViewM;
-import org.gszone.jfenix13.views.View;
+import org.gszone.jfenix13.views.screens.MenuView;
+import org.gszone.jfenix13.views.screens.PrincipalView;
+import org.gszone.jfenix13.views.screens.PrincipalViewM;
+import org.gszone.jfenix13.views.screens.View;
 
 import static com.badlogic.gdx.Application.ApplicationType.Desktop;
 import static com.badlogic.gdx.Application.ApplicationType.WebGL;
@@ -217,6 +218,9 @@ public class ServerPackages {
                 case ChangeInventorySlot:
                     handleChangeInventorySlot();
                     break;
+                case ChangeNPCInventorySlot:
+                    handleChangeNPCInventorySlot();
+                    break;
                 case ChangeSpellSlot:
                     handleChangeSpellSlot();
                     break;
@@ -355,6 +359,12 @@ public class ServerPackages {
                 case MeditateToggle:
                     handleMeditateToggle();
                     break;
+                case CommerceInit:
+                    handleCommerceInit();
+                    break;
+                case CommerceEnd:
+                    handleCommerceEnd();
+                    break;
                 default:
                     // Si llega un paquete que no está implementado...
                     Dialogs.showOKDialog(bu("error"), "Paquete no implementado: " + id.ordinal() + " '" + id.toString() + "'.");
@@ -380,13 +390,29 @@ public class ServerPackages {
 
     public void handleChangeInventorySlot() {
         Item item = new Item();
-        r.readByte(); // TODO: innecesario.. indica el número de slot, pero se supone que los manda en orden
+        int index = r.readByte();
 
         item.set(r.readShort(), r.readString(), r.readShort(), r.readBoolean(),
-                    r.readShort(), ObjTypes.values()[r.readByte() - 1],
+                    r.readShort(), r.readByte(),
                     r.readShort(), r.readShort(), r.readShort(), r.readShort(), r.readFloat());
+        if (index == 2) item.setChecked(true);
 
-        getGD().getInventario().add(item);
+        getGD().getInventario().setSlot(index, item);
+    }
+
+    public void handleChangeNPCInventorySlot() {
+        //Item item = new Item();
+        r.readByte();
+        r.readString();
+        r.readShort();
+        r.readFloat();
+        r.readShort();
+        r.readShort();
+        r.readByte();
+        r.readShort();
+        r.readShort();
+        r.readShort();
+        r.readShort();
     }
 
     private void handleChangeSpellSlot() {
@@ -449,11 +475,11 @@ public class ServerPackages {
         int x = r.readByte();
         int y = r.readByte();
 
-        area.setX1((x / 11 - 1) * 11);
-        area.setWidth(32);
+        area.setX1((x / 9 - 1) * 9);
+        area.setWidth(26);
 
-        area.setY1((y / 11 - 1) * 11);
-        area.setHeight(32);
+        area.setY1((y / 9 - 1) * 9);
+        area.setHeight(26);
 
         for (int i = 1; i <= 100; i++) {
             for (int j = 1; j <= 100; j++) {
@@ -839,6 +865,18 @@ public class ServerPackages {
 
     private void handleMeditateToggle() {
         getGD().getCurrentUser().setMeditando(!getGD().getCurrentUser().isMeditando());
+    }
+
+    private void handleCommerceInit() {
+        // TODO: completar
+        // llenar el NPCInventory, mostrar la pantalla
+        ((View)Main.getInstance().getScreen()).getStage().addActor(new ComerciarWindow());
+        getGD().getCurrentUser().setComerciando(true);
+    }
+
+    private void handleCommerceEnd() {
+        // cerrar la pantalla y cambiar Flag comerciando
+        getGD().getCurrentUser().setComerciando(false);
     }
 
 }

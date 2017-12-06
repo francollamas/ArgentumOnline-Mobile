@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.general.DtConfig;
-import org.gszone.jfenix13.views.MenuView;
+import org.gszone.jfenix13.views.screens.MenuView;
 
 public class ConfigManager extends ViewManager {
 
@@ -22,6 +22,7 @@ public class ConfigManager extends ViewManager {
 
         // Configuraciones generales
         Config c = getConfig();
+        // TODO: aplicar las configuraciones generales, en este caso, faltan las de AUDIO.
         c.saveConfigFile();
 
         // Configuraciones EXCLUSIVAS para Escritorio

@@ -1,4 +1,4 @@
-package org.gszone.jfenix13.views;
+package org.gszone.jfenix13.views.screens;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;

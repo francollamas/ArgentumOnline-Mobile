@@ -6,6 +6,7 @@ import org.gszone.jfenix13.connection.ClientPackages;
 import org.gszone.jfenix13.connection.Connection;
 import org.gszone.jfenix13.connection.ServerPackages;
 import org.gszone.jfenix13.containers.GameData;
+import org.gszone.jfenix13.views.screens.View;
 
 public abstract class ViewManager {
 
@@ -16,7 +17,7 @@ public abstract class ViewManager {
     /**
      * Realiza actualizaciones constantemente
      *
-     * No debe ser utilizado, ya es llamado desde la clase abstracta {@link org.gszone.jfenix13.views.View}
+     * No debe ser utilizado, ya es llamado desde la clase abstracta {@link View}
      */
     public void update() {
 

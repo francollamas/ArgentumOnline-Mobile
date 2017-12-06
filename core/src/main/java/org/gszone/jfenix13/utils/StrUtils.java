@@ -59,6 +59,20 @@ public class StrUtils {
     }
 
     /**
+     * Obtiene un array con las palabras de un texto.
+     */
+    public static Array<String> getPalabras(String texto) {
+        // Crea un array de palabras separadas por " "
+        String[] s = texto.trim().split(" ");
+
+        // Crea otro a partir de este, sin contar palabras vacías (debidas a varios espacios consecutivos)
+        Array<String> arr = new Array<>();
+        for (String i : s)
+            if (!i.trim().equals("")) arr.add(i);
+        return arr;
+    }
+
+    /**
      * Determina si una cadena usa caracteres no válidos
      *
      * @return el caractér inválido, o null en caso de ser correcto.

@@ -3,7 +3,7 @@ package org.gszone.jfenix13.managers;
 import org.gszone.jfenix13.objects.UserAtributos;
 import org.gszone.jfenix13.utils.Dialogs;
 import org.gszone.jfenix13.utils.StrUtils;
-import org.gszone.jfenix13.views.MenuView;
+import org.gszone.jfenix13.views.screens.MenuView;
 
 public class CrearPjManager extends ViewManager {
 

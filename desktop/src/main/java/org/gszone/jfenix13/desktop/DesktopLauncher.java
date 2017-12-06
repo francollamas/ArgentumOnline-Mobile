@@ -71,10 +71,11 @@ public class DesktopLauncher {
         for (final String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
             cmd.append(jvmArg + " ");
         }
-        cmd.append("-cp ").append(ManagementFactory.getRuntimeMXBean().getClassPath()).append(" ");
+        cmd.append("-cp \"").append(ManagementFactory.getRuntimeMXBean().getClassPath()).append("\" ");
         cmd.append(DesktopLauncher.class.getName()).append(" ");
 
         try {
+            System.out.println(cmd.toString());
             Runtime.getRuntime().exec(cmd.toString());
         } catch (final IOException e) {
             e.printStackTrace();

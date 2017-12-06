@@ -21,9 +21,9 @@ import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.utils.Dialogs;
-import org.gszone.jfenix13.views.CargaView;
-import org.gszone.jfenix13.views.MenuView;
-import org.gszone.jfenix13.views.View;
+import org.gszone.jfenix13.views.screens.CargaView;
+import org.gszone.jfenix13.views.screens.MenuView;
+import org.gszone.jfenix13.views.screens.View;
 
 import static org.gszone.jfenix13.general.FileNames.*;
 import static com.badlogic.gdx.Application.ApplicationType.*;
@@ -145,6 +145,7 @@ public class Main extends Game {
 		screen.dispose();
 		assets.dispose();
 		connection.dispose();
+		batch.dispose();
 	}
 
 	/**

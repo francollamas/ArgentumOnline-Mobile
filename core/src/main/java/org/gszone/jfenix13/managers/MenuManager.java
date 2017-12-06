@@ -1,7 +1,7 @@
 package org.gszone.jfenix13.managers;
 
 import org.gszone.jfenix13.utils.Dialogs;
-import org.gszone.jfenix13.views.CrearPjView;
+import org.gszone.jfenix13.views.screens.CrearPjView;
 
 public class MenuManager extends ViewManager {
 

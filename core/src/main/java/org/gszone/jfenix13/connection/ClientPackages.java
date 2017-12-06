@@ -404,5 +404,53 @@ public class ClientPackages {
         w.writeByte((byte)ID.Meditate.ordinal());
     }
 
+    public void writeResucitate() {
+        w.writeByte((byte)ID.Resucitate.ordinal());
+    }
+
+    public void writeHeal() {
+        w.writeByte((byte)ID.Heal.ordinal());
+    }
+
+    public void writeHelp() {
+        w.writeByte((byte)ID.Help.ordinal());
+    }
+
+    public void writeRequestStats() {
+        w.writeByte((byte)ID.RequestStats.ordinal());
+    }
+
+    public void writeCommerceStart() {
+        w.writeByte((byte)ID.CommerceStart.ordinal());
+    }
+
+    public void writeBankStart() {
+        w.writeByte((byte)ID.BankStart.ordinal());
+    }
+
+    public void writeEnlist() {
+        w.writeByte((byte)ID.Enlist.ordinal());
+    }
+
+    public void writeInformation() {
+        w.writeByte((byte)ID.Information.ordinal());
+    }
+
+    public void writeReward() {
+        w.writeByte((byte)ID.Reward.ordinal());
+    }
+
+    public void writeUpTime() {
+        w.writeByte((byte)ID.UpTime.ordinal());
+    }
+
+    public void writeInquiry() {
+        w.writeByte((byte)ID.Inquiry.ordinal());
+    }
+
+    public void writeInquiryVote(byte opt) {
+        w.writeByte((byte)ID.InquiryVote.ordinal());
+        w.writeByte(opt);
+    }
 
 }

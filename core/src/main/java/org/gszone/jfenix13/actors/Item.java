@@ -1,6 +1,11 @@
 package org.gszone.jfenix13.actors;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.utils.Align;
+import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.containers.GameData.ObjTypes;
+import org.gszone.jfenix13.graphics.Drawer;
+import org.gszone.jfenix13.graphics.FontParameter;
 
 /**
  * Corresponde a un Item del inventario del usuario, o del banco, comerciante, etc...
@@ -19,22 +24,39 @@ public class Item extends Slot {
     private float precio;
 
     public Item() {
-        super(32, 32);
+        super();
+        setDisabled(true);
     }
 
-    public void set(int obj, String nombre, int cant, boolean equip, int grh, ObjTypes tipo,
+    public void set(int obj, String nombre, int cant, boolean equip, int grh, int tipo,
                     int maxHit, int minHit, int maxDef, int minDef, float precio) {
+        setDisabled(false);
         this.obj = obj;
         super.name = nombre;
         this.cantidad = cant;
         this.equipado = equip;
         this.grh = grh;
-        this.tipo = tipo;
+        if (tipo == 0) tipo = 1000; // si el tipo es 0 o 1000, lo cambio a tipo Cualquiera..
+        this.tipo = tipo == 1000 ? ObjTypes.Cualquiera : ObjTypes.values()[tipo - 1];
         this.maxHit = maxHit;
         this.minHit = minHit;
         this.maxDef = maxDef;
         this.minDef = minDef;
         this.precio = precio;
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        float x = getX();
+        float y = Main.getInstance().getConfig().getVirtualHeight() - getY() - getHeight();
+
+        if (cantidad == 0) return;
+        Drawer.drawGrh(batch, grh, x, y);
+
+        FontParameter fp = new FontParameter("tahoma11bold");
+        fp.setAlign(Align.left);
+        Drawer.drawText(batch, "" + cantidad, x + 1, y + 1, fp);
     }
 
     public int getObj() {
