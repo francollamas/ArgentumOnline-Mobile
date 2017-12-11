@@ -92,6 +92,13 @@ public class Consola extends VisScrollPane {
         setScrollPercentY(1f);
     }
 
+    /**
+     * Vacía la consola
+     */
+    public void clear() {
+        tabla.clear();
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);

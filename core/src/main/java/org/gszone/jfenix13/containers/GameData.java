@@ -1,10 +1,10 @@
 package org.gszone.jfenix13.containers;
 
-import org.gszone.jfenix13.actors.Consola;
-import org.gszone.jfenix13.actors.Inventory;
+import org.gszone.jfenix13.Main;
+import org.gszone.jfenix13.actors.*;
 import org.gszone.jfenix13.general.Commands;
 import org.gszone.jfenix13.objects.User;
-import org.gszone.jfenix13.actors.World;
+import org.gszone.jfenix13.views.screens.MenuView;
 
 /**
  * Clase con el estado del juego
@@ -38,23 +38,21 @@ public class GameData {
     private Commands commands;
     private Consola consola;
     private World world;
-    private Inventory inventario;
+    private Grid<Item> inventario;
     private User currentUser;
     private Chars chars;
     private boolean pausa;
 
     public GameData() {
-
+        // Objetos que viven hasta que se cierra el juego
         fontTypes = new FontTypes();
         commands = new Commands();
         colors = new Colors();
-        currentUser = new User();
-        chars = new Chars();
+        world = new World();
         consola = new Consola();
 
-        world = new World();
-        inventario = new Inventory(MAX_INVENTORY_SLOTS, 5);
-
+        // Objetos que necesitan ser reseteados al desconectar un personaje
+        resetGameData();
     }
 
     public FontTypes getFontTypes() {
@@ -73,7 +71,7 @@ public class GameData {
         return world;
     }
 
-    public Inventory getInventario() {
+    public Grid<Item> getInventario() {
         return inventario;
     }
 
@@ -97,14 +95,22 @@ public class GameData {
         this.pausa = pausa;
     }
 
+    public void disconnect() {
+        Main.getInstance().getConnection().dispose();
+        // TODO: parar lluvia ??
+        Main.getInstance().setScreen(new MenuView());
+        resetGameData();
+        Main.getInstance().getAssets().getAudio().playMusic(6);
+    }
+
     /**
      * Vuelve al estado inicial del juego
      */
     public void resetGameData() {
         currentUser = new User();
         chars = new Chars();
-        consola = new Consola();
-        inventario = new Inventory(MAX_INVENTORY_SLOTS, 5);
+        consola.clear();
+        inventario = new Grid<>(MAX_INVENTORY_SLOTS, 5);
         setPausa(false);
     }
 }

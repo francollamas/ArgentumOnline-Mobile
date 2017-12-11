@@ -1,8 +1,6 @@
 package org.gszone.jfenix13.managers;
 
-import org.gszone.jfenix13.actors.Consola;
-import org.gszone.jfenix13.actors.Inventory;
-import org.gszone.jfenix13.actors.World;
+import org.gszone.jfenix13.actors.*;
 
 public class PrincipalManager extends ViewManager {
 
@@ -22,7 +20,7 @@ public class PrincipalManager extends ViewManager {
         return getGD().getWorld();
     }
 
-    public Inventory getInv() {
+    public Grid<Item> getInv() {
         return getGD().getInventario();
     }
 

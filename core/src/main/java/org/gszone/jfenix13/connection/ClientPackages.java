@@ -453,4 +453,10 @@ public class ClientPackages {
         w.writeByte(opt);
     }
 
+    public void writeWarpToMap(int map) {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.WarpToMap.ordinal() + 1);
+        w.writeShort((short)map);
+    }
+
 }

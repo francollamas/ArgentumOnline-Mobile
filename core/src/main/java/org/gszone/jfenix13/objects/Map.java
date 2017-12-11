@@ -6,10 +6,10 @@ import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.utils.BytesReader;
+import org.gszone.jfenix13.utils.Dialogs;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
 
-import java.io.IOException;
 
 import static org.gszone.jfenix13.general.FileNames.*;
 import static org.gszone.jfenix13.containers.GameData.*;
@@ -39,6 +39,13 @@ public class Map {
      */
     private void load() {
         FileHandle fh = Gdx.files.internal(getMapDir(numero));
+        if (!fh.exists()) {
+            // Si no existe, intento desconectar el usuario y aviso...
+            Main.getInstance().getGameData().disconnect();
+            // TODO: como desconecta el socket, debería desconetar el usuario del servidor, pero hay que chequearlo
+            Dialogs.showOKDialog(Main.getInstance().getBundle().get("error"), "Falta el archivo '" + getMapDir(numero) + ".");
+            return;
+        }
         BytesReader r = new BytesReader(fh.readBytes(), true);
 
         this.nombre = r.readString();
@@ -133,6 +140,7 @@ public class Map {
                 tiles[x][y].setParticula(r.readInt());
             }
         }
+
     }
 
     public MapTile getTile(Position pos) {

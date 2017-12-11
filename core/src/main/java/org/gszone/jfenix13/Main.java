@@ -131,7 +131,7 @@ public class Main extends Game {
 		connection.getClPack().write();
 
 		// Si es Web, le avisa al socket que envíe las acciones registradas anteriormente
-		// (ya que no hay un thread en la conexión que se encargue de ésto)
+		// (para las demás plataformas no es necesario, ya que tienen un thread que se encarga de esto)
 		if (Gdx.app.getType() == WebGL)
 			connection.write();
 	}

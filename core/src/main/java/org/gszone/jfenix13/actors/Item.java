@@ -1,22 +1,25 @@
 package org.gszone.jfenix13.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 import org.gszone.jfenix13.Main;
-import org.gszone.jfenix13.containers.GameData.ObjTypes;
+import org.gszone.jfenix13.containers.GameData;
+import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.graphics.FontParameter;
 
 /**
- * Corresponde a un Item del inventario del usuario, o del banco, comerciante, etc...
+ * Representa un Item del Inventario
+ * Es un elemento que muestra su imagen, cantidad, etc.. el comportamiento de éste lo realiza su slot contenedor
  */
-public class Item extends Slot {
-
+public class Item extends SlotContent {
+    private String nombre;
     private int obj;
     private int cantidad;
     private boolean equipado;
     private int grh;
-    private ObjTypes tipo;
+    private GameData.ObjTypes tipo;
     private int maxHit;
     private int minHit;
     private int maxDef;
@@ -24,20 +27,18 @@ public class Item extends Slot {
     private float precio;
 
     public Item() {
-        super();
-        setDisabled(true);
+        setSize(32, 32);
     }
 
     public void set(int obj, String nombre, int cant, boolean equip, int grh, int tipo,
                     int maxHit, int minHit, int maxDef, int minDef, float precio) {
-        setDisabled(false);
         this.obj = obj;
-        super.name = nombre;
+        this.nombre = nombre;
         this.cantidad = cant;
         this.equipado = equip;
         this.grh = grh;
         if (tipo == 0) tipo = 1000; // si el tipo es 0 o 1000, lo cambio a tipo Cualquiera..
-        this.tipo = tipo == 1000 ? ObjTypes.Cualquiera : ObjTypes.values()[tipo - 1];
+        this.tipo = tipo == 1000 ? GameData.ObjTypes.Cualquiera : GameData.ObjTypes.values()[tipo - 1];
         this.maxHit = maxHit;
         this.minHit = minHit;
         this.maxDef = maxDef;
@@ -52,11 +53,20 @@ public class Item extends Slot {
         float y = Main.getInstance().getConfig().getVirtualHeight() - getY() - getHeight();
 
         if (cantidad == 0) return;
-        Drawer.drawGrh(batch, grh, x, y);
+        Config c = Main.getInstance().getConfig();
+        Drawer.drawGrh(batch, grh, x + getWidth() / 2 - c.getTilePixelWidth() / 2, y + getHeight() / 2 - c.getTilePixelHeight() / 2);
 
         FontParameter fp = new FontParameter("tahoma11bold");
         fp.setAlign(Align.left);
         Drawer.drawText(batch, "" + cantidad, x + 1, y + 1, fp);
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getObj() {
@@ -91,11 +101,11 @@ public class Item extends Slot {
         this.grh = grh;
     }
 
-    public ObjTypes getTipo() {
+    public GameData.ObjTypes getTipo() {
         return tipo;
     }
 
-    public void setTipo(ObjTypes tipo) {
+    public void setTipo(GameData.ObjTypes tipo) {
         this.tipo = tipo;
     }
 

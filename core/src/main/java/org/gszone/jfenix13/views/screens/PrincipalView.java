@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.kotcrab.vis.ui.FocusManager;
 import com.kotcrab.vis.ui.widget.*;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
+import org.gszone.jfenix13.actors.Grid;
+import org.gszone.jfenix13.actors.Item;
 import org.gszone.jfenix13.managers.PrincipalManager;
 
 import static org.gszone.jfenix13.utils.Actors.*;

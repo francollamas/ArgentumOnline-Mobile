@@ -6,9 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.TimeUtils;
+import org.gszone.jfenix13.actors.Item;
 import org.gszone.jfenix13.views.windows.ComerciarWindow;
 import org.gszone.jfenix13.actors.Consola;
-import org.gszone.jfenix13.actors.Item;
 import org.gszone.jfenix13.containers.Assets;
 import org.gszone.jfenix13.containers.Colors;
 import org.gszone.jfenix13.containers.FontTypes;
@@ -25,7 +25,6 @@ import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
 import org.gszone.jfenix13.general.Messages.Message;
 import org.gszone.jfenix13.containers.FontTypes.FontTypeName;
-import org.gszone.jfenix13.views.screens.MenuView;
 import org.gszone.jfenix13.views.screens.PrincipalView;
 import org.gszone.jfenix13.views.screens.PrincipalViewM;
 import org.gszone.jfenix13.views.screens.View;
@@ -395,13 +394,13 @@ public class ServerPackages {
         item.set(r.readShort(), r.readString(), r.readShort(), r.readBoolean(),
                     r.readShort(), r.readByte(),
                     r.readShort(), r.readShort(), r.readShort(), r.readShort(), r.readFloat());
-        if (index == 2) item.setChecked(true);
+        //if (index == 2) item.setChecked(true);
 
-        getGD().getInventario().setSlot(index, item);
+        getGD().getInventario().setContent(item, index);
     }
 
     public void handleChangeNPCInventorySlot() {
-        //Item item = new Item();
+        //OLDItem item = new OLDItem();
         r.readByte();
         r.readString();
         r.readShort();
@@ -795,11 +794,7 @@ public class ServerPackages {
     }
 
     private void handleDisconnect() {
-        Main.getInstance().getConnection().dispose();
-        // TODO: parar lluvia ??
-        Main.getInstance().setScreen(new MenuView());
-        getGD().resetGameData();
-        getAssets().getAudio().playMusic(6);
+        getGD().disconnect();
     }
 
     public void handleUpdateSta() {

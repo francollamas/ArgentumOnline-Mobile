@@ -4,7 +4,6 @@ import com.badlogic.gdx.utils.Array;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.actors.Consola;
 import org.gszone.jfenix13.connection.ClientPackages;
-import org.gszone.jfenix13.containers.FontTypes;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.objects.User;
 import org.gszone.jfenix13.utils.StrUtils;
@@ -36,6 +35,7 @@ public class Commands {
         Array<String> arr = StrUtils.getPalabras(texto.toUpperCase());
         String cmd = arr.removeIndex(0);
         String[] params = arr.toArray(String.class);
+        // TODO: IMPORTANTÍSIMO!! validar parámetros.. (ej, si se carga un número muy grande y se pasa a int, crashea)
 
         switch (cmd) {
             case "/ONLINE":
@@ -83,6 +83,9 @@ public class Commands {
             case "/ENCUESTA":
                 cmdInquiry(params);
                 break;
+            case "/GO":
+                cmdGo(params);
+                break;
             default:
                 getC().addMessage("Comando inexistente.", Info);
                 break;
@@ -124,6 +127,13 @@ public class Commands {
         else
             // Votar
             getClPack().writeInquiryVote(Byte.parseByte(params[0]));
+    }
+
+    private void cmdGo(String[] params) {
+        if (params.length == 1)
+            getClPack().writeWarpToMap(Integer.parseInt(params[0]));
+        else
+            getC().addMessage("Comando incorrecto. Utilice /GO {MAPA}.", Info);
     }
 
 
