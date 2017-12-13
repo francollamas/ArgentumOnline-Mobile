@@ -64,10 +64,10 @@ public class BytesWritter {
         writeByte((byte)(val? 1 : 0));
     }
 
-    public void writeShort(short val) {
+    public void writeShort(int val) {
         ByteBuffer buf = ByteBuffer.allocate(2);
         buf.order(LITTLE_ENDIAN);
-        buf.putShort(val);
+        buf.putShort((short)val);
         buf.order(BIG_ENDIAN);
         add(buf.array());
     }
@@ -105,10 +105,10 @@ public class BytesWritter {
         if (length == -1 || (length > texto.length()))
             length = texto.length();
 
-        // Si la longitud es 0 no grabamos nada.
-        if (length == 0) return;
-
         writeShort((short) length);
+
+        // Si la longitud es 0 no agregamos nada.
+        if (length == 0) return;
         add(texto.substring(0, length).getBytes());
     }
 

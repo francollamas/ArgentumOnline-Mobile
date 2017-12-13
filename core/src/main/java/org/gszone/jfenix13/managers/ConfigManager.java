@@ -25,8 +25,7 @@ public class ConfigManager extends ViewManager {
         // TODO: aplicar las configuraciones generales, en este caso, faltan las de AUDIO.
         c.saveConfigFile();
 
-        // Configuraciones EXCLUSIVAS para Escritorio
-        // GWTIncompatible (comentar el if entero para que compile en GWT)
+        // OnlyDesktop
         if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
             // Guarda los valores actuales para luego verificar si se hizo un cambio en al menos una característica
             boolean oldVSync = DtConfig.vSync;

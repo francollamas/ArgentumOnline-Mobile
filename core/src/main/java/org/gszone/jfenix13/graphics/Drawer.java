@@ -27,9 +27,6 @@ import static com.badlogic.gdx.graphics.GL20.GL_SRC_ALPHA;
  * defColor: color del mundo por defecto
  */
 public final class Drawer {
-    public enum Alignment {LEFT, CENTER, RIGHT}
-
-
     public static Stack<Rectangle> containerRect;
     private static DrawParameter dp;
     private static FontParameter fp;

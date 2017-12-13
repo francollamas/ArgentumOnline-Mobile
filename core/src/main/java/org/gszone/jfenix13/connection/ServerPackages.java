@@ -396,7 +396,7 @@ public class ServerPackages {
                     r.readShort(), r.readShort(), r.readShort(), r.readShort(), r.readFloat());
         //if (index == 2) item.setChecked(true);
 
-        getGD().getInventario().setContent(item, index);
+        getGD().getInventario().setSlot(item, index);
     }
 
     public void handleChangeNPCInventorySlot() {
@@ -790,7 +790,7 @@ public class ServerPackages {
         int index = r.readShort();
 
         // TODO: llamar a RemoveDialog(index)
-        // esto es realmente necesario? (fijarme).. ya que si se cambia el char, el dialogo se pierde...
+        // esto es realmente necesario? (fijarme).. ya que como el diálogo es un atributo del char, si borro el char se pierde el diálogo
     }
 
     private void handleDisconnect() {

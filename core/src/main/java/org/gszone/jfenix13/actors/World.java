@@ -80,6 +80,8 @@ public class World extends Actor {
                 if (getTapCount() >= 2) setTapCount(0);
             }
 
+
+
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 controller.setLastMousePos(x, y);

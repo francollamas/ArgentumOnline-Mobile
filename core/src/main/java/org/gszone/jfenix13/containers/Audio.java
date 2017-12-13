@@ -39,7 +39,10 @@ public class Audio {
      * Reproduce un sonido y devuelve su ID.
      */
     public long playSound(String name, boolean loop) {
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal(getSoundDir(name)));
+        FileHandle fh = Gdx.files.internal(getSoundDir(name));
+        if (!fh.exists()) return -1;
+
+        Sound sound = Gdx.audio.newSound(fh);
         if (loop) return sound.loop(soundVolume);
         return sound.play(soundVolume);
     }

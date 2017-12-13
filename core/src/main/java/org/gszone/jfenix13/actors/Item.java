@@ -1,24 +1,26 @@
 package org.gszone.jfenix13.actors;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
+import com.sun.java.swing.plaf.motif.MotifTreeUI;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.graphics.FontParameter;
 
+import static org.gszone.jfenix13.containers.GameData.ObjTypes.*;
+
 /**
  * Representa un Item del Inventario
- * Es un elemento que muestra su imagen, cantidad, etc.. el comportamiento de éste lo realiza su slot contenedor
+ * Es un slot pero con más características (defensa, golpe, equipado, precio, tipo...)
  */
-public class Item extends SlotContent {
-    private String nombre;
+public class Item extends Slot {
+    private static final Color COL_EQUIPADO = new Color(1, 1, 0, 0.1f);
+
     private int obj;
-    private int cantidad;
     private boolean equipado;
-    private int grh;
     private GameData.ObjTypes tipo;
     private int maxHit;
     private int minHit;
@@ -27,16 +29,17 @@ public class Item extends SlotContent {
     private float precio;
 
     public Item() {
-        setSize(32, 32);
+        Config c = Main.getInstance().getConfig();
+        setGrhSize(c.getTilePixelWidth(), c.getTilePixelHeight());
     }
 
     public void set(int obj, String nombre, int cant, boolean equip, int grh, int tipo,
                     int maxHit, int minHit, int maxDef, int minDef, float precio) {
         this.obj = obj;
-        this.nombre = nombre;
-        this.cantidad = cant;
-        this.equipado = equip;
-        this.grh = grh;
+        setNombre(nombre);
+        setCantidad(cant);
+        setEquipado(equip);
+        setGrh(grh);
         if (tipo == 0) tipo = 1000; // si el tipo es 0 o 1000, lo cambio a tipo Cualquiera..
         this.tipo = tipo == 1000 ? GameData.ObjTypes.Cualquiera : GameData.ObjTypes.values()[tipo - 1];
         this.maxHit = maxHit;
@@ -52,21 +55,42 @@ public class Item extends SlotContent {
         float x = getX();
         float y = Main.getInstance().getConfig().getVirtualHeight() - getY() - getHeight();
 
-        if (cantidad == 0) return;
-        Config c = Main.getInstance().getConfig();
-        Drawer.drawGrh(batch, grh, x + getWidth() / 2 - c.getTilePixelWidth() / 2, y + getHeight() / 2 - c.getTilePixelHeight() / 2);
+        if (getCantidad() == 0 || !isVisible()) return;
 
         FontParameter fp = new FontParameter("tahoma11bold");
         fp.setAlign(Align.left);
-        Drawer.drawText(batch, "" + cantidad, x + 1, y + 1, fp);
+        Drawer.drawText(batch, "" + getCantidad(), x + 1, y + 1, fp);
     }
 
-    public String getNombre() {
-        return nombre;
+    @Override
+    public void exchangeWith(Slot s) {
+        // Obtengo los índices de ambos slots.
+        Integer[] arr = getGrid().getIndexs(this, s);
+
+        // Solicito intercambiarlos...
+        if (arr != null) {
+            Main.getInstance().getConnection().getClPack().writeMoveItem(arr[0], arr[1]);
+        }
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    @Override
+    protected void onDblClick() {
+        // TODO: verificar que REALMENTE estén TODOS los objetos equipables, y que no haya ninguno de otro tipo
+        if (tipo == Armadura || tipo == Casco || tipo == Escudo || tipo == Weapon
+                || tipo == Anillo || tipo == Instrumentos || tipo == Mochilas)
+            equipItem();
+        else
+            usarItem();
+    }
+
+    private void usarItem() {
+        // TODO: muchas comprobaciones (intervalos, etc, etc).
+        Main.getInstance().getConnection().getClPack().writeUseItem(getGrid().indexOf(this));
+    }
+
+    private void equipItem() {
+        // TODO: muchas comprobaciones (intervalos, etc, etc).
+        Main.getInstance().getConnection().getClPack().writeEquipItem(getGrid().indexOf(this));
     }
 
     public int getObj() {
@@ -77,28 +101,17 @@ public class Item extends SlotContent {
         this.obj = obj;
     }
 
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
     public boolean isEquipado() {
         return equipado;
     }
 
     public void setEquipado(boolean equipado) {
         this.equipado = equipado;
-    }
 
-    public int getGrh() {
-        return grh;
-    }
-
-    public void setGrh(int grh) {
-        this.grh = grh;
+        if (equipado)
+            setColBackground(COL_EQUIPADO);
+        else
+            removeColBackground();
     }
 
     public GameData.ObjTypes getTipo() {

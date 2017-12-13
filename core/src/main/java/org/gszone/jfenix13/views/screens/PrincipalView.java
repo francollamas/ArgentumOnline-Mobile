@@ -45,13 +45,13 @@ public class PrincipalView extends View {
                 newTable(izq).colspan(2).prefHeight(40);
 
             Table der = newTable(first).padLeft(4).padTop(13).padBottom(13).padRight(13).expandX().getActor();
-                newTable(der).width(240).height(130).top().row();
-                Table t2 = newTable(der).width(240).height(285).getActor(); der.row();
-                    TabbedPane tabInvHech = newTabbedPane(t2, 230, 250).getActor().getTabbedPane();
+                newTable(der).width(240).height(120).top().row();
+                Table t2 = newTable(der).width(240).height(315).getActor(); der.row();
+                    TabbedPane tabInvHech = newTabbedPane(t2, 230, 280).getActor().getTabbedPane();
                         Table panelInv = newTab(tabInvHech, "Inventario").getContentTable();
                             panelInv.add(getGestor().getInv());
                         Table panelHech = newTab(tabInvHech, "Hechizos").getContentTable();
-                newTable(der).width(240).height(285).row();
+                newTable(der).width(240).height(265).row();
 
 
         // Eventos generales de la pantalla

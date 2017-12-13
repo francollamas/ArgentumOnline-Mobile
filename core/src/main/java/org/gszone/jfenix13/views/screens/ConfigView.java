@@ -46,8 +46,6 @@ public class ConfigView extends View {
     public void show() {
         super.show();
 
-        //stage.setDebugAll(true);
-
         VisWindow w = newWindow(bu("cf.title"), null, false, false);
         TabbedPane panel = newTabbedPane(w, 400, 400).getActor().getTabbedPane(); w.row();
 
@@ -124,8 +122,7 @@ public class ConfigView extends View {
 
         // Actualizo el panel de Video con la configuración actual
 
-        // Configuraciones EXCLUSIVAS para Escritorio
-        // GWTIncompatible (comentar el if entero para que compile en GWT)
+        // OnlyDesktop
         if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
 
 

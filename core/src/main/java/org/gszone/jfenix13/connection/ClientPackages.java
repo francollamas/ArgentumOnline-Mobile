@@ -2,6 +2,7 @@ package org.gszone.jfenix13.connection;
 
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.TimeUtils;
+import org.gszone.jfenix13.general.Commands.EditOptions;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.utils.BytesWritter;
 import org.gszone.jfenix13.utils.Position;
@@ -110,6 +111,7 @@ public class ClientPackages {
         GuildFoundate,
         GuildConfirmFoundation,
         GuildRequest,
+        MoveItem
     }
 
     /* Las ID de los comandos de GM empiezan en 0, pero deberían empezar en 1!!
@@ -304,36 +306,36 @@ public class ClientPackages {
      * Petición para conectarse
      */
     public void writeLoginExistingChar(String name, String password) {
-        w.writeByte((byte)ID.LoginExistingChar.ordinal());
+        w.writeByte(ID.LoginExistingChar.ordinal());
         w.writeString(name);
         w.writeString(password);
-        w.writeByte((byte) 0);
-        w.writeByte((byte) 13);
-        w.writeByte((byte) 0);
+        w.writeByte(0);
+        w.writeByte(13);
+        w.writeByte(0);
     }
 
     public void writeThrowDices() {
-        w.writeByte((byte)ID.ThrowDices.ordinal());
+        w.writeByte(ID.ThrowDices.ordinal());
     }
 
     public void writeLoginNewChar(String name, String password, String mail, int raza, int sexo, int ciudad) {
-        w.writeByte((byte)ID.LoginNewChar.ordinal());
+        w.writeByte(ID.LoginNewChar.ordinal());
         w.writeString(name);
         w.writeString(password);
-        w.writeByte((byte) 0);
-        w.writeByte((byte) 13);
-        w.writeByte((byte) 0);
-        w.writeByte((byte) raza);
-        w.writeByte((byte) sexo);
-        w.writeShort((byte) 5); //TODO: cabeza hardcodeada, no se deberia mandar esto, tiene que hacerse random desde el sv.
+        w.writeByte(0);
+        w.writeByte(13);
+        w.writeByte(0);
+        w.writeByte(raza);
+        w.writeByte(sexo);
+        w.writeShort(5); //TODO: cabeza hardcodeada, no se deberia mandar esto, tiene que hacerse random desde el sv.
         w.writeString(mail);
-        w.writeByte((byte) ciudad);
+        w.writeByte(ciudad);
 
         for (int i = 0; i < 22; i++) {
             if (i == 0)
-                w.writeByte((byte) 10);
+                w.writeByte(10);
             else
-                w.writeByte((byte) 0);
+                w.writeByte(0);
         }
     }
 
@@ -341,122 +343,180 @@ public class ClientPackages {
      * Caminar hacia una dirección
      */
     public void writeWalk(Config.Direccion dir) {
-        w.writeByte((byte)ID.Walk.ordinal());
-        w.writeByte((byte)(dir.ordinal() + 1));
+        w.writeByte(ID.Walk.ordinal());
+        w.writeByte((dir.ordinal() + 1));
     }
 
     public void writePing() {
         if (getPingTime() != 0) return;
         setPingTime(TimeUtils.millis());
-        w.writeByte((byte)ID.Ping.ordinal());
+        w.writeByte(ID.Ping.ordinal());
     }
 
     /**
      * Cambio de dirección sin cambiar de tile
      */
     public void writeChangeHeading(Config.Direccion dir) {
-        w.writeByte((byte)ID.ChangeHeading.ordinal());
-        w.writeByte((byte)(dir.ordinal() + 1));
+        w.writeByte(ID.ChangeHeading.ordinal());
+        w.writeByte(dir.ordinal() + 1);
     }
 
     /**
      * Petición de posición (para corregirla)
      */
     public void writeRequestPositionUpdate() {
-        w.writeByte((byte)ID.RequestPositionUpdate.ordinal());
+        w.writeByte(ID.RequestPositionUpdate.ordinal());
     }
 
     public void writeWarpChar(String name, int map, Position pos) {
-        w.writeByte((byte)ID.GMCommands.ordinal());
-        w.writeByte((byte)GmID.WarpChar.ordinal() + 1);
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.WarpChar.ordinal() + 1);
         w.writeString(name);
-        w.writeShort((short) map);
+        w.writeShort(map);
         w.writeByte((byte) pos.getX());
         w.writeByte((byte) pos.getY());
     }
 
     public void writeLeftClick(Position pos) {
-        w.writeByte((byte)ID.LeftClick.ordinal());
+        w.writeByte(ID.LeftClick.ordinal());
         w.writeByte((byte) pos.getX());
         w.writeByte((byte) pos.getY());
     }
 
     public void writeDoubleClick(Position pos) {
-        w.writeByte((byte)ID.DoubleClick.ordinal());
+        w.writeByte(ID.DoubleClick.ordinal());
         w.writeByte((byte) pos.getX());
         w.writeByte((byte) pos.getY());
     }
 
     public void writeOnline() {
-        w.writeByte((byte)ID.Online.ordinal());
+        w.writeByte(ID.Online.ordinal());
     }
 
     public void writeQuit() {
-        w.writeByte((byte)ID.Quit.ordinal());
+        w.writeByte(ID.Quit.ordinal());
     }
 
     public void writeTalk(String texto) {
-        w.writeByte((byte)ID.Talk.ordinal());
+        w.writeByte(ID.Talk.ordinal());
         w.writeString(texto);
     }
 
     public void writeMeditate() {
-        w.writeByte((byte)ID.Meditate.ordinal());
+        w.writeByte(ID.Meditate.ordinal());
     }
 
     public void writeResucitate() {
-        w.writeByte((byte)ID.Resucitate.ordinal());
+        w.writeByte(ID.Resucitate.ordinal());
     }
 
     public void writeHeal() {
-        w.writeByte((byte)ID.Heal.ordinal());
+        w.writeByte(ID.Heal.ordinal());
     }
 
     public void writeHelp() {
-        w.writeByte((byte)ID.Help.ordinal());
+        w.writeByte(ID.Help.ordinal());
     }
 
     public void writeRequestStats() {
-        w.writeByte((byte)ID.RequestStats.ordinal());
+        w.writeByte(ID.RequestStats.ordinal());
     }
 
     public void writeCommerceStart() {
-        w.writeByte((byte)ID.CommerceStart.ordinal());
+        w.writeByte(ID.CommerceStart.ordinal());
     }
 
     public void writeBankStart() {
-        w.writeByte((byte)ID.BankStart.ordinal());
+        w.writeByte(ID.BankStart.ordinal());
     }
 
     public void writeEnlist() {
-        w.writeByte((byte)ID.Enlist.ordinal());
+        w.writeByte(ID.Enlist.ordinal());
     }
 
     public void writeInformation() {
-        w.writeByte((byte)ID.Information.ordinal());
+        w.writeByte(ID.Information.ordinal());
     }
 
     public void writeReward() {
-        w.writeByte((byte)ID.Reward.ordinal());
+        w.writeByte(ID.Reward.ordinal());
     }
 
     public void writeUpTime() {
-        w.writeByte((byte)ID.UpTime.ordinal());
+        w.writeByte(ID.UpTime.ordinal());
     }
 
     public void writeInquiry() {
-        w.writeByte((byte)ID.Inquiry.ordinal());
+        w.writeByte(ID.Inquiry.ordinal());
     }
 
     public void writeInquiryVote(byte opt) {
-        w.writeByte((byte)ID.InquiryVote.ordinal());
+        w.writeByte(ID.InquiryVote.ordinal());
         w.writeByte(opt);
     }
 
     public void writeWarpToMap(int map) {
         w.writeByte(ID.GMCommands.ordinal());
         w.writeByte(GmID.WarpToMap.ordinal() + 1);
-        w.writeShort((short)map);
+        w.writeShort(map);
+    }
+
+    public void writeMoveItem(int slot1, int slot2) {
+        w.writeByte(ID.MoveItem.ordinal());
+        w.writeByte(slot1);
+        w.writeByte(slot2);
+        w.writeByte(1); // TODO: tipo (inventario, banco, etc...) no se maneja todavía en el servidor...
+    }
+
+    public void writeUseItem(int index) {
+        w.writeByte(ID.UseItem.ordinal());
+        w.writeByte(index);
+    }
+
+    public void writeEquipItem(int index) {
+        w.writeByte(ID.EquipItem.ordinal());
+        w.writeByte(index);
+    }
+
+    public void writeTeleportCreate(int map, int x, int y, int radio) {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.TeleportCreate.ordinal() + 1);
+        w.writeShort(map);
+        w.writeByte(x);
+        w.writeByte(y);
+        w.writeByte(radio);
+    }
+
+    public void writeTeleportDestroy() {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.TeleportDestroy.ordinal() + 1);
+    }
+
+    public void writeEditChar(String nombre, EditOptions caract, String arg1, String arg2) {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.EditChar.ordinal() + 1);
+        w.writeString(nombre);
+        w.writeByte(caract.ordinal() + 1);
+        w.writeString(arg1);
+        w.writeString(arg2);
+    }
+
+    public void writeSummonChar(String nombre) {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.SummonChar.ordinal() + 1);
+        w.writeString(nombre);
+    }
+
+    public void writeGoToChar(String nombre) {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.GoToChar.ordinal() + 1);
+        w.writeString(nombre);
+    }
+
+    public void writeServerMessage(String nombre) {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.ServerMessage.ordinal() + 1);
+        w.writeString(nombre);
     }
 
 }
