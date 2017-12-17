@@ -17,7 +17,7 @@ public class SlotTarget extends Target {
             return false;
         }
         else
-            getActor().setColor(0.5f, 1, 0.5f, 1);
+            getActor().setColor(0.7f, 1, 0.7f, 1);
         return true;
     }
 

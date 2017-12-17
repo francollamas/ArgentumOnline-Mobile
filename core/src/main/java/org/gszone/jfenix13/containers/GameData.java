@@ -18,8 +18,6 @@ import org.gszone.jfenix13.views.screens.MenuView;
  * chars: manejador de todos los chars que el cliente recibe
  */
 public class GameData {
-
-    public static final int MAX_INVENTORY_SLOTS = 30;
     public static final int MAX_NPC_INVENTORY_SLOTS = 50; // TODO: usar
     public static final int MAX_HECHIZOS_SLOTS = 35; // TODO: usar
 
@@ -38,7 +36,7 @@ public class GameData {
     private Commands commands;
     private Consola consola;
     private World world;
-    private Grid<Item> inventario;
+    private UserInventory inventario;
     private User currentUser;
     private Chars chars;
     private boolean pausa;
@@ -71,7 +69,7 @@ public class GameData {
         return world;
     }
 
-    public Grid<Item> getInventario() {
+    public UserInventory getInventario() {
         return inventario;
     }
 
@@ -110,7 +108,7 @@ public class GameData {
         currentUser = new User();
         chars = new Chars();
         consola.clear();
-        inventario = new Grid<>(MAX_INVENTORY_SLOTS, 5);
+        inventario = new UserInventory();
         setPausa(false);
     }
 }

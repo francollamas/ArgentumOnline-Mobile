@@ -3,14 +3,11 @@ package org.gszone.jfenix13.actors;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Align;
-import com.sun.java.swing.plaf.motif.MotifTreeUI;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.graphics.FontParameter;
-
-import static org.gszone.jfenix13.containers.GameData.ObjTypes.*;
 
 /**
  * Representa un Item del Inventario
@@ -29,6 +26,7 @@ public class Item extends Slot {
     private float precio;
 
     public Item() {
+        super();
         Config c = Main.getInstance().getConfig();
         setGrhSize(c.getTilePixelWidth(), c.getTilePixelHeight());
     }
@@ -60,37 +58,6 @@ public class Item extends Slot {
         FontParameter fp = new FontParameter("tahoma11bold");
         fp.setAlign(Align.left);
         Drawer.drawText(batch, "" + getCantidad(), x + 1, y + 1, fp);
-    }
-
-    @Override
-    public void exchangeWith(Slot s) {
-        // Obtengo los índices de ambos slots.
-        Integer[] arr = getGrid().getIndexs(this, s);
-
-        // Solicito intercambiarlos...
-        if (arr != null) {
-            Main.getInstance().getConnection().getClPack().writeMoveItem(arr[0], arr[1]);
-        }
-    }
-
-    @Override
-    protected void onDblClick() {
-        // TODO: verificar que REALMENTE estén TODOS los objetos equipables, y que no haya ninguno de otro tipo
-        if (tipo == Armadura || tipo == Casco || tipo == Escudo || tipo == Weapon
-                || tipo == Anillo || tipo == Instrumentos || tipo == Mochilas)
-            equipItem();
-        else
-            usarItem();
-    }
-
-    private void usarItem() {
-        // TODO: muchas comprobaciones (intervalos, etc, etc).
-        Main.getInstance().getConnection().getClPack().writeUseItem(getGrid().indexOf(this));
-    }
-
-    private void equipItem() {
-        // TODO: muchas comprobaciones (intervalos, etc, etc).
-        Main.getInstance().getConnection().getClPack().writeEquipItem(getGrid().indexOf(this));
     }
 
     public int getObj() {

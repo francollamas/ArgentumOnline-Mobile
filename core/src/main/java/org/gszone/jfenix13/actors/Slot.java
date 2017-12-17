@@ -13,6 +13,14 @@ import org.gszone.jfenix13.graphics.Drawer;
 
 /**
  * Slot (es un elemento de la Grilla)
+ *
+ * Estáticos:
+ * -- colores
+ * -- background (imagen de fondo del slot) y border (imagen cuadrada que rodea al slot)
+ *
+ * backgroundColor: color de fondo del Slot.
+ * nombre: nombre del slot
+ * TODO: completar
  */
 public class Slot extends Actor {
     private static final Color COL_BACKGROUND = new Color(0, 0, 0, 0.4f);
@@ -36,14 +44,20 @@ public class Slot extends Actor {
     private Grid grid;
 
     public Slot() {
+        this(null);
+    }
+
+    public Slot(Grid grid) {
         this(false);
         backgroundColor = COL_BACKGROUND;
         visible = true;
+        this.grid = grid;
     }
 
     public Slot(boolean big) {
 
         if (!big) {
+            // Normales
             if (background == null || border == null) {
                 background = VisUI.getSkin().getDrawable("slot38x38");
                 border = VisUI.getSkin().getDrawable("slot-border38x38");
@@ -52,6 +66,7 @@ public class Slot extends Actor {
         }
 
         else {
+            // Grandes
             // TODO: cargar drawables y configurar tamaño para slots más grandes.
         }
 
@@ -59,14 +74,21 @@ public class Slot extends Actor {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                if (getCantidad() == 0 || grid == null || isDisabled() || button != 0) return;
+                if (getCantidad() == 0 || grid == null || isDisabled()) return;
 
-                if (getTapCount() == 1) {
-                    if (!isChecked())
-                        getGrid().setSelected(Slot.this);
-                    onClick();
+                if (button == 0) {
+                    if (getTapCount() == 1) {
+                        if (!isChecked())
+                            getGrid().setSelected(Slot.this);
+                        getGrid().onClick(Slot.this);
+                    } else if (getTapCount() == 2) getGrid().onDblClick(Slot.this);
                 }
-                else if (getTapCount() == 2) onDblClick();
+                else if (button == 1) {
+                    if (getTapCount() == 1)
+                        getGrid().onRightClick(Slot.this);
+                    else if (getTapCount() == 2)
+                        getGrid().onRightDblClick(Slot.this);
+                }
 
                 if (getTapCount() >= 2) setTapCount(0);
             }
@@ -86,6 +108,7 @@ public class Slot extends Actor {
         background.draw(batch, getX(), getY(), getWidth(), getHeight());
         batch.setColor(c);
 
+        // Si está vacío o invisible no mostramos nada
         if (getCantidad() == 0 || !isVisible()) return;
 
         // Dibujamos el checked
@@ -98,13 +121,6 @@ public class Slot extends Actor {
         DrawParameter dp = new DrawParameter();
         dp.setColor(getColor());
         Drawer.drawGrh(batch, getGrh(), x + getWidth() / 2 - getGrhWidth() / 2, y + getHeight() / 2 - getGrhHeight() / 2, dp);
-    }
-
-    /**
-     * Intercambia dos Slots...
-     */
-    public void exchangeWith(Slot s) {
-
     }
 
     public String getNombre() {
@@ -204,19 +220,5 @@ public class Slot extends Actor {
             setColBackground(COL_DISABLED);
         else
             removeColBackground();
-    }
-
-    /**
-     * Acciones al hacer click sobre el slot
-     */
-    protected void onClick() {
-
-    }
-
-    /**
-     * Acciones al hacer doble click sobre el slot
-     */
-    protected void onDblClick() {
-
     }
 }

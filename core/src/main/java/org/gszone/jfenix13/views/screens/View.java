@@ -1,6 +1,5 @@
 package org.gszone.jfenix13.views.screens;
 
-
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -12,12 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Array;
 import org.gszone.jfenix13.Main;
-import org.gszone.jfenix13.connection.ClientPackages;
-import org.gszone.jfenix13.connection.Connection;
-import org.gszone.jfenix13.connection.ServerPackages;
-import org.gszone.jfenix13.containers.Assets;
-import org.gszone.jfenix13.containers.Audio;
-import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.managers.ViewManager;
 
 import static com.badlogic.gdx.Application.ApplicationType.*;
@@ -44,8 +37,8 @@ public abstract class View implements Screen {
         this.gestor = gestor;
     }
 
-    protected Drawable getBackground(String name) {
-        return getBackground(name, true);
+    protected Drawable getDrawable(String name) {
+        return getDrawable(name, true);
     }
 
     /**
@@ -55,7 +48,7 @@ public abstract class View implements Screen {
      * @param borders indica si tiene bordes (generalmente para poder redimensionar, mover, etc.)
      * @return ninepatchDrawable con el fondo
      */
-    protected Drawable getBackground(String name, boolean borders) {
+    protected Drawable getDrawable(String name, boolean borders) {
 
         name = "scr_" + name;
         Application.ApplicationType t = Gdx.app.getType();

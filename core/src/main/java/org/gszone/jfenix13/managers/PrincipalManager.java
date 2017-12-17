@@ -20,7 +20,7 @@ public class PrincipalManager extends ViewManager {
         return getGD().getWorld();
     }
 
-    public Grid<Item> getInv() {
+    public UserInventory getInv() {
         return getGD().getInventario();
     }
 
