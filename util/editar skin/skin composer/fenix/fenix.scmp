@@ -731,19 +731,6 @@ atlasData: {
 			name: menu-button
 		}
 		{
-			file: D:/Documents/AO/JFenix13/util/editar skin/skin composer/fenix/fenix_data/textfield-pressed.9.png
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			visible: true
-			tint: null
-			tintName: red
-			name: test
-		}
-		{
 			file: D:/Documents/AO/JFenix13/util/editar skin/skin composer/fenix/fenix_data/icon-right.png
 			bgColor: {
 				r: 0
@@ -1505,6 +1492,32 @@ atlasData: {
 			tint: null
 			tintName: null
 			name: slot-border38x38
+		}
+		{
+			file: D:/Documents/AO/JFenix13/util/editar skin/skin composer/fenix/fenix_data/hit-icon.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: null
+			tintName: null
+			name: hit-icon
+		}
+		{
+			file: D:/Documents/AO/JFenix13/util/editar skin/skin composer/fenix/fenix_data/def-icon.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: null
+			tintName: null
+			name: def-icon
 		}
 	]
 }
@@ -7153,7 +7166,7 @@ jsonData: {
 						{
 							name: background
 							type: DRAWABLE
-							value: list
+							value: textfield-pressed
 						}
 					]
 					deletable: false

@@ -2,12 +2,22 @@ package org.gszone.jfenix13.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.Tooltip;
+import com.kotcrab.vis.ui.widget.VisImage;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.graphics.Drawer;
 import org.gszone.jfenix13.graphics.FontParameter;
+import org.gszone.jfenix13.utils.Actors;
+
+import static org.gszone.jfenix13.containers.GameData.ObjTypes.*;
 
 /**
  * Representa un Item del Inventario
@@ -45,6 +55,39 @@ public class Item extends Slot {
         this.maxDef = maxDef;
         this.minDef = minDef;
         this.precio = precio;
+
+        if (getCantidad() > 0) {
+            // Título del tooltip
+            VisLabel title = new VisLabel(nombre);
+            title.setAlignment(Align.center);
+            title.setStyle(VisUI.getSkin().get("smallgradient", Label.LabelStyle.class));
+
+            // Tooltip
+            Tooltip tt = new Tooltip.Builder(title).target(this).build();
+            tt.debug();
+            setTooltip(tt);
+            tt.getCell(tt.getContent()).spaceBottom(0);
+            tt.row();
+            tt.defaults().spaceBottom(0);
+
+            if (this.tipo == Armadura || this.tipo == Casco || this.tipo == Escudo) {
+                tt.add(new VisImage("def-icon"));
+                Actors.newLabel(tt, getMinDef() + " / " + getMaxDef(), Color.WHITE, "smallgradient");
+                /*VisTable t = new VisTable(true);
+                t.add(new VisImage("def-icon"));
+                Actors.newLabel(t, getMinDef() + " / " + getMaxDef(), Color.WHITE, "smallgradient");
+                tt.add(t);*/
+            }
+            else if (this.tipo == Weapon) {
+                VisTable t = new VisTable(true);
+                t.add(new VisImage("hit-icon"));
+                Actors.newLabel(t, getMinHit() + " / " + getMaxHit(), Color.WHITE, "smallgradient");
+                tt.add(t);
+            }
+            tt.pack();
+
+            tt.setTouchable(Touchable.disabled);
+        }
     }
 
     @Override
@@ -74,11 +117,7 @@ public class Item extends Slot {
 
     public void setEquipado(boolean equipado) {
         this.equipado = equipado;
-
-        if (equipado)
-            setColBackground(COL_EQUIPADO);
-        else
-            removeColBackground();
+        setColBackground(equipado ? COL_EQUIPADO : null);
     }
 
     public GameData.ObjTypes getTipo() {

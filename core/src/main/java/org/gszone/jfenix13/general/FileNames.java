@@ -4,7 +4,6 @@ package org.gszone.jfenix13.general;
  * Clase que permite obtener la dirección de cada fichero del juego.
  */
 public class FileNames {
-    public static final String DIR_VIEWS = "views";
     public static final String DIR_GUI = "gui";
     public static final String DIR_TEXTURAS = "textures";
     public static final String DIR_INITS = "inits";
@@ -61,12 +60,8 @@ public class FileNames {
         return DIR_INITS + "/shields.ind";
     }
 
-    public static String getDtGuiDir(String name) {
-        return DIR_GUI + "/desktop/" + name + ".png";
-    }
-
-    public static String getMbGuiDir(String name) {
-        return DIR_GUI + "/mobile/" + name + ".png";
+    public static String getGuiDir(String name) {
+        return DIR_GUI + "/" + name + ".png";
     }
 
     public static String getMusicDir(int num) {

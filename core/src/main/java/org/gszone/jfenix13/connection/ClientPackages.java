@@ -426,6 +426,10 @@ public class ClientPackages {
         w.writeByte(ID.CommerceStart.ordinal());
     }
 
+    public void writeCommerceEnd() {
+        w.writeByte(ID.CommerceEnd.ordinal());
+    }
+
     public void writeBankStart() {
         w.writeByte(ID.BankStart.ordinal());
     }

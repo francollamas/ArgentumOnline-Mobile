@@ -1,6 +1,5 @@
 package org.gszone.jfenix13.views.screens;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,9 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.managers.ViewManager;
 
-import static com.badlogic.gdx.Application.ApplicationType.*;
-import static org.gszone.jfenix13.general.FileNames.getDtGuiDir;
-import static org.gszone.jfenix13.general.FileNames.getMbGuiDir;
+import static org.gszone.jfenix13.general.FileNames.getGuiDir;
 
 /**
  * Clase general para una Vista
@@ -42,17 +39,14 @@ public abstract class View implements Screen {
     }
 
     /**
-     * Devuelve un fondo
+     * Devuelve una textura contenida en el directorio de la GUI
      *
-     * @param name nombre de la imagen (sin el "src_")
+     * @param name nombre de la imagen
      * @param borders indica si tiene bordes (generalmente para poder redimensionar, mover, etc.)
      * @return ninepatchDrawable con el fondo
      */
     protected Drawable getDrawable(String name, boolean borders) {
-
-        name = "scr_" + name;
-        Application.ApplicationType t = Gdx.app.getType();
-        Texture tex = new Texture(t == Desktop || t == WebGL ? getDtGuiDir(name) : getMbGuiDir(name));
+        Texture tex = new Texture(getGuiDir(name));
         texs.add(tex);
 
         /* Toma una imagen y la convierte en NinePatch, para poder definirle bordes y así permitir mover ventanas
@@ -70,7 +64,7 @@ public abstract class View implements Screen {
 
     @Override
     public void render(float delta) {
-        // Actualia al getGestor
+        // Actualiza al gestor
         gestor.update();
 
         // Realiza las acciones pendientes de todos los actores agregados al escenario.
@@ -108,6 +102,8 @@ public abstract class View implements Screen {
     @Override
     public void dispose() {
         Gdx.input.setInputProcessor(null);
+
+        // Borra de la memoria las texturas utilizadas
         for (Texture tex : texs)
             tex.dispose();
     }

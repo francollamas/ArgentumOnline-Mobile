@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.Tooltip;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.graphics.DrawParameter;
 import org.gszone.jfenix13.graphics.Drawer;
@@ -42,6 +43,8 @@ public class Slot extends Actor {
     private boolean visible;
     private boolean disabled;
     private Grid grid;
+
+    private Tooltip tooltip;
 
     public Slot() {
         this(null);
@@ -193,11 +196,7 @@ public class Slot extends Actor {
     }
 
     public void setColBackground(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
-
-    public void removeColBackground() {
-        this.backgroundColor = COL_BACKGROUND;
+        this.backgroundColor = backgroundColor != null ? backgroundColor : COL_BACKGROUND;
     }
 
     @Override
@@ -216,9 +215,12 @@ public class Slot extends Actor {
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
-        if (disabled)
-            setColBackground(COL_DISABLED);
-        else
-            removeColBackground();
+        setColBackground(disabled ? COL_DISABLED : null);
+    }
+
+    public void setTooltip(Tooltip tooltip) {
+        if (this.tooltip != null)
+            Tooltip.removeTooltip(this);
+        this.tooltip = tooltip;
     }
 }

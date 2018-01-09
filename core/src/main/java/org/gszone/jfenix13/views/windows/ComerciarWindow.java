@@ -1,14 +1,16 @@
 package org.gszone.jfenix13.views.windows;
 
-import com.kotcrab.vis.ui.widget.VisWindow;
+import org.gszone.jfenix13.actors.Window;
 
-import static org.gszone.jfenix13.utils.Actors.*;
-
-public class ComerciarWindow extends VisWindow {
+public class ComerciarWindow extends Window {
     public ComerciarWindow() {
         super("Comerciar");
-        centerWindow();
+    }
 
-        newTextButton(this, "Volver");
+    @Override
+    protected void close() {
+        super.close();
+
+        getClPack().writeCommerceEnd();
     }
 }

@@ -96,10 +96,6 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 		name: white
 		color: gray
 	}
-	test: {
-		name: textfield-pressed
-		color: red
-	}
 	color-picker-bg: {
 		name: white
 		color: color-picker-bg
@@ -591,7 +587,7 @@ com.kotcrab.vis.ui.widget.MenuItem$MenuItemStyle: {
 }
 com.kotcrab.vis.ui.widget.Tooltip$TooltipStyle: {
 	default: {
-		background: list
+		background: textfield-pressed
 	}
 }
 com.kotcrab.vis.ui.widget.LinkLabel$LinkLabelStyle: {

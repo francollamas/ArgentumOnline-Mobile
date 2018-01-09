@@ -22,7 +22,7 @@ public class CargaView extends View {
         super.show();
 
         // Definición de los elementos de la pantalla
-        newFirstTable(getDrawable("carga"), false);
+        newFirstTable(getDrawable("g_carga"), false);
 
         // Eventos generales de la pantalla
         stage.addListener(new InputListener() {

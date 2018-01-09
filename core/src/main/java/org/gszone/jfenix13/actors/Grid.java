@@ -258,7 +258,7 @@ public abstract class Grid<T extends Slot> extends VisTable {
     }
 
     /**
-     * Acciones al haberse realizado el Drag-Drop
+     * Acciones al haberse realizado el Drag-Drop satisfactoriamente
      *
      * @param s1 slot de origen (debe ser del mismo tipo que T)
      * @param s2 slot de destino (puede ser cualquier tipo de slot, por ejemplo, es de tipo Slot si es uno inicial)
