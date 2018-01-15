@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.Array;
  */
 public class StrUtils {
 
+    public enum TipoDato { TString, TByte, TShort, TInteger }
+
     /**
      * Obtiene un array de líneas, creando una línea nueva cuando encuentre el caractér '\n'
      */
@@ -104,5 +106,58 @@ public class StrUtils {
         return true;
     }
 
+    /**
+     * Valida valores en String y genera un array con esos valores en sus tipos correspondientes
+     * @param values valores a validar
+     * @param tsd array con los tipos de dato
+     * @return valores convertidos a su tipo correspondiente
+     */
+    public static Object[] validar(String[] values, TipoDato... tsd) {
+
+        // Si no se pasa el tipo de dato a validar, se lo toma como inválido
+        if (tsd.length < values.length) return null;
+
+        // Crea el nuevo array
+        Object[] validado = new Object[values.length];
+
+        for (int i = 0; i < values.length; i++) {
+
+            // Se fija de que tipo tiene que ser.. y si se convirtió correctamente, se agrega al array
+            switch (tsd[i]) {
+                case TString:
+                    validado[i] = values[i];
+                    break;
+
+                case TByte:
+                    try {
+                        // Convertimos a Int para ver si es número
+                        int in = Integer.parseInt(values[i]);
+                        if (in < 0 || in > 255) return null;
+
+                        // Pasamos siempre un Unsigned, y convertimos a Signed
+                        if (in > 127) in -= 256;
+                        validado[i] = Byte.parseByte(in + "");
+                    }
+                    catch (NumberFormatException ex) { return null; }
+                    break;
+
+                case TShort:
+                    try {
+                        validado[i] = Short.parseShort(values[i]);
+                    }
+                    catch (NumberFormatException ex) { return null; }
+                    break;
+
+                case TInteger:
+                    try {
+                        validado[i] = Integer.parseInt(values[i]);
+                    }
+                    catch (NumberFormatException ex) { return null; }
+                    break;
+            }
+        }
+
+        return validado;
+    }
 
 }

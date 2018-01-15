@@ -459,7 +459,7 @@ public class ClientPackages {
         w.writeByte(opt);
     }
 
-    public void writeWarpToMap(int map) {
+    public void writeWarpToMap(short map) {
         w.writeByte(ID.GMCommands.ordinal());
         w.writeByte(GmID.WarpToMap.ordinal() + 1);
         w.writeShort(map);
@@ -482,7 +482,7 @@ public class ClientPackages {
         w.writeByte(index);
     }
 
-    public void writeTeleportCreate(int map, int x, int y, int radio) {
+    public void writeTeleportCreate(short map, byte x, byte y, byte radio) {
         w.writeByte(ID.GMCommands.ordinal());
         w.writeByte(GmID.TeleportCreate.ordinal() + 1);
         w.writeShort(map);

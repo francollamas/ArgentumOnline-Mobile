@@ -64,19 +64,22 @@ public class Item extends Slot {
 
             // Tooltip
             Tooltip tt = new Tooltip.Builder(title).target(this).build();
-            tt.debug();
+
+            // Definimos el tooltip al slot (con null se elimina)
             setTooltip(tt);
+
+            // Borramos espacios entre elementos de una columna
             tt.getCell(tt.getContent()).spaceBottom(0);
-            tt.row();
             tt.defaults().spaceBottom(0);
 
+            tt.row();
+
+            // Agregamos descripción (defensa, ataque, etc) según el tipo de objeto
             if (this.tipo == Armadura || this.tipo == Casco || this.tipo == Escudo) {
-                tt.add(new VisImage("def-icon"));
-                Actors.newLabel(tt, getMinDef() + " / " + getMaxDef(), Color.WHITE, "smallgradient");
-                /*VisTable t = new VisTable(true);
+                VisTable t = new VisTable(true);
                 t.add(new VisImage("def-icon"));
                 Actors.newLabel(t, getMinDef() + " / " + getMaxDef(), Color.WHITE, "smallgradient");
-                tt.add(t);*/
+                tt.add(t);
             }
             else if (this.tipo == Weapon) {
                 VisTable t = new VisTable(true);
@@ -84,8 +87,10 @@ public class Item extends Slot {
                 Actors.newLabel(t, getMinHit() + " / " + getMaxHit(), Color.WHITE, "smallgradient");
                 tt.add(t);
             }
+            // Le pedimos a la tabla que ajuste su tamaño al debido.
             tt.pack();
 
+            // Lo desactivamos para que no afecte a la jugabilidad, ya que este es un tooltip informativo solamente
             tt.setTouchable(Touchable.disabled);
         }
     }

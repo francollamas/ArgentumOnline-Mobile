@@ -5,15 +5,18 @@ import org.gszone.jfenix13.actors.Consola;
 import org.gszone.jfenix13.connection.ClientPackages;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.objects.User;
-import org.gszone.jfenix13.utils.StrUtils;
+
 
 import static org.gszone.jfenix13.containers.FontTypes.FontTypeName.*;
+import static org.gszone.jfenix13.utils.StrUtils.*;
+import static org.gszone.jfenix13.utils.StrUtils.TipoDato.*;
 
 /**
  * Analiza los comandos para enviar al servidor
  */
 public class Commands {
 
+    // Usado para el /MOD
     public enum EditOptions {Oro, Exp, Cuerpo, Cabeza, CiuMatados, CriMatados, Nivel, Clase, Skills, SkillsLibres,
                                 Nobleza, Asesino, Sexo, Raza, AgregarOro}
 
@@ -45,7 +48,7 @@ public class Commands {
         String resto = separador != -1 ? texto.substring(separador, texto.length()).trim() : "";
 
         // Parámetros por separado, en mayúscula
-        String[] params = StrUtils.getPalabras(resto.toUpperCase()).toArray(String.class);
+        String[] params = getPalabras(resto.toUpperCase()).toArray(String.class);
 
         // TODO: IMPORTANTÍSIMO!! validar parámetros.. (ej, si se carga un número muy grande y se pasa a int, crashea)
         switch (cmd) {
@@ -150,31 +153,44 @@ public class Commands {
     }
 
     private void cmdInquiry(String[] params) {
-        if (params.length == 0)
+        Object[] p = validar(params, TByte);
+
+        if (p == null)
+            incorrectMsg("/ENCUESTA [VOTO]");
+
+        else if (p.length == 0)
             // Abrir encuesta
             getClPack().writeInquiry();
         else
             // Votar
-            getClPack().writeInquiryVote(Byte.parseByte(params[0]));
+            getClPack().writeInquiryVote((byte)p[0]);
     }
 
     private void cmdGo(String[] params) {
-        if (params.length == 1)
-            getClPack().writeWarpToMap(Integer.parseInt(params[0]));
-        else
-            incorrectMsg("/GO MAPA.");
+        Object[] p = validar(params, TShort);
+
+        if (p == null)
+            incorrectMsg("/GO MAPA");
+
+        else if (p.length == 1)
+            getClPack().writeWarpToMap((short)p[0]);
     }
 
     private void cmdCrearTelep(String[] params) {
-        if (params.length == 3 || params.length == 4)
-            getClPack().writeTeleportCreate(Integer.parseInt(params[0]), Integer.parseInt(params[1]),
-                    Integer.parseInt(params[2]), params.length == 4 ? Integer.parseInt(params[0]) : 0);
-        else
-            incorrectMsg("/CT MAPA X Y [RADIO].");
+        Object[] p = validar(params, TShort, TByte, TByte, TByte);
+
+        if (p == null)
+            incorrectMsg("/CT MAPA X Y [RADIO]");
+
+        else if (p.length == 3 || p.length == 4)
+            getClPack().writeTeleportCreate((short)p[0], (byte)p[1], (byte)p[2], p.length == 4 ? (byte)p[3] : 0);
     }
 
     private void cmdMod(String[] params) {
-        if (params.length == 3 || params.length == 4) {
+        if (params.length < 3 || params.length > 4)
+            incorrectMsg("/MOD NOMBRE CARACTERÍSTICA/S VALOR");
+
+        else {
             EditOptions caract;
             switch (params[1]) {
                 case "BODY":
@@ -229,29 +245,27 @@ public class Commands {
             if (caract != null)
                 getClPack().writeEditChar(params[0], caract, params[2], params.length == 4 ? params[3] : "");
         }
-        else
-            incorrectMsg("/MOD NOMBRE CARACTERÍSTICA/S VALOR");
     }
 
     private void cmdSumonear(String nombre) {
-        if (nombre.length() != 0)
-            getClPack().writeSummonChar(nombre);
-        else
+        if (nombre.length() == 0)
             incorrectMsg("/SUM NOMBRE");
+        else
+            getClPack().writeSummonChar(nombre);
     }
 
     private void cmdIrA(String nombre) {
-        if (nombre.length() != 0)
-            getClPack().writeGoToChar(nombre);
-        else
+        if (nombre.length() == 0)
             incorrectMsg("/IRA NOMBRE");
+        else
+            getClPack().writeGoToChar(nombre);
     }
 
     private void cmdRmsg(String texto) {
-        if (texto.length() != 0)
-            getClPack().writeServerMessage(texto);
-        else
+        if (texto.length() == 0)
             incorrectMsg("/RMSG TEXTO");
+        else
+            getClPack().writeServerMessage(texto);
     }
 
     private void incorrectMsg(String comando) {
