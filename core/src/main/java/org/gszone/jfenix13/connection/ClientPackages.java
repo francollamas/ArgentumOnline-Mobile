@@ -523,4 +523,22 @@ public class ClientPackages {
         w.writeString(nombre);
     }
 
+    public void writeCreateItem(short index, short cantidad) {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.CreateItem.ordinal() + 1);
+        w.writeShort(index);
+        w.writeShort(cantidad);
+    }
+
+    public void writeDestroyItems() {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.DestroyItems.ordinal() + 1);
+    }
+
+    public void writeSearchObjs(String texto) {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.SearchObjs.ordinal() + 1);
+        w.writeString(texto);
+    }
+
 }

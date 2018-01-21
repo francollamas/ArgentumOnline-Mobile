@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.TimeUtils;
 import org.gszone.jfenix13.actors.Item;
+import org.gszone.jfenix13.utils.*;
 import org.gszone.jfenix13.views.windows.ComerciarWindow;
 import org.gszone.jfenix13.actors.Consola;
 import org.gszone.jfenix13.containers.Assets;
@@ -19,10 +20,6 @@ import org.gszone.jfenix13.general.Messages;
 import org.gszone.jfenix13.graphics.Grh;
 import org.gszone.jfenix13.objects.*;
 import org.gszone.jfenix13.general.Config.Direccion;
-import org.gszone.jfenix13.utils.BytesReader;
-import org.gszone.jfenix13.utils.Dialogs;
-import org.gszone.jfenix13.utils.Position;
-import org.gszone.jfenix13.utils.Rect;
 import org.gszone.jfenix13.general.Messages.Message;
 import org.gszone.jfenix13.containers.FontTypes.FontTypeName;
 import org.gszone.jfenix13.views.screens.PrincipalView;
@@ -141,7 +138,7 @@ public class ServerPackages {
         EligeRecompensa,
         ShowRecompensaForm,
         SendGuildForm,
-        GuildFoundation
+        GuildFoundation,
     }
 
 
@@ -199,184 +196,197 @@ public class ServerPackages {
         /*
         * Esta variable se activa si se recibe un paquete que no existe
         * (para que deje de procesar paquetes, sino se rompe el juego)
-        * TODO: borrarla, ya que una vez listo todo debería funcionar perfectamente.
         */
         boolean broken = false;
 
-        r.setBytes(bytes);
+        r.appendBytes(bytes);
 
-        while (r.getAvailable() > 0 && !broken) {
-            ID id = ID.values()[r.readByte()];
+        try {
+            while (r.getAvailable() > 0 && !broken) {
 
-            //Gdx.app.log(""+id.ordinal(), id.name());
+                // Marco la posición del comienzo del paquete
+                r.mark();
 
-            switch (id) {
-                case CreateFX:
-                    handleCreateFX();
-                    break;
-                case ChangeInventorySlot:
-                    handleChangeInventorySlot();
-                    break;
-                case ChangeNPCInventorySlot:
-                    handleChangeNPCInventorySlot();
-                    break;
-                case ChangeSpellSlot:
-                    handleChangeSpellSlot();
-                    break;
-                case Dumb:
-                    handleDumb();
-                    break;
-                case DumbNoMore:
-                    handleDumbNoMore();
-                    break;
-                case Blind:
-                    handleBlind();
-                    break;
-                case BlindNoMore:
-                    handleBlindNoMore();
-                    break;
-                case UserIndexInServer:
-                    handleUserIndexInServer();
-                    break;
-                case ChangeMap:
-                    handleChangeMap();
-                    break;
-                case PlayMusic:
-                    handlePlayMusic();
-                    break;
-                case AreaChanged:
-                    handleAreaChanged();
-                    break;
-                case CharacterCreate:
-                    handleCharacterCreate();
-                    break;
-                case CharacterChange:
-                    handleCharacterChange();
-                    break;
-                case UserCharIndexInServer:
-                    handleUserCharIndexInServer();
-                    break;
-                case UpdateUserStats:
-                    handleUpdateUserStats();
-                    break;
-                case UpdateHungerAndThirst:
-                    handleUpdateHungerAndThirst();
-                    break;
-                case UpdateStrenghtAndDexterity:
-                    handleUpdateStrenghtAndDexterity();
-                    break;
-                case UpdateStrenght:
-                    handleUpdateStrenght();
-                    break;
-                case UpdateDexterity:
-                    handleUpdateDexterity();
-                    break;
-                case SendSkills:
-                    handleSendSkills();
-                    break;
-                case LevelUp:
-                    handleLevelUp();
-                    break;
-                case Logged:
-                    handleLogged();
-                    break;
-                case ErrorMsg:
-                    handleErrorMsg();
-                    break;
-                case ShowMessageBox:
-                    handleShowMessageBox();
-                    break;
-                case ObjectCreate:
-                    handleObjectCreate();
-                    break;
-                case ObjectDelete:
-                    handleObjectDelete();
-                    break;
-                case BlockPosition:
-                    handleBlockPosition();
-                    break;
-                case CharacterMove:
-                    handleCharacterMove();
-                    break;
-                case PosUpdate:
-                    handlePosUpdate();
-                    break;
-                case ChatOverHead:
-                    handleChatOverHead();
-                    break;
-                case ConsoleMsg:
-                    handleConsoleMsg();
-                    break;
-                case CharacterRemove:
-                    handleCharacterRemove();
-                    break;
-                case ForceCharMove:
-                    handleForceCharMove();
-                    break;
-                case RemoveDialogs:
-                    handleRemoveDialogs();
-                    break;
-                case PlaySound:
-                    handlePlaySound();
-                    break;
-                case RemoveCharDialog:
-                    handleRemoveCharDialog();
-                    break;
-                case UpdateSta:
-                    handleUpdateSta();
-                    break;
-                case UpdateMana:
-                    handleUpdateMana();
-                    break;
-                case UpdateHP:
-                    handleUpdateHP();
-                    break;
-                case UpdateGold:
-                    handleUpdateGold();
-                    break;
-                case UpdateExp:
-                    handleUpdateExp();
-                    break;
-                case DiceRoll:
-                    handleDiceRoll();
-                    break;
-                case Pong:
-                    handlePong();
-                    break;
-                case Disconnect:
-                    handleDisconnect();
-                    break;
-                case NavigateToggle:
-                    handleNavigateToggle();
-                    break;
-                case PauseToggle:
-                    handlePauseToggle();
-                    break;
-                case MultiMessage:
-                    handleMultiMessage();
-                    break;
-                case MeditateToggle:
-                    handleMeditateToggle();
-                    break;
-                case CommerceInit:
-                    handleCommerceInit();
-                    break;
-                case CommerceEnd:
-                    handleCommerceEnd();
-                    break;
-                default:
-                    // Si llega un paquete que no está implementado...
-                    Dialogs.showOKDialog(bu("error"), "Paquete no implementado: " + id.ordinal() + " '" + id.toString() + "'.");
-                    broken = true;
-                    break;
+                ID id = ID.values()[r.readByte()];
+                //Gdx.app.log(""+id.ordinal(), id.name());
+
+                switch (id) {
+                    case CreateFX:
+                        handleCreateFX();
+                        break;
+                    case ChangeInventorySlot:
+                        handleChangeInventorySlot();
+                        break;
+                    case ChangeNPCInventorySlot:
+                        handleChangeNPCInventorySlot();
+                        break;
+                    case ChangeSpellSlot:
+                        handleChangeSpellSlot();
+                        break;
+                    case Dumb:
+                        handleDumb();
+                        break;
+                    case DumbNoMore:
+                        handleDumbNoMore();
+                        break;
+                    case Blind:
+                        handleBlind();
+                        break;
+                    case BlindNoMore:
+                        handleBlindNoMore();
+                        break;
+                    case UserIndexInServer:
+                        handleUserIndexInServer();
+                        break;
+                    case ChangeMap:
+                        handleChangeMap();
+                        break;
+                    case PlayMusic:
+                        handlePlayMusic();
+                        break;
+                    case AreaChanged:
+                        handleAreaChanged();
+                        break;
+                    case CharacterCreate:
+                        handleCharacterCreate();
+                        break;
+                    case CharacterChange:
+                        handleCharacterChange();
+                        break;
+                    case UserCharIndexInServer:
+                        handleUserCharIndexInServer();
+                        break;
+                    case UpdateUserStats:
+                        handleUpdateUserStats();
+                        break;
+                    case UpdateHungerAndThirst:
+                        handleUpdateHungerAndThirst();
+                        break;
+                    case UpdateStrenghtAndDexterity:
+                        handleUpdateStrenghtAndDexterity();
+                        break;
+                    case UpdateStrenght:
+                        handleUpdateStrenght();
+                        break;
+                    case UpdateDexterity:
+                        handleUpdateDexterity();
+                        break;
+                    case SendSkills:
+                        handleSendSkills();
+                        break;
+                    case LevelUp:
+                        handleLevelUp();
+                        break;
+                    case Logged:
+                        handleLogged();
+                        break;
+                    case ErrorMsg:
+                        handleErrorMsg();
+                        break;
+                    case ShowMessageBox:
+                        handleShowMessageBox();
+                        break;
+                    case ObjectCreate:
+                        handleObjectCreate();
+                        break;
+                    case ObjectDelete:
+                        handleObjectDelete();
+                        break;
+                    case BlockPosition:
+                        handleBlockPosition();
+                        break;
+                    case CharacterMove:
+                        handleCharacterMove();
+                        break;
+                    case PosUpdate:
+                        handlePosUpdate();
+                        break;
+                    case ChatOverHead:
+                        handleChatOverHead();
+                        break;
+                    case ConsoleMsg:
+                        handleConsoleMsg();
+                        break;
+                    case CharacterRemove:
+                        handleCharacterRemove();
+                        break;
+                    case ForceCharMove:
+                        handleForceCharMove();
+                        break;
+                    case RemoveDialogs:
+                        handleRemoveDialogs();
+                        break;
+                    case PlaySound:
+                        handlePlaySound();
+                        break;
+                    case RemoveCharDialog:
+                        handleRemoveCharDialog();
+                        break;
+                    case UpdateSta:
+                        handleUpdateSta();
+                        break;
+                    case UpdateMana:
+                        handleUpdateMana();
+                        break;
+                    case UpdateHP:
+                        handleUpdateHP();
+                        break;
+                    case UpdateGold:
+                        handleUpdateGold();
+                        break;
+                    case UpdateExp:
+                        handleUpdateExp();
+                        break;
+                    case DiceRoll:
+                        handleDiceRoll();
+                        break;
+                    case Pong:
+                        handlePong();
+                        break;
+                    case Disconnect:
+                        handleDisconnect();
+                        break;
+                    case NavigateToggle:
+                        handleNavigateToggle();
+                        break;
+                    case PauseToggle:
+                        handlePauseToggle();
+                        break;
+                    case MultiMessage:
+                        handleMultiMessage();
+                        break;
+                    case MeditateToggle:
+                        handleMeditateToggle();
+                        break;
+                    case CommerceInit:
+                        handleCommerceInit();
+                        break;
+                    case CommerceEnd:
+                        handleCommerceEnd();
+                        break;
+                    default:
+                        // Si llega un paquete que no está implementado...
+                        Dialogs.showOKDialog(bu("error"), "Paquete no implementado: " + id.ordinal() + " '" + id.toString() + "'.");
+                        broken = true;
+                        break;
+                }
             }
+
+            r.clear();
+
+        }
+        catch (NotEnoughDataException ex) {
+            /* Es común que un paquete llegue cortado, por lo que no hay suficientes datos para leer...
+            entonces se vuelve hasta la posición marcada (comienzo del último paquete)
+            */
+            r.reset();
         }
     }
 
     /**
      * Asigna un FX a un char
      */
-    public void handleCreateFX() {
+    public void handleCreateFX() throws NotEnoughDataException {
         short charIndex = r.readShort();
         short fxIndex = r.readShort();
         short loops = r.readShort();
@@ -387,7 +397,7 @@ public class ServerPackages {
     }
 
 
-    public void handleChangeInventorySlot() {
+    public void handleChangeInventorySlot() throws NotEnoughDataException {
         Item item = new Item();
         int index = r.readByte();
 
@@ -399,7 +409,7 @@ public class ServerPackages {
         getGD().getInventario().setSlot(item, index);
     }
 
-    public void handleChangeNPCInventorySlot() {
+    public void handleChangeNPCInventorySlot() throws NotEnoughDataException {
         //OLDItem item = new OLDItem();
         r.readByte();
         r.readString();
@@ -414,7 +424,7 @@ public class ServerPackages {
         r.readShort();
     }
 
-    private void handleChangeSpellSlot() {
+    private void handleChangeSpellSlot() throws NotEnoughDataException {
         // TODO: completar
         r.readByte();
         r.readShort();
@@ -440,11 +450,11 @@ public class ServerPackages {
     /**
      * Guarda el index con el que el servidor conoce usuario que estámos manejando
      */
-    private void handleUserIndexInServer() {
+    private void handleUserIndexInServer() throws NotEnoughDataException {
         getGD().getCurrentUser().setIndex(r.readShort());
     }
 
-    private void handleChangeMap() {
+    private void handleChangeMap() throws NotEnoughDataException {
         getGD().getCurrentUser().setMap(r.readShort());
 
         // Version del mapa (por ahora no se usa)
@@ -455,7 +465,7 @@ public class ServerPackages {
         // TODO: manejar la lluvia.. (si no hay, parar el sonido)
     }
 
-    private void handlePlayMusic() {
+    private void handlePlayMusic() throws NotEnoughDataException {
         int num = r.readByte();
         if (num > 0)
             getAssets().getAudio().playMusic(num);
@@ -468,7 +478,7 @@ public class ServerPackages {
     /**
      * Define la nueva área, y borra todos los personajes y objetos que no pertenecen a esa área
      */
-    private void handleAreaChanged() {
+    private void handleAreaChanged() throws NotEnoughDataException {
         // Los valores están hardcodeados
         Rect area = getGD().getCurrentUser().getArea();
         int x = r.readByte();
@@ -503,7 +513,7 @@ public class ServerPackages {
     /**
      * Crea un PJ o NPC, asignándole todas sus características y lo ubica en una posición del mapa
      */
-    private void handleCharacterCreate() {
+    private void handleCharacterCreate() throws NotEnoughDataException {
         int index = r.readShort();
         Char c = getGD().getChars().getChar(index, true);
 
@@ -558,7 +568,7 @@ public class ServerPackages {
     /**
      * Actualiza las características del PJ o NPC ya existente.
      */
-    private void handleCharacterChange() {
+    private void handleCharacterChange() throws NotEnoughDataException {
         int index = r.readShort();
         Char c = getGD().getChars().getChar(index);
 
@@ -581,7 +591,7 @@ public class ServerPackages {
     /**
      * Borra un PJ o NPC
      */
-    private void handleCharacterRemove() {
+    private void handleCharacterRemove() throws NotEnoughDataException {
         int index = r.readShort();
         getGD().getChars().deleteChar(index);
         getGD().getChars().refresh();
@@ -590,7 +600,7 @@ public class ServerPackages {
     /**
      * Mueve a cualquier PJ o NPC
      */
-    private void handleCharacterMove() {
+    private void handleCharacterMove() throws NotEnoughDataException {
         getGD().getChars().moveChar(r.readShort(), r.readByte(), r.readByte());
         getGD().getChars().refresh();
     }
@@ -598,7 +608,7 @@ public class ServerPackages {
     /**
      * Mueve al PJ actual a una dirección especificada (el servidor fuerza el movimiento de nuestro PJ)
      */
-    private void handleForceCharMove() {
+    private void handleForceCharMove() throws NotEnoughDataException {
         Direccion dir = Direccion.values()[r.readByte() - 1];
         User u = getGD().getCurrentUser();
         getGD().getChars().moveChar(u.getIndexInServer(), dir);
@@ -609,7 +619,7 @@ public class ServerPackages {
     /**
      * Actualiza la posición del usuario (en caso que esté incorrecta)
      */
-    private void handlePosUpdate() {
+    private void handlePosUpdate() throws NotEnoughDataException {
         // Obtengo la posición real del personaje
         int x = r.readByte();
         int y = r.readByte();
@@ -639,7 +649,7 @@ public class ServerPackages {
     /**
      * Asigna el índice del usuario principal y cambia la posición del mundo
      */
-    private void handleUserCharIndexInServer() {
+    private void handleUserCharIndexInServer() throws NotEnoughDataException {
         int index = r.readShort();
         getGD().getCurrentUser().setIndexInServer(index);
 
@@ -651,7 +661,7 @@ public class ServerPackages {
         }
     }
 
-    private void handleUpdateUserStats() {
+    private void handleUpdateUserStats() throws NotEnoughDataException {
         UserStats s = getGD().getCurrentUser().getStats();
         s.setMaxVida(r.readShort());
         s.setVida(r.readShort());
@@ -665,7 +675,7 @@ public class ServerPackages {
         s.setExp(r.readInt());
     }
 
-    private void handleUpdateHungerAndThirst() {
+    private void handleUpdateHungerAndThirst() throws NotEnoughDataException {
         UserStats s = getGD().getCurrentUser().getStats();
         s.setMaxSed(r.readByte());
         s.setSed(r.readByte());
@@ -673,21 +683,21 @@ public class ServerPackages {
         s.setHambre(r.readByte());
     }
 
-    private void handleUpdateStrenghtAndDexterity() {
+    private void handleUpdateStrenghtAndDexterity() throws NotEnoughDataException {
         UserStats s = getGD().getCurrentUser().getStats();
         s.setFuerza(r.readByte());
         s.setAgilidad(r.readByte());
     }
 
-    private void handleUpdateStrenght() {
+    private void handleUpdateStrenght() throws NotEnoughDataException {
         getGD().getCurrentUser().getStats().setFuerza(r.readByte());
     }
 
-    private void handleUpdateDexterity() {
+    private void handleUpdateDexterity() throws NotEnoughDataException {
         getGD().getCurrentUser().getStats().setAgilidad(r.readByte());
     }
 
-    private void handleSendSkills() {
+    private void handleSendSkills() throws NotEnoughDataException {
         // TODO: hacerlo.. LEE CLASE, Y LEE CADA SKILL
         r.readByte();
         for (int i = 0; i < 22; i++) {
@@ -695,7 +705,7 @@ public class ServerPackages {
         }
     }
 
-    private void handleLevelUp() {
+    private void handleLevelUp() throws NotEnoughDataException {
         // TODO: revisar
         r.readShort();
     }
@@ -713,21 +723,21 @@ public class ServerPackages {
     /**
      * Muestra un mensaje de error
      */
-    private void handleErrorMsg() {
+    private void handleErrorMsg() throws NotEnoughDataException {
         Dialogs.showOKDialog(bu("error"), r.readString());
     }
 
     /**
      * Muestra un mensaje del servidor
      */
-    private void handleShowMessageBox() {
+    private void handleShowMessageBox() throws NotEnoughDataException {
         Dialogs.showOKDialog(bu("msg.sv"), r.readString());
     }
 
     /**
      * Crea un objeto en el mapa
      */
-    private void handleObjectCreate() {
+    private void handleObjectCreate() throws NotEnoughDataException {
         MapTile tile = getAssets().getMapa().getTile(r.readByte(), r.readByte());
         tile.setObjeto(new Grh(r.readShort()));
     }
@@ -735,7 +745,7 @@ public class ServerPackages {
     /**
      * Borra un objeto del mapa
      */
-    private void handleObjectDelete() {
+    private void handleObjectDelete() throws NotEnoughDataException {
         MapTile tile = getAssets().getMapa().getTile(r.readByte(), r.readByte());
         tile.setObjeto(null);
     }
@@ -743,7 +753,7 @@ public class ServerPackages {
     /**
      * Bloquea o desbloquea una posición del mapa
      */
-    private void handleBlockPosition() {
+    private void handleBlockPosition() throws NotEnoughDataException {
         MapTile tile = getAssets().getMapa().getTile(r.readByte(), r.readByte());
         tile.setBlocked(r.readBoolean());
     }
@@ -751,7 +761,7 @@ public class ServerPackages {
     /**
      * Agrega el diálogo de un PJ
      */
-    private void handleChatOverHead() {
+    private void handleChatOverHead() throws NotEnoughDataException {
         String texto = r.readString().trim();
         int index = r.readShort();
         Color c = Colors.newColor(r.readByte(), r.readByte(), r.readByte());
@@ -762,7 +772,7 @@ public class ServerPackages {
     /**
      * Agrega un mensaje en consola
      */
-    private void handleConsoleMsg() {
+    private void handleConsoleMsg() throws NotEnoughDataException {
         getGD().getConsola().addMessage(r.readString(), FontTypes.FontTypeName.values()[r.readByte()]);
         // TODO: si surge algún error, manejar también las fonts con formato viejo (ej ~255~255~255~1~0~)
     }
@@ -770,7 +780,7 @@ public class ServerPackages {
     /**
      * Reproduce un sonido
      */
-    private void handlePlaySound() {
+    private void handlePlaySound() throws NotEnoughDataException {
         getAssets().getAudio().playSound(r.readByte());
 
         // Estos valores corresponden a la posición (X, Y) de donde proviene el sonido (para sonido 3D, que no se usa)
@@ -786,7 +796,7 @@ public class ServerPackages {
     /**
      * Borra el dialogo de un PJ
      */
-    private void handleRemoveCharDialog() {
+    private void handleRemoveCharDialog() throws NotEnoughDataException {
         int index = r.readShort();
 
         // TODO: llamar a RemoveDialog(index)
@@ -797,28 +807,28 @@ public class ServerPackages {
         getGD().disconnect();
     }
 
-    public void handleUpdateSta() {
+    public void handleUpdateSta() throws NotEnoughDataException {
         getGD().getCurrentUser().getStats().setEnergia(r.readShort());
     }
 
-    public void handleUpdateMana() {
+    public void handleUpdateMana() throws NotEnoughDataException {
         getGD().getCurrentUser().getStats().setMana(r.readShort());
     }
 
-    public void handleUpdateHP() {
+    public void handleUpdateHP() throws NotEnoughDataException {
         User u = getGD().getCurrentUser();
         u.getStats().setVida(r.readShort());
     }
 
-    public void handleUpdateGold() {
+    public void handleUpdateGold() throws NotEnoughDataException {
         getGD().getCurrentUser().getStats().setOro(r.readInt());
     }
 
-    public void handleUpdateExp() {
+    public void handleUpdateExp() throws NotEnoughDataException {
         getGD().getCurrentUser().getStats().setExp(r.readInt());
     }
 
-    public void handleDiceRoll() {
+    public void handleDiceRoll() throws NotEnoughDataException {
         UserAtributos a = getGD().getCurrentUser().getAtributos();
         a.setFuerza(r.readByte());
         a.setAgilidad(r.readByte());
@@ -843,7 +853,7 @@ public class ServerPackages {
         getGD().setPausa(!getGD().isPausa());
     }
 
-    public void handleMultiMessage() {
+    public void handleMultiMessage() throws NotEnoughDataException {
 
         Message msg = Messages.Message.values()[r.readByte()];
         Consola c = getGD().getConsola();

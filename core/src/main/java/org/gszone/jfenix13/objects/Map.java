@@ -5,10 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.graphics.Grh;
-import org.gszone.jfenix13.utils.BytesReader;
-import org.gszone.jfenix13.utils.Dialogs;
-import org.gszone.jfenix13.utils.Position;
-import org.gszone.jfenix13.utils.Rect;
+import org.gszone.jfenix13.utils.*;
 
 
 import static org.gszone.jfenix13.general.FileNames.*;
@@ -31,13 +28,19 @@ public class Map {
 
     public Map(int numero) {
         this.numero = numero;
-        load();
+
+        try {
+            load();
+        }
+        catch(NotEnoughDataException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
      * Carga un mapa
      */
-    private void load() {
+    private void load() throws NotEnoughDataException {
         FileHandle fh = Gdx.files.internal(getMapDir(numero));
         if (!fh.exists()) {
             // Si no existe, intento desconectar el usuario y aviso...

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import org.gszone.jfenix13.objects.Fx;
 import org.gszone.jfenix13.utils.BytesReader;
+import org.gszone.jfenix13.utils.NotEnoughDataException;
+
 import java.io.IOException;
 
 import static org.gszone.jfenix13.general.FileNames.*;
@@ -17,13 +19,18 @@ public class Fxs {
     private Fx[] fxs;
 
     public Fxs() {
-        load();
+        try {
+            load();
+        }
+        catch (NotEnoughDataException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
      * Carga todos los Fxs
      */
-    private void load() {
+    private void load() throws NotEnoughDataException {
 
         FileHandle fh = Gdx.files.internal(getFxsIndDir());
         BytesReader r = new BytesReader(fh.readBytes(), true);

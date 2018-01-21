@@ -18,7 +18,7 @@ import java.io.*;
  * disposed: booleano que indica si va a destruir el socket (para evitar excepciones en el nuevo thread)
  */
 public class GnConnection implements Connection {
-    public static final String IP = "francollamas.ddns.net";
+    public static final String IP = "localhost";
     public static final int PORT = 7666;
 
     private Thread thread;
@@ -112,7 +112,7 @@ public class GnConnection implements Connection {
             try {
                 socket.getOutputStream().write(bytes);
             }
-            catch (IOException ex){
+            catch (IOException ex) {
                 ex.printStackTrace();
             }
     }
@@ -124,8 +124,7 @@ public class GnConnection implements Connection {
             while (disposed)
                 if (!thread.isAlive()) break;
         }
-        else
-            if (socket != null) socket.dispose();
+        else if (socket != null) socket.dispose();
     }
 
 }

@@ -4,8 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import org.gszone.jfenix13.objects.GrhData;
 import org.gszone.jfenix13.utils.BytesReader;
-
-import java.io.IOException;
+import org.gszone.jfenix13.utils.NotEnoughDataException;
 
 import static org.gszone.jfenix13.general.FileNames.*;
 
@@ -18,13 +17,18 @@ public class Grhs {
     private GrhData[] grhsData;
 
     public Grhs() {
-        load();
+        try {
+            load();
+        }
+        catch (NotEnoughDataException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
      * Carga todos los GRHs
      */
-    private void load() {
+    private void load() throws NotEnoughDataException {
         int index;
         int cantFrames;
         short frame;

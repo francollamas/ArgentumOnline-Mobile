@@ -106,15 +106,24 @@ public class StrUtils {
         return true;
     }
 
+    public static Object[] validar(String[] values, TipoDato... tsd) {
+        return validar(values, 1, tsd);
+    }
+
     /**
      * Valida valores en String y genera un array con esos valores en sus tipos correspondientes
      * @param values valores a validar
+     * @param cantOblig cantidad de parametros obligatorios
      * @param tsd array con los tipos de dato
      * @return valores convertidos a su tipo correspondiente
      */
-    public static Object[] validar(String[] values, TipoDato... tsd) {
+    public static Object[] validar(String[] values, int cantOblig, TipoDato... tsd) {
 
-        // Si no se pasa el tipo de dato a validar, se lo toma como inválido
+        // Si no se respeta el mínimo de valores
+        if (values.length < cantOblig) return null;
+
+        // Si hay algun valor que no se le definió un tipo para validar, se lo toma como inválido...
+        // (con esto se evita que se pase del máximo)
         if (tsd.length < values.length) return null;
 
         // Crea el nuevo array

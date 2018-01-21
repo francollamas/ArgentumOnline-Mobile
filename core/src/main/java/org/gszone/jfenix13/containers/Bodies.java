@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.objects.Body;
 import org.gszone.jfenix13.utils.BytesReader;
+import org.gszone.jfenix13.utils.NotEnoughDataException;
 
 import java.io.IOException;
 
@@ -19,13 +20,18 @@ public class Bodies {
     private Body[] bodies;
 
     public Bodies() {
-        load();
+        try {
+            load();
+        }
+        catch (NotEnoughDataException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
      * Carga todos los Bodies
      */
-    private void load() {
+    private void load() throws NotEnoughDataException {
 
         FileHandle fh = Gdx.files.internal(getBodiesIndDir());
         BytesReader r = new BytesReader(fh.readBytes(), true);

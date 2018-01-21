@@ -5,6 +5,8 @@ import com.badlogic.gdx.files.FileHandle;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.objects.GrhDir;
 import org.gszone.jfenix13.utils.BytesReader;
+import org.gszone.jfenix13.utils.NotEnoughDataException;
+
 import java.io.IOException;
 
 import static org.gszone.jfenix13.general.FileNames.*;
@@ -23,13 +25,19 @@ public class PartChar {
 
     public PartChar(Tipo tipo) {
         this.tipo = tipo;
-        load();
+
+        try {
+            load();
+        }
+        catch (NotEnoughDataException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
      * Carga todos los PartChar
      */
-    private void load() {
+    private void load() throws NotEnoughDataException {
 
         // Defino de donde obtengo el archivo según lo que sea (cabezas o cascos)
         String d = "";

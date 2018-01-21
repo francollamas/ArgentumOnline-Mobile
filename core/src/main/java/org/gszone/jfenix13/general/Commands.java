@@ -5,6 +5,7 @@ import org.gszone.jfenix13.actors.Consola;
 import org.gszone.jfenix13.connection.ClientPackages;
 import org.gszone.jfenix13.containers.GameData;
 import org.gszone.jfenix13.objects.User;
+import org.gszone.jfenix13.utils.StrUtils;
 
 
 import static org.gszone.jfenix13.containers.FontTypes.FontTypeName.*;
@@ -48,9 +49,8 @@ public class Commands {
         String resto = separador != -1 ? texto.substring(separador, texto.length()).trim() : "";
 
         // Parámetros por separado, en mayúscula
-        String[] params = getPalabras(resto.toUpperCase()).toArray(String.class);
+        String[] params = StrUtils.getPalabras(resto.toUpperCase()).toArray(String.class);
 
-        // TODO: IMPORTANTÍSIMO!! validar parámetros.. (ej, si se carga un número muy grande y se pasa a int, crashea)
         switch (cmd) {
             case "/ONLINE":
                 c.writeOnline();
@@ -118,6 +118,15 @@ public class Commands {
             case "/RMSG":
                 cmdRmsg(resto);
                 break;
+            case "/ITEM":
+                cmdCreateItem(params);
+                break;
+            case "/DEST":
+                c.writeDestroyItems();
+                break;
+            case "/BUSCAR":
+                cmdBuscar(resto);
+                break;
             default:
                 getC().addMessage("Comando inexistente.", Info);
                 break;
@@ -153,7 +162,7 @@ public class Commands {
     }
 
     private void cmdInquiry(String[] params) {
-        Object[] p = validar(params, TByte);
+        Object[] p = validar(params, 0, TByte);
 
         if (p == null)
             incorrectMsg("/ENCUESTA [VOTO]");
@@ -171,28 +180,28 @@ public class Commands {
 
         if (p == null)
             incorrectMsg("/GO MAPA");
-
-        else if (p.length == 1)
+        else
             getClPack().writeWarpToMap((short)p[0]);
     }
 
     private void cmdCrearTelep(String[] params) {
-        Object[] p = validar(params, TShort, TByte, TByte, TByte);
+        Object[] p = validar(params, 3, TShort, TByte, TByte, TByte);
 
         if (p == null)
             incorrectMsg("/CT MAPA X Y [RADIO]");
-
-        else if (p.length == 3 || p.length == 4)
+        else
             getClPack().writeTeleportCreate((short)p[0], (byte)p[1], (byte)p[2], p.length == 4 ? (byte)p[3] : 0);
     }
 
     private void cmdMod(String[] params) {
-        if (params.length < 3 || params.length > 4)
-            incorrectMsg("/MOD NOMBRE CARACTERÍSTICA/S VALOR");
+        Object[] p = validar(params, 3, TString, TString, TString, TString);
+
+        if (p == null)
+            incorrectMsg("/MOD NOMBRE CARACT1 [CARACT2] VALOR");
 
         else {
             EditOptions caract;
-            switch (params[1]) {
+            switch ((String)p[1]) {
                 case "BODY":
                     caract = EditOptions.Cuerpo;
                     break;
@@ -243,7 +252,7 @@ public class Commands {
             }
 
             if (caract != null)
-                getClPack().writeEditChar(params[0], caract, params[2], params.length == 4 ? params[3] : "");
+                getClPack().writeEditChar((String)p[0], caract, (String)p[2], p.length == 4 ? (String)p[3] : "");
         }
     }
 
@@ -266,6 +275,24 @@ public class Commands {
             incorrectMsg("/RMSG TEXTO");
         else
             getClPack().writeServerMessage(texto);
+    }
+
+    private void cmdCreateItem(String[] params) {
+        Object[] p = validar(params, TShort, TShort);
+
+        if (p == null)
+            incorrectMsg("/ITEM NÚMERO [CANTIDAD]");
+        else
+            getClPack().writeCreateItem((short)p[0], p.length == 2 ? (short)p[1] : 1);
+    }
+
+    private void cmdBuscar(String texto) {
+        if (texto.length() == 0)
+            incorrectMsg("/BUSCAR NOMBRE_ITEM");
+        else if (texto.length() == 1)
+            getC().addMessage("Sé más específico.");
+        else
+            getClPack().writeSearchObjs(texto);
     }
 
     private void incorrectMsg(String comando) {
