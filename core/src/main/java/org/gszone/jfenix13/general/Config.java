@@ -63,8 +63,9 @@ public class Config {
     private void setOtherConfigs() {
         tilePixelWidth = 32;
         tilePixelHeight = 32;
-        scrollPixelsPerFrame = 8;
-        baseSpeed = 18.475f;
+        scrollPixelsPerFrame = 7;
+        //baseSpeed = 18.475f;
+        baseSpeed = 17.5f;
 
         // Configuraciones específicas para Escritorio y Web
         if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL) {

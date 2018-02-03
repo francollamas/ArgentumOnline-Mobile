@@ -373,7 +373,6 @@ public class ServerPackages {
             }
 
             r.clear();
-
         }
         catch (NotEnoughDataException ex) {
             /* Es común que un paquete llegue cortado, por lo que no hay suficientes datos para leer...
@@ -839,7 +838,7 @@ public class ServerPackages {
 
     public void handlePong() {
         ClientPackages c = Main.getInstance().getConnection().getClPack();
-        int ping = (int) (TimeUtils.millis() - c.getPingTime() - (Gdx.graphics.getDeltaTime() * 1000));
+        int ping = (int) (TimeUtils.millis() - c.getPingTime() - (Gdx.graphics.getRawDeltaTime() * 1000));
         c.setPingTime(0);
 
         getGD().getConsola().addMessage("El ping es de " + ping + " ms.", FontTypes.FontTypeName.Warning);

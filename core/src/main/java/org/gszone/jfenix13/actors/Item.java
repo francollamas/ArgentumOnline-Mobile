@@ -103,7 +103,7 @@ public class Item extends Slot {
 
         if (getCantidad() == 0 || !isVisible()) return;
 
-        FontParameter fp = new FontParameter("tahoma11bold");
+        FontParameter fp = new FontParameter("tahoma13bold");
         fp.setAlign(Align.left);
         Drawer.drawText(batch, "" + getCantidad(), x + 1, y + 1, fp);
     }

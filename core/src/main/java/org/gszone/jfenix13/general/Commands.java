@@ -29,17 +29,16 @@ public class Commands {
      * Analiza y ejecuta un comando
      */
     public void parse(String texto) {
-        if (texto.trim().length() == 0) return;
         ClientPackages c = getClPack();
 
         // Si es texto, lo envía y termina ahí.
-        if (!texto.substring(0, 1).equals("/")) {
-            c.writeTalk(texto.trim());
+        if (texto.length() > 0 && !texto.substring(0, 1).equals("/")) {
+            c.writeTalk(texto);
             return;
         }
 
         // SI ES COMANDO...
-
+        if (texto.trim().length() == 0) return;
         int separador = texto.indexOf(" ");
 
         // Comando en mayúscula
@@ -126,6 +125,9 @@ public class Commands {
                 break;
             case "/BUSCAR":
                 cmdBuscar(resto);
+                break;
+            case "/SEGUIR":
+                c.writeNpcFollow();
                 break;
             default:
                 getC().addMessage("Comando inexistente.", Info);

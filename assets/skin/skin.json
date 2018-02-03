@@ -18,6 +18,18 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	tahoma11border: {
 		file: Tahoma11Border.fnt
 	}
+	tahoma13: {
+		file: tahoma13.fnt
+	}
+	tahoma13bold: {
+		file: tahoma13bold.fnt
+	}
+	tahoma13boldborder: {
+		file: tahoma13boldborder.fnt
+	}
+	tahoma13boldhborder: {
+		file: tahoma13boldhborder.fnt
+	}
 }
 com.badlogic.gdx.graphics.Color: {
 	black: {
@@ -212,7 +224,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: tahoma11
+		font: tahoma13
 		fontColor: white
 	}
 	menuitem-shortcut: {
@@ -226,7 +238,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		font: malgun-gothic13gra
 	}
 	bold: {
-		font: tahoma11bold
+		font: tahoma13bold
 		fontColor: white
 	}
 	gradient: {
@@ -234,7 +246,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: white
 	}
 	boldborder: {
-		font: tahoma11boldborder
+		font: tahoma13boldborder
 	}
 	border: {
 		font: tahoma11border
@@ -242,7 +254,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
-		font: tahoma11
+		font: tahoma13
 		fontColorSelected: white
 		fontColorUnselected: light-gray
 		selection: list-item
@@ -296,7 +308,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	default: {
-		font: tahoma11bold
+		font: tahoma13bold
 		fontColor: light-gray
 		background: select-box
 		scrollStyle: list
@@ -347,7 +359,7 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
-		font: tahoma11
+		font: tahoma13
 		fontColor: light-gray
 		focusedFontColor: light-gray
 		background: textfield
@@ -399,7 +411,7 @@ com.kotcrab.vis.ui.Sizes: {
 }
 com.kotcrab.vis.ui.widget.VisTextField$VisTextFieldStyle: {
 	default: {
-		font: tahoma11
+		font: tahoma13
 		fontColor: light-gray
 		selection: gray
 		background: textfield
@@ -408,7 +420,7 @@ com.kotcrab.vis.ui.widget.VisTextField$VisTextFieldStyle: {
 		disabledBackground: textfield-disabled
 	}
 	bold: {
-		font: tahoma11bold
+		font: tahoma13bold
 		fontColor: light-gray
 		selection: gray
 		background: textfield
@@ -520,14 +532,14 @@ com.kotcrab.vis.ui.widget.VisCheckBox$VisCheckBoxStyle: {
 		checkBackgroundOver: checkbox
 		checkBackgroundDown: checkbox-pressed
 		tick: check
-		font: tahoma11
+		font: tahoma13
 	}
 	radio: {
 		checkBackground: radio
 		checkBackgroundOver: radio
 		checkBackgroundDown: radio-pressed
 		tick: check-radio
-		font: tahoma11
+		font: tahoma13
 	}
 }
 com.kotcrab.vis.ui.widget.PopupMenu$PopupMenuStyle: {

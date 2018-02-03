@@ -35,7 +35,7 @@ public class Dialog {
     }
 
     public Dialog(String text, Color color) {
-        this.text = StrUtils.getLineas(StrUtils.getFormattedText(text, MAX_LENGTH));
+        this.text = StrUtils.getLineas(StrUtils.getFormattedText(text, 8, MAX_LENGTH));
         this.color = color;
         startTime = TimeUtils.millis();
         lifeTime = MS_BASE + MS_PER_CHAR * text.length();
@@ -49,9 +49,10 @@ public class Dialog {
     }
 
     public void draw(Batch batch, float x, float y) {
-        FontParameter fp = new FontParameter("tahoma11border");
+        FontParameter fp = new FontParameter("tahoma13boldhborder");
         fp.setColor(color);
-        Drawer.drawText(batch, text, x, y - 11 * text.size + 12, fp);
+        //Drawer.drawText(batch, text, x, y - 11 * text.size + 12, fp);
+        Drawer.drawText(batch, text, x, y - fp.getFont().getLineHeight() * text.size + 18, fp);
     }
 
 

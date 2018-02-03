@@ -1,10 +1,10 @@
-package org.gszone.jfenix13.desktop;
+package org.gszone.jfenix13.desktop2;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Preferences;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl.LwjglPreferences;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.general.DtConfig;
 
@@ -15,7 +15,7 @@ import java.lang.management.ManagementFactory;
 import static org.gszone.jfenix13.general.DtConfig.*;
 
 /** Launches the desktop (LWJGL) application. */
-public class DesktopLauncher {
+public class Desktop2Launcher {
     public static void main(String[] args) {
 
         // Se define un trozo de código encargado de reiniciar el juego
@@ -35,29 +35,31 @@ public class DesktopLauncher {
     /**
      * Devuelve la aplicación ya lista, con todas sus configuraciones
      */
-    private static Lwjgl3Application createLwjglApplication(Main main) {
+    private static LwjglApplication createLwjglApplication(Main main) {
 
         DtConfig.loadConfig();
 
-        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setDecorated(decorated);
-        config.setWindowedMode(width, height);
-        config.setResizable(resizable);
-        config.setWindowIcon("icon128.png", "icon64.png", "icon32.png", "icon16.png");
-        config.useVsync(vSync);
-        config.setWindowSizeLimits(800, 600, 1200, 900);
+        System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
+        if (!decorated) System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-        if (fullscreeen) {
-            for (Graphics.DisplayMode dm : config.getDisplayModes()) {
-                if (dm.width == width && dm.height == height) {
-                    config.setFullscreenMode(dm);
-                    break;
-                }
-            }
+        config.width = width;
+        config.height = height;
+        config.resizable = resizable;
+        config.fullscreen = fullscreeen;
+
+        for (int size : new int[] { 128, 64, 32, 16 }) {
+            config.addIcon("icon" + size + ".png", Files.FileType.Internal);
         }
 
-        return new Lwjgl3Application(main, config);
+        if (!vSync) {
+            config.vSyncEnabled = false;
+            config.foregroundFPS = 0;
+            config.backgroundFPS = 0;
+        }
+
+        return new LwjglApplication(main, config);
     }
 
     /**
@@ -72,7 +74,7 @@ public class DesktopLauncher {
             cmd.append(jvmArg + " ");
         }
         cmd.append("-cp \"").append(ManagementFactory.getRuntimeMXBean().getClassPath()).append("\" ");
-        cmd.append(DesktopLauncher.class.getName()).append(" ");
+        cmd.append(Desktop2Launcher.class.getName()).append(" ");
 
         try {
             System.out.println(cmd.toString());

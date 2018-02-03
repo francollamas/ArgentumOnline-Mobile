@@ -541,4 +541,9 @@ public class ClientPackages {
         w.writeString(texto);
     }
 
+    public void writeNpcFollow() {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.NPCFollow.ordinal() + 1);
+    }
+
 }

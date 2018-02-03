@@ -1,5 +1,6 @@
 package org.gszone.jfenix13.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -19,7 +20,7 @@ public class TextureData {
 
     public TextureData(int num) {
         this.num = num;
-        tex = new Texture(DIR_TEXTURAS + "/" + num + ".png");
+        tex = new Texture(Gdx.files.internal(DIR_TEXTURAS + "/" + num + ".png"));
     }
 
     public int getNum() {

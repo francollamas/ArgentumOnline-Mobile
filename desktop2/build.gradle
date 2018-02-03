@@ -1,13 +1,13 @@
 apply plugin: 'application'
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').absolutePath ]
-mainClassName = 'org.gszone.jfenix13.desktop.DesktopLauncher'
-eclipse.project.name = appName + '-desktop'
+mainClassName = 'org.gszone.jfenix13.desktop2.Desktop2Launcher'
+eclipse.project.name = appName + '-desktop2'
 sourceCompatibility = 1.8
 
 dependencies {
   compile project(':core')
-  compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+  compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
   compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 }
 

@@ -34,6 +34,10 @@ public class StrUtils {
         return arr;
     }
 
+    public static String getFormattedText(String text, int maxChars) {
+        return getFormattedText(text, 0, maxChars);
+    }
+
     /**
      * Formatea el texto agregando sáltos de línea, evitando que las palabras queden cortadas
      *
@@ -41,7 +45,7 @@ public class StrUtils {
      * @param maxChars cantidad máxima de caracteres por línea
      * @return texto formateado
      */
-    public static String getFormattedText(String text, int maxChars) {
+    public static String getFormattedText(String text, int minChars, int maxChars) {
         StringBuilder sb = new StringBuilder(text.length() + 10);
 
         int pos = 0;
@@ -55,7 +59,10 @@ public class StrUtils {
             sb.append(prov.trim() + '\n');
             pos += prov.length();
         }
-        sb.append(text.substring(pos).trim());
+        String last = text.substring(pos).trim();
+        while (last.length() < minChars)
+            last += " ";
+        sb.append(last);
 
         return sb.toString();
     }

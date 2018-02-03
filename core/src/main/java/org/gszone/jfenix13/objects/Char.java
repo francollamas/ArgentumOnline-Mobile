@@ -77,7 +77,6 @@ public class Char {
                 if (getMoveDir().getX() != 0) {
                     getMoveOffset().setX(getMoveOffset().getX()
                             + Main.getInstance().getConfig().getScrollPixelsPerFrame() * getMoveDir().getX() * Drawer.getDelta());
-
                     if ((getMoveDir().getX() == 1 && getMoveOffset().getX() >= 0)
                             || getMoveDir().getX() == -1 && getMoveOffset().getX() <= 0) {
                         getMoveOffset().setX(0);
@@ -89,7 +88,6 @@ public class Char {
                 if (getMoveDir().getY() != 0) {
                     getMoveOffset().setY(getMoveOffset().getY()
                             + Main.getInstance().getConfig().getScrollPixelsPerFrame() * getMoveDir().getY() * Drawer.getDelta());
-
                     if ((getMoveDir().getY() == 1 && getMoveOffset().getY() >= 0)
                             || getMoveDir().getY() == -1 && getMoveOffset().getY() <= 0) {
                         getMoveOffset().setY(0);
@@ -120,8 +118,8 @@ public class Char {
             setMoving(false);
         }
 
-        x += getMoveOffset().getX();
-        y += getMoveOffset().getY();
+        x += Math.round(getMoveOffset().getX());
+        y += Math.round(getMoveOffset().getY());
 
 
         // Defino el offset de la cabeza
@@ -148,7 +146,7 @@ public class Char {
                 Drawer.drawGrh(batch, getShield()[heading], x, y, dp);
 
             if (getNombre().length() > 0) {
-                FontParameter fp = new FontParameter("tahoma11boldborder");
+                FontParameter fp = new FontParameter("tahoma13boldhborder");
                 fp.setColor(Main.getInstance().getGameData().getColors().getColor(getPriv(), getBando()));
 
                 Drawer.drawText(batch, getNombre(), x + 16, y + 35, fp);
@@ -164,6 +162,24 @@ public class Char {
             }
         }
 
+    }
+
+    /**
+     * Dibuja el diálogo de un PJ o NPC
+     * (se usa otro método para poder dibujarlo en otra capa)
+     */
+    public void drawDialog(Batch batch, float x, float y, DrawParameter dp) {
+
+        // Agrego el offset del pj
+        x += Math.round(getMoveOffset().getX());
+        y += Math.round(getMoveOffset().getY());
+
+        // Defino el offset de la cabeza
+        Position headOffset;
+        if (getBody() != null)
+            headOffset = Main.getInstance().getAssets().getBodies().getBody(getBodyIndex()).getHeadOffset();
+        else
+            headOffset = new Position();
 
         if (dialog != null) {
             if (nombre.length() == 0 && this != Main.getInstance().getGameData().getChars().getNpcDialog())
@@ -176,8 +192,9 @@ public class Char {
                     dialog = null;
             }
         }
-
     }
+
+
 
 
     public boolean isActive() {

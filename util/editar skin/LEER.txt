@@ -4,5 +4,9 @@ Permite editar skins. Contiene la skin 'fenix' para editar, que es la que se usa
 ///// HIERO /////
 Genera archivos de fuente (.fnt) y sus respectivos gráficos, para usarlos en la skin.
 
+///// BITMAP FONT GENERATOR /////
+Lo mismo que Hiero, guarda en el mismo formato, pero el PNG lo guarda con fondo negro y no tiene efectos.
+(útil para fuentes que en Hiero no se ven muy bien o tienen un padding muy grande)
+
 ///// NINEPATCH EDITOR /////
 Permite crear y editar imágenes '.9.png', formato que se usa para que una imágen se estire correctamente, excluyendo los bordes.

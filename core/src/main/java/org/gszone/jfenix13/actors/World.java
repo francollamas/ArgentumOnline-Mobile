@@ -8,12 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.utils.Align;
 import org.gszone.jfenix13.connection.ClientPackages;
 import org.gszone.jfenix13.controllers.WorldController;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.graphics.DrawParameter;
 import org.gszone.jfenix13.graphics.Drawer;
+import org.gszone.jfenix13.graphics.FontParameter;
 import org.gszone.jfenix13.objects.*;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
@@ -191,18 +193,25 @@ public class World extends Actor {
         Position absPos = pos.getSuma(relPos);
 
         if (getMapa().isLegalPos(absPos) && !u.isParalizado() && !u.isDescansando() && !u.isMeditando()) {
-                // TODO: si está DESCANSANDO (y considerar tmb meditando), se debería forzar el movimiento!!!
-                u.setCambiandoDir(false);
-                getClPack().writeWalk(dir);
-                Main.getInstance().getGameData().getChars().moveChar(u.getIndexInServer(), dir);
-                setMove(relPos, absPos);
+            // TODO: si está DESCANSANDO (y considerar tmb meditando), se debería forzar el movimiento!!!
+            u.setCambiandoDir(false);
+            getClPack().writeWalk(dir);
+            Main.getInstance().getGameData().getChars().moveChar(u.getIndexInServer(), dir);
+            setMove(relPos, absPos);
         }
-        else
-            if (Main.getInstance().getGameData().getChars().getChar(u.getIndexInServer()).getHeading().ordinal() != dir.ordinal())
-                if (!u.isCambiandoDir()) {
-                    getClPack().writeChangeHeading(dir);
-                    u.setCambiandoDir(true);
-                }
+        else {
+            Char c = Main.getInstance().getGameData().getChars().getChar(u.getIndexInServer());
+
+            /* TODO: por qué el char a veces es nulo? esta bien?...
+             con esta condición se arregla un NullPointerException, espero que no joda algo. */
+            if (c != null )
+                if (c.getHeading().ordinal() != dir.ordinal())
+                    if (!u.isCambiandoDir()) {
+                        getClPack().writeChangeHeading(dir);
+                        u.setCambiandoDir(true);
+                    }
+
+        }
     }
 
 
@@ -332,9 +341,9 @@ public class World extends Actor {
         dpAC.setCenter(true);
 
         for (y = (int)screenTile.getY1(); y <= (int)screenTile.getY2(); y++) {
-            tempPos.setY(screen.getY() * getConfig().getTilePixelHeight() + offset.getY());
+            tempPos.setY(screen.getY() * getConfig().getTilePixelHeight() + Math.round(offset.getY()));
             for (x = (int)screenTile.getX1(); x <= (int)screenTile.getX2(); x++) {
-                tempPos.setX(screen.getX() * getConfig().getTilePixelWidth() + offset.getX());
+                tempPos.setX(screen.getX() * getConfig().getTilePixelWidth() + Math.round(offset.getX()));
                 tile = getMapa().getTile(x, y);
                 if (tile == null) {
                     screen.addX(1);
@@ -360,9 +369,9 @@ public class World extends Actor {
         screen.setY(minOffset.getY() - getConfig().getTileBufferSizeY());
 
         for (y = (int)screenBigTile.getY1(); y <= (int)screenBigTile.getY2(); y++) {
-            tempPos.setY(screen.getY() * getConfig().getTilePixelHeight() + offset.getY());
+            tempPos.setY(screen.getY() * getConfig().getTilePixelHeight() + Math.round(offset.getY()));
             for (x = (int)screenBigTile.getX1(); x <= (int)screenBigTile.getX2(); x++) {
-                tempPos.setX(screen.getX() * getConfig().getTilePixelWidth() + offset.getX());
+                tempPos.setX(screen.getX() * getConfig().getTilePixelWidth() + Math.round(offset.getX()));
                 tile = getMapa().getTile(x, y);
                 if (tile == null) {
                     screen.addX(1);
@@ -396,9 +405,9 @@ public class World extends Actor {
             screen.setY(minOffset.getY() - getConfig().getTileBufferSizeY());
 
             for (y = (int) screenBigTile.getY1(); y <= (int) screenBigTile.getY2(); y++) {
-                tempPos.setY(screen.getY() * getConfig().getTilePixelHeight() + offset.getY());
+                tempPos.setY(screen.getY() * getConfig().getTilePixelHeight() + Math.round(offset.getY()));
                 for (x = (int) screenBigTile.getX1(); x <= (int) screenBigTile.getX2(); x++) {
-                    tempPos.setX(screen.getX() * getConfig().getTilePixelWidth() + offset.getX());
+                    tempPos.setX(screen.getX() * getConfig().getTilePixelWidth() + Math.round(offset.getX()));
                     tile = getMapa().getTile(x, y);
                     if (tile == null) {
                         screen.addX(1);
@@ -415,6 +424,31 @@ public class World extends Actor {
                 screen.addY(1);
             }
         }
+
+
+        screen.setX(minOffset.getX() - getConfig().getTileBufferSizeX());
+        screen.setY(minOffset.getY() - getConfig().getTileBufferSizeY());
+
+        for (y = (int)screenBigTile.getY1(); y <= (int)screenBigTile.getY2(); y++) {
+            tempPos.setY(screen.getY() * getConfig().getTilePixelHeight() + Math.round(offset.getY()));
+            for (x = (int)screenBigTile.getX1(); x <= (int)screenBigTile.getX2(); x++) {
+                tempPos.setX(screen.getX() * getConfig().getTilePixelWidth() + Math.round(offset.getX()));
+                tile = getMapa().getTile(x, y);
+                if (tile == null) {
+                    screen.addX(1);
+                    continue;
+                }
+
+                if (tile.getCharIndex() != 0)
+                    Main.getInstance().getGameData().getChars().getChar(tile.getCharIndex())
+                            .drawDialog(batch, tempPos.getX(), tempPos.getY(), dpAC);
+
+                screen.addX(1);
+            }
+            screen.addX(-x + screenBigTile.getX1());
+            screen.addY(1);
+        }
+
 
         Drawer.popScissors(getStage());
         Drawer.setDefColor(Color.WHITE);

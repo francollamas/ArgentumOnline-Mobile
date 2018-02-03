@@ -66,6 +66,7 @@ public class Chars {
      */
     public void moveChar(int index, Config.Direccion dir) {
         Char c = chars[index];
+        if (c == null) return; // TODO: sacar esto??? es solo xq tira NullPointerExcepcion, no sé xq se da
         Position relPos = Position.dirToPos(dir);
         Position absPos = c.getPos().getSuma(relPos);
 
