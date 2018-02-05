@@ -6,16 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.utils.Align;
 import org.gszone.jfenix13.connection.ClientPackages;
-import org.gszone.jfenix13.controllers.WorldController;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.Main;
 import org.gszone.jfenix13.graphics.DrawParameter;
 import org.gszone.jfenix13.graphics.Drawer;
-import org.gszone.jfenix13.graphics.FontParameter;
+import org.gszone.jfenix13.listeners.ClickLongPressListener;
 import org.gszone.jfenix13.objects.*;
 import org.gszone.jfenix13.utils.Position;
 import org.gszone.jfenix13.utils.Rect;
@@ -45,57 +41,31 @@ public class World extends Actor {
     private boolean techo;
     private Rect screenTile;
     private Rect screenBigTile;
-    private WorldController controller;
+    private ClickLongPressListener listener;
 
     public World() {
         setSize(getConfig().getWindowsTileWidth() * getConfig().getTilePixelWidth(),
                 getConfig().getWindowsTileHeight() * getConfig().getTilePixelHeight());
 
-        controller = new WorldController();
+        listener = new ClickLongPressListener() {
 
-        // Agrego los listeners del World.
-        addListener(new DragListener() {
             @Override
-            public boolean mouseMoved(InputEvent event, float x, float y) {
-                controller.setLastMousePos(x, y);
-                return super.mouseMoved(event, x, y);
-            }
-        });
-
-        addListener(new ClickListener() {
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchUp(event, x, y, pointer, button);
-                boolean endLongPress = controller.endLongPress();
-                controller.setLastMousePos(x, y);
+            public void tUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (button != 0) return;
 
-                if (getTapCount() == 1) {
-                    if (!endLongPress)
-                        getClPack().writeLeftClick(mouseTile);
-                }
+                if (getTapCount() == 1)
+                    getClPack().writeLeftClick(mouseTile);
                 else if (getTapCount() == 2)
                     getClPack().writeDoubleClick(mouseTile);
-
-
-                // Hago esto para que el tercer click consecutivo sea normal, y no siga aumentando
-                if (getTapCount() >= 2) setTapCount(0);
             }
-
-
 
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                controller.setLastMousePos(x, y);
-
-                if (button == 0) controller.startLongPress();
-
+            public void tDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (button == 1)
                     getClPack().writeWarpChar("YO", Main.getInstance().getGameData().getCurrentUser().getMap(), mouseTile);
-                super.touchDown(event, x, y, pointer, button);
-                return true;
             }
-        });
+        };
+        addListener(listener);
 
         pos = new Position(50, 50);
         addToPos = new Position();
@@ -161,10 +131,10 @@ public class World extends Actor {
     public void act(float delta) {
         super.act(delta);
 
-        if (controller.mousePosChanged())
-            setMouseTile(controller.getLastMousePos());
+        if (listener.mousePosChanged())
+            setMouseTile(listener.getLastMousePos());
 
-        if (controller.longPressDone())
+        if (listener.longPressDone())
             getClPack().writeWarpChar("YO", Main.getInstance().getGameData().getCurrentUser().getMap(), mouseTile);
 
         if (!isMoving())
@@ -176,7 +146,7 @@ public class World extends Actor {
         // Lo vuelvo a chequear, porque al mover el char, se activa el flag 'moving'
         if (isMoving()) {
             move();
-            setMouseTile(controller.getLastMousePos());
+            setMouseTile(listener.getLastMousePos());
         }
     }
 

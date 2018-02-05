@@ -33,7 +33,7 @@ public abstract class Grid<T extends Slot> extends VisTable {
     private DragAndDrop dd;
 
     public Grid(int cantSlots) {
-        this(cantSlots, 5, 18, false);
+        this(cantSlots, 5, 18, false, false);
     }
 
     /**
@@ -43,8 +43,9 @@ public abstract class Grid<T extends Slot> extends VisTable {
      * @param slotsPerRow cantidad de slots admitidos por fila.
      * @param ddTapSquareSize cantidad de pixeles que tiene que recorrer el mouse cuando arrastra para activar el DD.
      * @param allowDD indica si debe hacer Drag-Drop interno
+     * @param big indica si los slots son Normales o Grandes
      */
-    public Grid(int cantSlots, int slotsPerRow, int ddTapSquareSize, boolean allowDD) {
+    public Grid(int cantSlots, int slotsPerRow, int ddTapSquareSize, boolean allowDD, boolean big) {
         super(Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL);
         // En Escritorio y Web los slots tienen una separación, en móviles no.
 
@@ -54,6 +55,15 @@ public abstract class Grid<T extends Slot> extends VisTable {
         if (allowDD) {
             dd = new DragAndDrop();
             dd.setTapSquareSize(ddTapSquareSize);
+
+            if (!big)
+                dd.setDragActorPosition(19, -19);
+            //else
+                //dd.setDragActorPosition(); // TODO: poner un tamaño para los BIG.
+
+            // Si no estamos en móviles, el DD es con click derecho
+            if (Gdx.app.getType() == Desktop || Gdx.app.getType() == WebGL)
+                dd.setButton(1);
 
             /* Seteando este valor en 0 podemos hacer drag-drop en un instante..
             (quizás no es lo deseado, ya que podríamos hacer drag-drop accidentamnete cuando agitamos,

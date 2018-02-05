@@ -9,7 +9,7 @@ public class UserInventory extends Grid<Item> {
     public static final int MAX_INVENTORY_SLOTS = 30;
 
     public UserInventory() {
-        super(MAX_INVENTORY_SLOTS, 5, 18, true);
+        super(MAX_INVENTORY_SLOTS, 5, 18, true, false);
     }
 
     @Override

@@ -1,25 +1,73 @@
-package org.gszone.jfenix13.controllers;
+package org.gszone.jfenix13.listeners;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 import org.gszone.jfenix13.utils.Position;
 
 /**
- * Contiene información que maneja parte del World
+ * Mismo que el ClickListener pero con la funcionalidad de pulsación larga.
+ * (Existe el gesto de LongPress, pero me resultó más cómodo trabajarlo directamente desde acá).
  *
  * downLeft y timeDownLeft: se usan para controlar la pulsación larga del click izquierdo.
  * longPressDone: indica si el último intento de longpress se realizó correctamente.
  * lastMousePos: indica la última posición (X, Y) del mouse en píxeles
  * changeMousePos: indica si se cambió la posición del mouse
  */
-public class WorldController {
+public class ClickLongPressListener extends ClickListener {
+    public static final int MS_LONG_PRESS = 350;
+
     private boolean downLeft;
     private long timeDownLeft;
     private boolean longPressDone;
     private Position lastMousePos;
     private boolean changeMousePos;
 
-    public WorldController() {
+    public ClickLongPressListener() {
         lastMousePos = new Position();
+    }
+
+    @Override
+    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+        super.touchUp(event, x, y, pointer, button);
+
+        boolean endLongPress = endLongPress();
+        setLastMousePos(x, y);
+
+        if (!endLongPress && button == 0)
+            tUp(event, x, y, pointer, button);
+
+        // Hago esto para que el tercer click consecutivo sea normal, y no siga aumentando
+        if (getTapCount() >= 2) setTapCount(0);
+    }
+
+    /**
+     * Usar para TouchUp
+     */
+    public void tUp(InputEvent event, float x, float y, int pointer, int button) {
+
+    }
+
+    @Override
+    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        setLastMousePos(x, y);
+        if (button == 0) startLongPress();
+        tDown(event, x, y, pointer, button);
+        super.touchDown(event, x, y, pointer, button);
+        return true;
+    }
+
+    /**
+     * Usar para TouchDown
+     */
+    public void tDown(InputEvent event, float x, float y, int pointer, int button) {
+
+    }
+
+    @Override
+    public boolean mouseMoved(InputEvent event, float x, float y) {
+        setLastMousePos(x, y);
+        return super.mouseMoved(event, x, y);
     }
 
     /**
@@ -48,7 +96,7 @@ public class WorldController {
      * Si pasó un tiempo determinado y el intento de pulsación larga no terminó, se realiza.
      */
     public boolean longPressDone() {
-        boolean can = downLeft && TimeUtils.millis() - timeDownLeft > 350;
+        boolean can = downLeft && TimeUtils.millis() - timeDownLeft > MS_LONG_PRESS;
         if (can) {
             downLeft = false;
             longPressDone = true;
