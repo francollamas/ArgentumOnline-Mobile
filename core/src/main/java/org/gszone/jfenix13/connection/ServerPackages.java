@@ -364,6 +364,9 @@ public class ServerPackages {
                     case CommerceEnd:
                         handleCommerceEnd();
                         break;
+                    case SetInvisible:
+                        handleSetInvisible();
+                        break;
                     default:
                         // Si llega un paquete que no está implementado...
                         Dialogs.showOKDialog(bu("error"), "Paquete no implementado: " + id.ordinal() + " '" + id.toString() + "'.");
@@ -881,6 +884,11 @@ public class ServerPackages {
     private void handleCommerceEnd() {
         // cerrar la pantalla y cambiar Flag comerciando
         getGD().getCurrentUser().setComerciando(false);
+    }
+
+    private void handleSetInvisible() throws NotEnoughDataException {
+        Char c = getGD().getChars().getChar(r.readShort());
+        c.setInvisible(r.readBoolean());
     }
 
 }

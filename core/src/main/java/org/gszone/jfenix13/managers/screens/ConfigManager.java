@@ -1,8 +1,9 @@
-package org.gszone.jfenix13.managers;
+package org.gszone.jfenix13.managers.screens;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import org.gszone.jfenix13.Main;
+import org.gszone.jfenix13.containers.Audio;
 import org.gszone.jfenix13.general.Config;
 import org.gszone.jfenix13.general.DtConfig;
 import org.gszone.jfenix13.views.screens.MenuView;
@@ -18,12 +19,7 @@ public class ConfigManager extends ViewManager {
         setScreen(new MenuView());
     }
 
-    public void guardar(boolean vSync, boolean fullscreen, int res, boolean titleBar, boolean resizable) {
-
-        // Configuraciones generales
-        Config c = getConfig();
-        // TODO: aplicar las configuraciones generales, en este caso, faltan las de AUDIO.
-        c.saveConfigFile();
+    public void guardarVideo(boolean vSync, boolean fullscreen, int res, boolean titleBar, boolean resizable) {
 
         // OnlyDesktop
         if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
@@ -69,8 +65,24 @@ public class ConfigManager extends ViewManager {
             }
 
         }
+    }
 
-        back();
+    public void guardarAudio(boolean musica, float volMusica, boolean sonido, float volSonido) {
+        // Configuraciones generales
+        Config c = getConfig();
+        c.setMusicActive(musica);
+        c.setMusicVol(volMusica);
+        c.setSoundActive(sonido);
+        c.setSoundVol(volSonido);
+
+        // Actualizo música actual...
+        Audio a = Main.getInstance().getAssets().getAudio();
+        a.setMusicVolume(volMusica);
+        a.setSoundVolume(volSonido);
+        if (a.getMusic() != null) a.getMusic().setVolume(volMusica);
+
+        a.setMuteMusic(!musica);
+        a.setMuteSound(!sonido);
     }
 
     public Config getConfig() { return Main.getInstance().getConfig(); }

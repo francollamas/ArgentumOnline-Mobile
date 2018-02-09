@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import org.gszone.jfenix13.Main;
+import org.gszone.jfenix13.general.Config;
 
 import static org.gszone.jfenix13.general.FileNames.*;
 
@@ -24,11 +25,16 @@ public class Audio {
     private int currentMusic;
     private float musicVolume;
     private float soundVolume;
+    private boolean muteMusic;
+    private boolean muteSound;
 
     public Audio() {
+        Config c = Main.getInstance().getConfig();
         currentMusic = -1;
-        musicVolume = 1.0f;
-        soundVolume = 1.0f;
+        muteMusic = !c.isMusicActive();
+        muteSound = !c.isSoundActive();
+        musicVolume = c.getMusicVol();
+        soundVolume = c.getSoundVol();
     }
 
     public void playSound(int num) {
@@ -42,6 +48,7 @@ public class Audio {
         FileHandle fh = Gdx.files.internal(getSoundDir(name));
         if (!fh.exists()) return -1;
 
+        if (muteSound) return -1;
         Sound sound = Gdx.audio.newSound(fh);
         if (loop) return sound.loop(soundVolume);
         return sound.play(soundVolume);
@@ -59,7 +66,13 @@ public class Audio {
      * Reproduce una música
      */
     public void playMusic(int num) {
-        if (currentMusic == num) return;
+
+        if (currentMusic == num && music != null) return;
+
+        currentMusic = num;
+
+        if (muteMusic) return;
+
         if (music != null) music.dispose();
 
         FileHandle fh = Gdx.files.internal(getMusicDir(num));
@@ -69,7 +82,17 @@ public class Audio {
         music.setLooping(true);
         music.setVolume(musicVolume);
         music.play();
-        currentMusic = num;
+
+    }
+
+    public void stopMusic() {
+        // Para nuestro caso, no la para, la destruye directamente..
+        if (music != null) music.dispose();
+        music = null;
+    }
+
+    public Music getMusic() {
+        return music;
     }
 
     public float getMusicVolume() { return musicVolume; }
@@ -85,6 +108,26 @@ public class Audio {
 
     public void setSoundVolume(float soundVolume) {
         this.soundVolume = soundVolume;
+    }
+
+    public boolean isMuteMusic() {
+        return muteMusic;
+    }
+
+    public void setMuteMusic(boolean muteMusic) {
+        this.muteMusic = muteMusic;
+        if (muteMusic)
+            stopMusic();
+        else
+            playMusic(currentMusic);
+    }
+
+    public boolean isMuteSound() {
+        return muteSound;
+    }
+
+    public void setMuteSound(boolean muteSound) {
+        this.muteSound = muteSound;
     }
 
     public void dispose() {

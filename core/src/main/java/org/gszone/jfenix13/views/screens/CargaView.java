@@ -3,7 +3,7 @@ package org.gszone.jfenix13.views.screens;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import org.gszone.jfenix13.managers.CargaManager;
+import org.gszone.jfenix13.managers.screens.CargaManager;
 
 import static org.gszone.jfenix13.utils.Actors.*;
 

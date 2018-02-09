@@ -51,21 +51,19 @@ public class World extends Actor {
 
             @Override
             public void tUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (button != 0) return;
+                if (button == 0) {
+                    if (getTapCount() == 1)
+                        getClPack().writeLeftClick(mouseTile);
+                    else if (getTapCount() == 2)
+                        getClPack().writeDoubleClick(mouseTile);
+                }
 
-                if (getTapCount() == 1)
-                    getClPack().writeLeftClick(mouseTile);
-                else if (getTapCount() == 2)
-                    getClPack().writeDoubleClick(mouseTile);
-            }
-
-            @Override
-            public void tDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (button == 1)
-                    getClPack().writeWarpChar("YO", Main.getInstance().getGameData().getCurrentUser().getMap(), mouseTile);
+                else if (button == 1)
+                        getClPack().writeWarpChar("YO", Main.getInstance().getGameData().getCurrentUser().getMap(), mouseTile);
             }
         };
         addListener(listener);
+        listener.setLongPressMobileOnly(true);
 
         pos = new Position(50, 50);
         addToPos = new Position();

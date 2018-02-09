@@ -21,7 +21,14 @@ import org.gszone.jfenix13.graphics.Drawer;
  *
  * backgroundColor: color de fondo del Slot.
  * nombre: nombre del slot
- * TODO: completar
+ * cantidad: cantidad de elementos que tiene el slot
+ * grh: número de índice del grh que representa al slot.
+ * grhWidth, grhHeight: dimensiones del Grh. (se usan para centrar la imagen por mas que se agrande el slot)
+ * checked: indica si el slot está selecionado.
+ * visible: indica si el slot se debe visualizar.
+ * disabled: indica si el slot está deshabilitado.
+ * grid: referencia a la grilla que lo contiene
+ * tooltip: referencia al tooltip del slot
  */
 public class Slot extends Actor {
     private static final Color COL_BACKGROUND = new Color(0, 0, 0, 0.4f);

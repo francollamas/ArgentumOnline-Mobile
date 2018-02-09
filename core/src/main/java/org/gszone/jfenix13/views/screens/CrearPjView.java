@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.*;
-import org.gszone.jfenix13.managers.CrearPjManager;
+import org.gszone.jfenix13.managers.screens.CrearPjManager;
 import org.gszone.jfenix13.objects.UserAtributos;
 
 import static org.gszone.jfenix13.utils.Actors.*;

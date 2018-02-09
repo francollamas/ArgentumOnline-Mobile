@@ -19,7 +19,8 @@ public class Commands {
 
     // Usado para el /MOD
     public enum EditOptions {Oro, Exp, Cuerpo, Cabeza, CiuMatados, CriMatados, Nivel, Clase, Skills, SkillsLibres,
-                                Nobleza, Asesino, Sexo, Raza, AgregarOro}
+                                Nobleza, Asesino, Sexo, Raza, AgregarOro, NeuMatados, Bando, Vida, Mana, Hambre, Sed,
+                                AtFuerza, AtInteligencia, AtAgilidad, AtCarisma, AtConstitucion}
 
     public Commands() {
 
@@ -96,41 +97,53 @@ public class Commands {
             case "/ENCUESTA":
                 cmdInquiry(params);
                 break;
-            case "/GO":
-                cmdGo(params);
-                break;
-            case "/CT":
-                cmdCrearTelep(params);
-                break;
-            case "/DT":
-                c.writeTeleportDestroy();
-                break;
-            case "/MOD":
-                cmdMod(params);
-                break;
-            case "/SUM":
-                cmdSumonear(resto);
-                break;
-            case "/IRA":
-                cmdIrA(resto);
-                break;
-            case "/RMSG":
-                cmdRmsg(resto);
-                break;
-            case "/ITEM":
-                cmdCreateItem(params);
-                break;
-            case "/DEST":
-                c.writeDestroyItems();
-                break;
-            case "/BUSCAR":
-                cmdBuscar(resto);
-                break;
-            case "/SEGUIR":
-                c.writeNpcFollow();
-                break;
             default:
-                getC().addMessage("Comando inexistente.", Info);
+                // Comandos de usuario con privilegio
+                if (Main.getInstance().getGameData().getChars().getChar(getU().getIndexInServer()).getPriv() > 0) {
+                    switch (cmd) {
+                        case "/GO":
+                            cmdGo(params);
+                            break;
+                        case "/CT":
+                            cmdCrearTelep(params);
+                            break;
+                        case "/DT":
+                            c.writeTeleportDestroy();
+                            break;
+                        case "/MOD":
+                            cmdMod(params);
+                            break;
+                        case "/SUM":
+                            cmdSumonear(resto);
+                            break;
+                        case "/IRA":
+                            cmdIrA(resto);
+                            break;
+                        case "/RMSG":
+                            cmdRmsg(resto);
+                            break;
+                        case "/ITEM":
+                            cmdCreateItem(params);
+                            break;
+                        case "/DEST":
+                            c.writeDestroyItems();
+                            break;
+                        case "/BUSCAR":
+                            cmdBuscar(resto);
+                            break;
+                        case "/SEGUIR":
+                            c.writeNpcFollow();
+                            break;
+                        case "/INVISIBLE":
+                            c.writeInvisible();
+                            break;
+                        default:
+                            getC().addMessage("Comando inexistente.", Info);
+                            break;
+                    }
+                }
+                else
+                    getC().addMessage("Comando inexistente.", Info);
                 break;
         }
     }

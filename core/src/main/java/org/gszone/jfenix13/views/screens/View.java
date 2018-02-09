@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Array;
 import org.gszone.jfenix13.Main;
-import org.gszone.jfenix13.managers.ViewManager;
+import org.gszone.jfenix13.managers.screens.ViewManager;
 
 import static org.gszone.jfenix13.general.FileNames.getGuiDir;
 

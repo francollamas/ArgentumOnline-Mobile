@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.kotcrab.vis.ui.widget.*;
 import org.gszone.jfenix13.actors.Controller;
-import org.gszone.jfenix13.managers.PrincipalManager;
+import org.gszone.jfenix13.managers.screens.PrincipalManager;
 
 import static org.gszone.jfenix13.utils.Actors.*;
 

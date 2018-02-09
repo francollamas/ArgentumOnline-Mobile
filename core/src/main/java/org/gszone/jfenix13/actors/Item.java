@@ -24,7 +24,7 @@ import static org.gszone.jfenix13.containers.GameData.ObjTypes.*;
  * Es un slot pero con más características (defensa, golpe, equipado, precio, tipo...)
  */
 public class Item extends Slot {
-    private static final Color COL_EQUIPADO = new Color(1, 1, 0, 0.1f);
+    private static final Color COL_EQUIPADO = new Color(0.6f, 1, 0.6f, 0.09f);
 
     private int obj;
     private boolean equipado;
@@ -106,6 +106,12 @@ public class Item extends Slot {
         FontParameter fp = new FontParameter("tahoma13bold");
         fp.setAlign(Align.left);
         Drawer.drawText(batch, "" + getCantidad(), x + 1, y + 1, fp);
+
+        if (equipado) {
+            fp.setAlign(Align.right);
+            fp.setColor(Color.YELLOW);
+            Drawer.drawText(batch, "+", x + getWidth() - 1, y + getHeight() - 10, fp);
+        }
     }
 
     public int getObj() {

@@ -1,9 +1,12 @@
 package org.gszone.jfenix13.listeners;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 import org.gszone.jfenix13.utils.Position;
+
+import static com.badlogic.gdx.Application.ApplicationType.*;
 
 /**
  * Mismo que el ClickListener pero con la funcionalidad de pulsación larga.
@@ -22,6 +25,7 @@ public class ClickLongPressListener extends ClickListener {
     private boolean longPressDone;
     private Position lastMousePos;
     private boolean changeMousePos;
+    private boolean longPressMobileOnly;
 
     public ClickLongPressListener() {
         lastMousePos = new Position();
@@ -34,7 +38,7 @@ public class ClickLongPressListener extends ClickListener {
         boolean endLongPress = endLongPress();
         setLastMousePos(x, y);
 
-        if (!endLongPress && button == 0)
+        if ((button == 0 && !endLongPress) || button == 1)
             tUp(event, x, y, pointer, button);
 
         // Hago esto para que el tercer click consecutivo sea normal, y no siga aumentando
@@ -51,7 +55,8 @@ public class ClickLongPressListener extends ClickListener {
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         setLastMousePos(x, y);
-        if (button == 0) startLongPress();
+        if (button == 0 && (!longPressMobileOnly || (longPressMobileOnly && (Gdx.app.getType() == Android || Gdx.app.getType() == iOS))))
+            startLongPress();
         tDown(event, x, y, pointer, button);
         super.touchDown(event, x, y, pointer, button);
         return true;
@@ -68,6 +73,12 @@ public class ClickLongPressListener extends ClickListener {
     public boolean mouseMoved(InputEvent event, float x, float y) {
         setLastMousePos(x, y);
         return super.mouseMoved(event, x, y);
+    }
+
+    @Override
+    public void touchDragged(InputEvent event, float x, float y, int pointer) {
+        super.touchDragged(event, x, y, pointer);
+        setLastMousePos(x, y);
     }
 
     /**
@@ -132,5 +143,13 @@ public class ClickLongPressListener extends ClickListener {
             return true;
         }
         return false;
+    }
+
+    public boolean isLongPressMobileOnly() {
+        return longPressMobileOnly;
+    }
+
+    public void setLongPressMobileOnly(boolean longPressMobileOnly) {
+        this.longPressMobileOnly = longPressMobileOnly;
     }
 }

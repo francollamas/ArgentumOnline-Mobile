@@ -106,8 +106,28 @@ public class Config {
         return soundVol;
     }
 
+    public void setMusicActive(boolean musicActive) {
+        this.musicActive = musicActive;
+    }
+
+    public void setMusicVol(float musicVol) {
+        this.musicVol = musicVol;
+    }
+
+    public void setSoundActive(boolean soundActive) {
+        this.soundActive = soundActive;
+    }
+
+    public void setSoundVol(float soundVol) {
+        this.soundVol = soundVol;
+    }
+
     public boolean isHideRoofs() {
         return hideRoofs;
+    }
+
+    public void setHideRoofs(boolean hideRoofs) {
+        this.hideRoofs = hideRoofs;
     }
 
     public int getVirtualWidth() {

@@ -1,4 +1,4 @@
-package org.gszone.jfenix13.managers;
+package org.gszone.jfenix13.managers.screens;
 
 import org.gszone.jfenix13.utils.Dialogs;
 import org.gszone.jfenix13.views.screens.CrearPjView;

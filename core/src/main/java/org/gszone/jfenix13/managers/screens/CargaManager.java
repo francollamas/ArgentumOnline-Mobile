@@ -1,4 +1,4 @@
-package org.gszone.jfenix13.managers;
+package org.gszone.jfenix13.managers.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.TimeUtils;

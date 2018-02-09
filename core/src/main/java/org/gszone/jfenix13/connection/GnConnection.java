@@ -19,7 +19,7 @@ import java.io.*;
  */
 public class GnConnection implements Connection {
     //public static final String IP = "francollamas.ddns.net";
-    public static final String IP = "192.168.1.18";
+    public static final String IP = "192.168.1.6";
     public static final int PORT = 7666;
 
     private Thread thread;

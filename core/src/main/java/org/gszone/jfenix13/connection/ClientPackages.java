@@ -132,7 +132,7 @@ public class ClientPackages {
         SOSShowList,            // /SHOW SOS
         SOSRemove,              // SOSDONE
         GoToChar,               // /IRA
-        invisible,              // /INVISIBLE
+        Invisible,              // /INVISIBLE
         GMPanel,                // /PANELGM
         RequestUserList,        // LISTUSU
         Working,                // /TRABAJANDO
@@ -544,6 +544,11 @@ public class ClientPackages {
     public void writeNpcFollow() {
         w.writeByte(ID.GMCommands.ordinal());
         w.writeByte(GmID.NPCFollow.ordinal() + 1);
+    }
+
+    public void writeInvisible() {
+        w.writeByte(ID.GMCommands.ordinal());
+        w.writeByte(GmID.Invisible.ordinal() + 1);
     }
 
 }

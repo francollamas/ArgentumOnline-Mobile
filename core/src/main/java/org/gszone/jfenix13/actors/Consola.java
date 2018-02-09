@@ -21,7 +21,7 @@ public class Consola extends VisScrollPane {
     private VisTable tabla;
 
     public Consola() {
-        this(200, 75);
+        this(200, 90);
     }
 
     public Consola(int maxRows, int maxChars) {

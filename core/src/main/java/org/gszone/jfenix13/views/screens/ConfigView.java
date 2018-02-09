@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.*;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
 import org.gszone.jfenix13.general.DtConfig;
-import org.gszone.jfenix13.managers.ConfigManager;
+import org.gszone.jfenix13.managers.screens.ConfigManager;
 
 import static org.gszone.jfenix13.utils.Actors.*;
 
@@ -40,7 +40,8 @@ public class ConfigView extends View {
 
 
     private VisTextButton tbAtras;
-    private VisTextButton tbGuardar;
+    private VisTextButton tbAplicar;
+    private VisTextButton tbAceptar;
 
     @Override
     public void show() {
@@ -85,9 +86,12 @@ public class ConfigView extends View {
 
         // TODO: Agregar el resto de Tabs
 
-        Table t2 = newTable(w).fillX().padTop(40).colspan(3).getActor();
+        Table t2 = newTable(w).fillX().padTop(40).getActor();
             tbAtras = newTextButton(t2, bu("back")).expandX().left().getActor();
-            tbGuardar = newTextButton(t2, "Guardar").expandX().right().getActor();
+            Table t3 = newTable(t2).expandX().right().getActor();
+                tbAplicar = newTextButton(t3, "Aplicar").expandX().left().getActor();
+                tbAceptar = newTextButton(t3, "Aceptar").expandX().right().getActor();
+
 
         fitWindow(w);
 
@@ -110,12 +114,20 @@ public class ConfigView extends View {
             }
         });
 
-        tbGuardar.addListener(new ClickListener() {
+        tbAplicar.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                getGestor().guardar(cbVSync.isChecked(), rbPantCompleta.isChecked(), sbRes.getSelectedIndex(),
-                            cbTitleBar.isChecked(), cbRedimensionable.isChecked());
+                guardar();
+            }
+        });
+
+        tbAceptar.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                guardar();
+                getGestor().back();
             }
         });
 
@@ -148,6 +160,23 @@ public class ConfigView extends View {
         cbSonido.setChecked(getGestor().getConfig().isSoundActive());
         slVolSonido.setValue(getGestor().getConfig().getSoundVol());
 
+    }
+
+    /**
+     * Se le pasa al gestor las configuraciones a guardar
+     */
+    private void guardar() {
+        // Configuraciones del juego
+        getGestor().guardarAudio(cbMusica.isChecked(), slVolMusica.getValue(),
+                cbSonido.isChecked(), slVolSonido.getValue());
+
+        getGestor().getConfig().saveConfigFile();
+
+        // Configuraciones de Escritorio (Video)
+                /* Este debe ser el último a guardar, ya que si hay un cambio se reinicia el cliente y se perdería
+                 las configuraciones debajo de ésta */
+        getGestor().guardarVideo(cbVSync.isChecked(), rbPantCompleta.isChecked(), sbRes.getSelectedIndex(),
+                cbTitleBar.isChecked(), cbRedimensionable.isChecked());
     }
 
 

@@ -1,4 +1,4 @@
-package org.gszone.jfenix13.managers;
+package org.gszone.jfenix13.managers.screens;
 
 import com.badlogic.gdx.Screen;
 import org.gszone.jfenix13.Main;
@@ -17,7 +17,7 @@ public abstract class ViewManager {
     /**
      * Realiza actualizaciones constantemente
      *
-     * No debe ser utilizado, ya es llamado desde la clase abstracta {@link View}
+     * No debe ser llamado.. solo hacer Override.. ya es llamado desde la clase abstracta {@link View}
      */
     public void update() {
 
