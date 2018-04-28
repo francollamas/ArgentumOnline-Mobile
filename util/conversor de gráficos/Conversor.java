@@ -25,6 +25,7 @@ public class Conversor {
     public static String extInput;
     public static String extOutput;
     public static String pow2;
+    public static String pow2Square;
     public static Color excedente;
 
     public static Color[][] colores;
@@ -39,6 +40,7 @@ public class Conversor {
         extOutput = "png";
 
         pow2 = "no";
+        pow2Square = "no";
         excedente = new Color(0, 0, 0, 0);
 
         colores = new Color[1][2];
@@ -86,6 +88,9 @@ public class Conversor {
                             int a = lector.nextInt();
                             excedente = new Color(r, g, b, a);
                         }
+
+                        System.out.println("¿Forzar las imágenes a que sean cuadradas? (si/no): ");
+                        pow2Square = lector.next().equals("si") ? "si" : "no";
                     }
                     break;
                 case 5:
@@ -160,6 +165,14 @@ public class Conversor {
                 if (pow2.equals("si")) {
                     width = nextPow2(width);
                     height = nextPow2(height);
+
+                    if (pow2Square.equals("si")) {
+                        if (width > height)
+                            height = width;
+                        else if (height > width)
+                            width = height;
+                    }
+                    
                 }
 
                 BufferedImage img2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -216,8 +229,8 @@ public class Conversor {
         System.out.println("2. Directorio de origen: " + dirInput);
         System.out.println("3. Directorio de destino: " + dirOutput);
         System.out.println("4. Usar potencias de 2: " + pow2);
-
         System.out.println("\tcolor de exceso: " + getSColor(excedente));
+        System.out.println("\ttipo de gráfico: " + (pow2Square.equals("si") ? "cuadrado" : "rectangular"));
 
         System.out.println("5. Agregar colores a cambiar (R, G, B, A):");
 
