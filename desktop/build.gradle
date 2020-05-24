@@ -1,24 +1,41 @@
-apply plugin: 'application'
+apply plugin: "java"
 
-sourceSets.main.resources.srcDirs += [ rootProject.file('assets').absolutePath ]
-mainClassName = 'org.gszone.jfenix13.desktop.DesktopLauncher'
-eclipse.project.name = appName + '-desktop'
 sourceCompatibility = 1.8
+sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.resources.srcDirs = ["../android/assets"]
 
-dependencies {
-  compile project(':core')
-  compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-  compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+project.ext.mainClassName = "org.gszone.jfenix13.desktop.DesktopLauncher"
+project.ext.assetsDir = new File("../android/assets")
+
+task run(dependsOn: classes, type: JavaExec) {
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
 }
 
-jar {
-  archiveName "${appName}-${version}.jar"
-  from { configurations.compile.collect { zipTree(it) } }
-  manifest {
-    attributes 'Main-Class': project.mainClassName
-  }
+task debug(dependsOn: classes, type: JavaExec) {
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+    debug = true
 }
 
-run {
-  ignoreExitValue = true
+task dist(type: Jar) {
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
 }
+
+
+dist.dependsOn classes
+
+eclipse.project.name = appName + "-desktop"

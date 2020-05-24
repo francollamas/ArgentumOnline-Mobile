@@ -1,9 +1,8 @@
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-eclipse.project.name = appName + '-core'
+apply plugin: "java"
 
-dependencies {
-  compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-  compile "com.kotcrab.vis:vis-ui:$visUiVersion"
-  compile "com.github.czyzby:gdx-websocket:$websocketVersion"
-}
-        
+sourceCompatibility = 1.8
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+
+eclipse.project.name = appName + "-core"
