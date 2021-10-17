@@ -40,12 +40,12 @@ public class DesktopLauncher {
         DtConfig.loadConfig();
 
         System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
-        if (!decorated) System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+        //if (!decorated) System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-        config.width = width;
-        config.height = height;
+        config.width = 1920;
+        config.height = 1400;
         config.resizable = resizable;
         config.fullscreen = fullscreeen;
 

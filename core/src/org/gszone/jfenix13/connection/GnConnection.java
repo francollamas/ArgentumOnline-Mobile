@@ -19,7 +19,7 @@ import java.io.*;
  */
 public class GnConnection implements Connection {
     public static final String IP = "localhost";
-    public static final int PORT = 7666;
+    public static final int PORT = 7669;
 
     private Thread thread;
     private Socket socket;
